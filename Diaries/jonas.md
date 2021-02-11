@@ -1,9 +1,5 @@
-# Hej
-jag heter jonas
+# Jonas timesheet
 
-## Mina styrkor
-
-1. ovetande om mina brister
-2. högmod
-3. lär mig långsamt
-4. testa via terminalen
+# 9th   2h Gloss
+# 10th  2h Git gloss
+# 11th  3h meeting with Tim and Viktor
