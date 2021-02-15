@@ -1,4 +1,3 @@
-<<<<<<< HEAD
  import Control.Concurrent
  
 main :: IO ()
@@ -15,6 +14,3 @@ loadMsg str x = do
     threadDelay 1000000
     putStrLn str
     loadMsg str (x-1)
-=======
-import Graphics.Gloss
->>>>>>> d653306d3b2313e7aff6b75690a8e59b0ae3819f
