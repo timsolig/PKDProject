@@ -1,27 +1,102 @@
 
+import qualified Stack as S 
 
-data Cell = Edge | Closed | Path deriving (Show)
+import System.Random
+
+-- data Cell = Cell 
+--           | Closed
+--           | Open deriving (Eq, Show)
+
+import System.Random
+ 
+
 
 type Maze = [[Cell]]
 
-
-createClosedMaze :: Int -> Maze
-createClosedMaze n = foo n n 
-    where 
-        foo :: Int -> Int -> Maze
-        foo x n 
-            | x == -1 = [replicate (n+2) Edge]
-            | x == n = foo (x-1) n ++ [replicate (n+2) Edge] 
-            | otherwise  = foo (x-1) n ++ [Edge : replicate n Closed ++ [Edge]]
-
-
-showMaze:: Maze -> String
-showMaze [[x]] = show x
-showMaze (x:xs) =  show x ++ "\n" ++ showMaze xs
+type Cell = (Int,Int)
 
 
 
-prim :: Maze -> Maze
-prim m = primAux m []
 
 
+-- createClosedMaze :: Int -> Maze
+-- createClosedMaze n = foo n n 
+--     where 
+--         foo :: Int -> Int -> Maze
+--         foo x n 
+--             | x == -1 = [replicate (n+2) Cell]
+--             | x == n = foo (x-1) n ++ [replicate (n+2) Cell] 
+--             | otherwise  = foo (x-1) n ++ [Cell : replicate n Closed ++ [Cell]]
+
+-- wallsToMaze :: [Cell] -> Maze
+-- wallsToMaze e = x
+--     where x = [sqrt $ length e ]
+
+
+-- showMaze:: Maze -> IO ()
+
+-- showMaze [[x]] = do print x
+            
+-- showMaze (x:xs) =  do
+--                     print (x) 
+--                     then
+--                         show (showMaze xs)
+
+
+del :: Eq a => a -> [a] -> [a]
+del x = filter (/= x)
+
+
+createWalls :: Int -> [Cell]
+createWalls n = [(i,j) | i <- [0..n-1], j <- [0..n-1] ]
+
+
+
+foo lst e = lst !! fst (randomR (0, length lst) e)
+
+
+-- prim :: [Cell] -> [Cell]
+-- prim cells = primAux [] [] cells 
+
+
+
+pickRandom :: [a] -> IO a
+pickRandom xs = fmap (xs !!) $ randomRIO (0, length xs - 1)
+
+
+-- pickRandom :: [Cell] -> Cell
+-- pickRandom xs = fst (fmap (xs !!) <$> randomR (0, length xs - 1))
+
+
+-- primAux :: [Cell] -> [Cell]-> [Cell] -> [Cell]
+-- primAux pathSet wallList cells
+--     | null pathSet = let startCell = (0,0) in primAux [startCell] (neighbours startCell cells) (del startCell cells) 
+--     | not (null cells) = let randomCell = pickRandom cells in case length $ neighbours randomCell pathSet of 
+--                                     1 -> primAux (randomCell : pathSet) (neighbours randomCell wallList ) (del randomCell cells)
+--                                     _ -> primAux pathSet wallList cells
+--     | otherwise = pathSet
+
+
+
+
+
+
+
+{-neighbours edge edgeList
+ Gives the cells that are neighbouring a specific edge
+    RETURNS: cells in edgeList that are adjacent to edge
+-}
+
+{-
+             (i-1,j)
+                |
+    (i,j-1)-- (i,j) -- (i,j+1)
+                |
+             (i+1,j)
+-}
+neighbours :: Cell -> [Cell] -> [Cell]
+neighbours _ [] = []
+neighbours edge@(i,j) edgeList@((i',j'):lst)
+    | i' == i && ( abs (j-j') == 1 )   = (i',j') : neighbours edge lst
+    | j' == j && ( abs (i-i') == 1 )   = (i',j') : neighbours edge lst
+    | otherwise = neighbours edge lst
