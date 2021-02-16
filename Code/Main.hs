@@ -1,4 +1,4 @@
- import Control.Concurrent
+import Control.Concurrent
  
 main :: IO ()
 main = do
