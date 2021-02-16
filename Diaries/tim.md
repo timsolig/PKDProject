@@ -12,3 +12,4 @@ Spent 2 hours on zoom setting up GitHub for everyone in the group and also brain
 
 ## 16 feb
 20 minutes first meeting with Ghafour on zoom. Confirmed the mazerunner idea.
+1 hour looking at different maze creation algorithms.
