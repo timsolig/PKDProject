@@ -1,1 +1,3 @@
-Vet du inte vad du ska göra? Då är vi tre
+Read about mazes and how they are built.
+Move a "player" in a list or list of lists
+start reading about gloss
