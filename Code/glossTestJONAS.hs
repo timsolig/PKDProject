@@ -9,22 +9,73 @@ import Graphics.Gloss.Interface.Pure.Game
 
 type World = (Float,Float)
 
+background :: Color
+background = white
+
+windowWidth = 1000
+windowHeight = 1000
+x0 = -windowWidth/2
+y0 = -windowHeight/2
+xMax = negate x0
+yMax = negate y0
+
+rows = 100 :: Float
+cols = 100 :: Float
+
+moveDist = windowWidth / rows
+startPosFix = moveDist/2
+
+-- Maze edges
+edges = [
+    Line [(x0, y0),(xMax, y0)],
+    Line [(x0, yMax), (xMax, yMax)],
+    Line [(x0, y0), (x0, yMax)],
+    Line [(xMax, y0), (xMax, yMax)]
+    ]
+
+addColumns :: Float -> Float -> [Picture]
+addColumns num tot
+    | num > 0 = Line [(x0 + num * windowWidth/tot,y0), (x0 + num * windowWidth/tot,yMax)] : addColumns (num-1) tot
+    | otherwise = []
+
+addRows :: Float -> Float -> [Picture]
+addRows num tot
+    | num > 0 = Line [(x0, y0 + num * windowHeight/tot), (xMax, y0 + num * windowHeight/tot)] : addRows (num-1) tot
+    | otherwise = []
+
+drawing :: Picture
+drawing = pictures ((addColumns (cols-1) cols) ++ (addRows (rows-1) rows)++edges)
+
+initialWorld = drawing        
+
+
+
 main :: IO ()
 main = play
   windowDisplay -- size of window
-  white --color
+  background --color
   20 --fps
-  (0,0) --Initial World
+  (startPosFix,startPosFix) --Initial World
   drawPlayfield
   inputHandler
   updateFunc
 
+player:: Picture
+player = (color red (circleSolid x))
+  where x = windowWidth / (2*rows)
+
+
 hej ::Float -> Float -> Picture
-hej x y= Pictures [color black (line [ (-100, -300), (-100,  300) ]) <>
-                color black (line [ ( 100, -300), ( 100,  300) ]) <>
-                color black (line [ (-300,  100), ( 300,  100) ]) <>
-                color black (line [ (-300, -100), ( 300, -100) ]) <>
-                translate x y (color red (circleSolid 100))]
+hej x y= Pictures [translate (x) (y) (player),initialWorld]
+
+
+--
+--hej ::Float -> Float -> Picture
+--hej x y= Pictures [color black (line [ (-100, -300), (-100,  300) ]) <>
+--                color black (line [ ( 100, -300), ( 100,  300) ]) <>
+--                color black (line [ (-300,  100), ( 300,  100) ]) <>
+--                color black (line [ (-300, -100), ( 300, -100) ]) <>
+--                translate x y (color red (circleSolid 100))]
 
 
 windowDisplay :: Display
@@ -44,18 +95,20 @@ drawingFunc :: World -> Picture
 drawingFunc (x, y) = translate x y (ThickCircle 20 20)
 
 inputHandler :: Event -> World -> World
-inputHandler (EventKey (SpecialKey KeyUp) Down _ _) (x, y) = (x, y + 200)
-inputHandler (EventKey (SpecialKey KeyDown) Down _ _) (x, y) = (x, y - 200)
-inputHandler (EventKey (SpecialKey KeyRight) Down _ _) (x, y) = (x + 200, y)
-inputHandler (EventKey (SpecialKey KeyLeft) Down _ _) (x, y) = (x - 200, y)
+inputHandler (EventKey (SpecialKey KeyUp) Down _ _) (x, y) = if (y+moveDist) <= (windowHeight/2) then (x, y + moveDist) else (x,y)
+inputHandler (EventKey (SpecialKey KeyDown) Down _ _) (x, y) = if (y-moveDist) >= (-windowHeight/2) then (x, y - moveDist)  else (x,y)
+inputHandler (EventKey (SpecialKey KeyRight) Down _ _) (x, y) = if (x+moveDist) <= (windowHeight/2) then (x+moveDist, y) else (x,y)
+inputHandler (EventKey (SpecialKey KeyLeft) Down _ _) (x, y) = if (x-moveDist) >= (-windowHeight/2) then (x-moveDist, y)  else (x,y)
 inputHandler _ w = w
+
+
 
 updateFunc :: Float -> World -> World
 updateFunc _ (x, y) = (x, y)
   
   
-  
-  
+
+
   --(towardCenter x, towardCenter y)
   --where
   --  towardCenter :: Float -> Float
