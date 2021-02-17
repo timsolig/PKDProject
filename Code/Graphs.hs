@@ -1,13 +1,14 @@
 
 import qualified Stack as S 
 
-import System.Random
+import System.Random 
+
+import System.IO.Unsafe ( unsafeDupablePerformIO )
 
 -- data Cell = Cell 
 --           | Closed
 --           | Open deriving (Eq, Show)
 
-import System.Random
  
 
 type Maze = [[Cell]]
@@ -20,9 +21,10 @@ data RandomNumber = Num Int
 -- foo :: IO Int -> RandomNumber'
 -- foo n = Num n
 
-pickRandom :: [a] -> IO a
-pickRandom xs = fmap (xs !!) $ randomRIO (0, length xs - 1)
+fooooo :: [a] -> IO a
+fooooo xs = (fmap (xs !!) $ randomRIO (0, length xs - 1))
 
+pickRandom xs =  unsafeDupablePerformIO (fooooo xs)
 
 
 -- createClosedMaze :: Int -> Maze
