@@ -10,12 +10,18 @@ import System.Random
 import System.Random
  
 
-
 type Maze = [[Cell]]
 
 type Cell = (Int,Int)
 
 
+data RandomNumber = Num Int
+
+-- foo :: IO Int -> RandomNumber'
+-- foo n = Num n
+
+pickRandom :: [a] -> IO a
+pickRandom xs = fmap (xs !!) $ randomRIO (0, length xs - 1)
 
 
 
@@ -52,39 +58,25 @@ createWalls n = [(i,j) | i <- [0..n-1], j <- [0..n-1] ]
 
 
 
-foo lst e = lst !! fst (randomR (0, length lst) e)
+prim :: [Cell] -> [Cell]
+prim cells = primAux [] [] cells 
 
+primAux :: [Cell] -> [Cell]-> [Cell] -> [Cell]
+primAux pathSet wallSet unvisitedCells
+    | null pathSet = let startCell = (0,0) in primAux [startCell] (neighbours startCell unvisitedCells) (del startCell unvisitedCells) 
 
--- prim :: [Cell] -> [Cell]
--- prim cells = primAux [] [] cells 
-
-
-
-pickRandom :: [a] -> IO a
-pickRandom xs = fmap (xs !!) $ randomRIO (0, length xs - 1)
-
-
--- pickRandom :: [Cell] -> Cell
--- pickRandom xs = fst (fmap (xs !!) <$> randomR (0, length xs - 1))
-
-
--- primAux :: [Cell] -> [Cell]-> [Cell] -> [Cell]
--- primAux pathSet wallList cells
---     | null pathSet = let startCell = (0,0) in primAux [startCell] (neighbours startCell cells) (del startCell cells) 
---     | not (null cells) = let randomCell = pickRandom cells in case length $ neighbours randomCell pathSet of 
---                                     1 -> primAux (randomCell : pathSet) (neighbours randomCell wallList ) (del randomCell cells)
---                                     _ -> primAux pathSet wallList cells
---     | otherwise = pathSet
-
-
+    | not (null unvisitedCells) = let randomCell = (pickRandom wallSet) in case length $ neighbours randomCell pathSet of 
+                                    1 -> primAux (randomCell : pathSet) (neighbours randomCell unvisitedCells ++ wallSet) (del randomCell unvisitedCells)
+                                    _ -> primAux pathSet wallSet unvisitedCells
+    | otherwise = pathSet
 
 
 
 
 
 {-neighbours edge edgeList
- Gives the cells that are neighbouring a specific edge
-    RETURNS: cells in edgeList that are adjacent to edge
+ Gives the unvisitedCells that are neighbouring a specific edge
+    RETURNS: unvisitedCells in edgeList that are adjacent to edge
 -}
 
 {-
