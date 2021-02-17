@@ -1,6 +1,11 @@
 import Graphics.Gloss
 import Graphics.Gloss.Data.ViewPort
 
+{-
+Skapar en maze med "tjocka väggar"
+
+-}
+
 --- INSTÄLLNINGAR Start ---
 
 -- Fönsterstorlek
