@@ -10,21 +10,17 @@ import System.IO.Unsafe ( unsafeDupablePerformIO )
 --           | Open deriving (Eq, Show)
 
  
-
-type Maze = [[Cell]]
-
 type Cell = (Int,Int)
+type Wall = (Cell,Cell)
+
+type Maze = ([Cell],[Wall])
 
 
-data RandomNumber = Num Int
 
--- foo :: IO Int -> RandomNumber'
--- foo n = Num n
 
-fooooo :: [a] -> IO a
-fooooo xs = (fmap (xs !!) $ randomRIO (0, length xs - 1))
+pickRandom :: [a] -> a
+pickRandom xs = unsafeDupablePerformIO (fmap (xs !!) $ randomRIO (0, length xs - 1))
 
-pickRandom xs =  unsafeDupablePerformIO (fooooo xs)
 
 
 -- createClosedMaze :: Int -> Maze
@@ -41,42 +37,46 @@ pickRandom xs =  unsafeDupablePerformIO (fooooo xs)
 --     where x = [sqrt $ length e ]
 
 
--- showMaze:: Maze -> IO ()
-
--- showMaze [[x]] = do print x
-            
--- showMaze (x:xs) =  do
---                     print (x) 
---                     then
---                         show (showMaze xs)
 
 
 del :: Eq a => a -> [a] -> [a]
-del x = filter (/= x)
-
-
-createWalls :: Int -> [Cell]
-createWalls n = [(i,j) | i <- [0..n-1], j <- [0..n-1] ]
+del x lst = filter (/= x) lst
 
 
 
-prim :: [Cell] -> [Cell]
+{-createCells num
+Creates a grid of cells
+    PRE: num > 0
+    RETURNS: Cartesian coordinates of the (num x num)-grid
+    -}
+createCells :: Int -> [Cell]
+createCells n = [(i,j) | i <- [0..n-1], j <- [0..n-1] ]
+
+{- prim cells
+ Generates a maze basen on the Prim's randomized algorithm
+    PRE: length cells > 0 
+    RETURNS: 
+
+-}
+prim :: [Cell] -> Maze
 prim cells = primAux [] [] cells 
+    where
+        {-Auxiliary function holding the set of paths and walls as well as the original cells-}
+        primAux :: [Cell] -> [Wall]-> [Cell] -> Maze
+        primAux pathSet wallSet unvisitedCells
+            | null pathSet = let startCell = (0,0) in primAux (startCell : pathSet) wallSet (del startCell unvisitedCells) 
+            
+            | not (null unvisitedCells) = let randomCell = pickRandom (neighbours pathSet unvisitedCells) in case length $ neighbours [randomCell] pathSet of 
+                                            
+                                            1 -> primAux (randomCell : pathSet) (wallSet) (del randomCell unvisitedCells)
+                                            _ -> primAux (randomCell : pathSet) ((randomCell, pickRandom (neighbours [randomCell] pathSet)) : wallSet) (del randomCell unvisitedCells)
 
-primAux :: [Cell] -> [Cell]-> [Cell] -> [Cell]
-primAux pathSet wallSet unvisitedCells
-    | null pathSet = let startCell = (0,0) in primAux [startCell] (neighbours startCell unvisitedCells) (del startCell unvisitedCells) 
-
-    | not (null unvisitedCells) = let randomCell = (pickRandom wallSet) in case length $ neighbours randomCell pathSet of 
-                                    1 -> primAux (randomCell : pathSet) (neighbours randomCell unvisitedCells ++ wallSet) (del randomCell unvisitedCells)
-                                    _ -> primAux pathSet wallSet unvisitedCells
-    | otherwise = pathSet
+            | otherwise = ([],wallSet)
 
 
 
 
-
-{-neighbours edge edgeList
+{-neighbours cells list
  Gives the unvisitedCells that are neighbouring a specific edge
     RETURNS: unvisitedCells in edgeList that are adjacent to edge
 -}
@@ -88,9 +88,14 @@ primAux pathSet wallSet unvisitedCells
                 |
              (i+1,j)
 -}
-neighbours :: Cell -> [Cell] -> [Cell]
-neighbours _ [] = []
-neighbours edge@(i,j) edgeList@((i',j'):lst)
-    | i' == i && ( abs (j-j') == 1 )   = (i',j') : neighbours edge lst
-    | j' == j && ( abs (i-i') == 1 )   = (i',j') : neighbours edge lst
-    | otherwise = neighbours edge lst
+
+neighbours :: [Cell] -> [Cell] -> [Cell]
+neighbours [] _ = []
+neighbours (c:cs) cells = cellNeigbours c cells ++ neighbours cs cells
+    where
+        cellNeigbours :: Cell -> [Cell] -> [Cell]
+        cellNeigbours _ [] = []
+        cellNeigbours edge@(i,j) edgeList@((i',j'):lst)
+            | i' == i && ( abs (j-j') == 1 )   = (i',j') : cellNeigbours edge lst
+            | j' == j && ( abs (i-i') == 1 )   = (i',j') : cellNeigbours edge lst
+            | otherwise = cellNeigbours edge lst
