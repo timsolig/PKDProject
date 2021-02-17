@@ -2,11 +2,11 @@ Förslag på projekt
 
 textbaserat eller Gloss
 
---mazeRunner, warhammer--
+--mazeRunner, warhammer, tetris--
 
 1. Traffic
 2. Game?! PONG 3 player, SPAce Invaders, fia med knuff, 
-pac man, 2d shooter, tetris 2 player?, nim,   
+pac man, 2d shooter, nim,   
 3. Calculator
 4. Web crawler
 
