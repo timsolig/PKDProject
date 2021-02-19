@@ -12,6 +12,8 @@
 0,5h meeting with TA, 1h Started to discuss how to build maze and how to move around, Maked a superSimple MoveFunction, concluded it was not applicable, Started to work on GLoss library again. 
 ## 17th  
 0830-1200 tried to make a dot move in gloss. used Victors grid as a play field. Very rough code but it is working
+## 18th
+Spent 1 h merge git, 
    
 
 
