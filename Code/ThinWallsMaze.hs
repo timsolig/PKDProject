@@ -1,27 +1,29 @@
 import Graphics.Gloss
 import Graphics.Gloss.Data.ViewPort
 
+import Graphs
 {-
 Skapar en maze med "tunna väggar"
 
 -}
 
+type Cell = (Float,Float)
 --- INSTÄLLNINGAR Start ---
 
 -- Fönsterstorlek
-windowSize = 500
+windowSize = 1000
 
 -- Antal rutor
-gridSize = 3
 
 -- Koordinater för väggar
-walls = [
-    ((2,0), (2,1)),
-    ((1,0), (1,1)),
-    ((0,0), (0,1)),
-    ((0,0), (1,0))
-    ]
+size :: Float
+size = 20.0
 
+-- walls = Graphs.prim cells
+walls = Graphs.prim $ Graphs.createCells size
+
+-- gridSize :: Float
+gridSize = size
 --- INSTÄLLNINGAR Slut ---
 
 xMax = windowSize / 2
@@ -38,7 +40,7 @@ window = InWindow "A Mazing Game" (round windowSize, round windowSize) (0,0)
 background :: Color
 background = white
 
-createWall :: ((Float, Float), (Float, Float)) -> Picture
+createWall :: (Main.Cell, Main.Cell) -> Picture
 createWall ((c1_x, c1_y), (c2_x, c2_y)) =
     Line [(l1_x, l1_y), (l2_x, l2_y)]
     where
@@ -50,13 +52,13 @@ createWall ((c1_x, c1_y), (c2_x, c2_y)) =
             else
                 (x_mid, x_mid, y_mid, y_mid - wallLength)
 
-createWalls :: [((Float, Float), (Float, Float))] -> [Picture]
-createWalls [] = []
-createWalls (x:xs) =
-    createWall x : createWalls xs
+createWalls' :: [(Main.Cell, Main.Cell)] -> [Picture]
+createWalls' [] = []
+createWalls' (x:xs) =
+    createWall x : createWalls' xs
 
 drawing :: Picture
-drawing = pictures (createWalls walls)
+drawing = pictures (createWalls' (walls :: [(Main.Cell,Main.Cell)]))
 
 main :: IO ()
 main = display window background drawing
