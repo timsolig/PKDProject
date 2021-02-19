@@ -1,3 +1,6 @@
-Read about mazes and how they are built.
+Maze algorithm:
+  Debug Prim's algorithm further.
+  Try one more to see if a harder maze can be made.
+  
 Move a "player" in a list or list of lists
 start reading about gloss
