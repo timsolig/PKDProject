@@ -108,7 +108,7 @@ iterDFS cells = iterDFSaux cells walls S.empty   []
 
 
 
-{-divisionAlgorithm -}
+{-divisionAlgorithm cells-}
 
 {-neighbours cells list
  Gives the unvisited that are neighbouring a specific edge
