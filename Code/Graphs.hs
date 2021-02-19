@@ -22,8 +22,6 @@ Something weird with IO monads and shit. And some randomness.
 -}
 pickRandom :: [a] -> a
 pickRandom xs = unsafeDupablePerformIO (fmap (xs !!) $ randomRIO (0, length xs - 1))
--- pickRandom xs = unsafeDupablePerformIO (xs !!) <$> randomRIO (0, length xs - 1)
-
 
 
 {-del element list
@@ -63,7 +61,6 @@ createCells n = [(i,j) | i <- [0..n-1], j <- [0..n-1]]
 
 
 
-
 {-createWalls cells
   Creates walls between all cells in a 
     RETURNS: Walls between all neighbouring cells in cells
@@ -77,9 +74,8 @@ createCells n = [(i,j) | i <- [0..n-1], j <- [0..n-1]]
 createWalls :: [Cell] -> [Wall]
 createWalls [] = []
 createWalls cells@(c:cs)
-    | (length $ neighbours [c] cells) > 0 = [(c,x) | x <- neighbours [c] cells] ++ createWalls cs
+    | not (null (neighbours [c] cells)) = [(c,x) | x <- neighbours [c] cells] ++ createWalls cs
     | otherwise = createWalls cs
-
 
 
 
@@ -116,12 +112,9 @@ prim cells = primAux [] [] cells
 
 
 
-
-
-
 {-iterativeDFS cells
   Generates maze based on an iterative randomized depth-first-search algorithm.
-    RETURNS:
+    RETURNS: Walls in the generated maze based on 'cells'
 
 -}
 iterDFS :: [Cell] -> Maze
@@ -175,6 +168,7 @@ recurDFS cells = let initCell = pickRandom cells
                         where newCell = pickRandom unvisitedNeighbours
 
             | otherwise = walls
+
 
 
 
