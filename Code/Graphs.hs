@@ -27,23 +27,29 @@ pickRandom xs = unsafeDupablePerformIO (fmap (xs !!) $ randomRIO (0, length xs -
 
 
 {-del element list
-  Deletes an element from a list
+  Deletes a tuple, or its' reverse, from a list.
     RETURNS: Every element in list not equal to element 
+    EXAMPLES:
+
+        del (1,2) [(1,2),(3,0)] == [(3,0)]
+        
+        del (2,1) [(1,2),(3,0)] == [(3,0)]
+
 -}
 del :: (Eq a) => (a,a) -> [(a,a)] -> [(a,a)]
 del x lst 
     | elem x lst = Prelude.filter (/= x) lst
     | otherwise  = del (rev x) lst
-
-rev :: (a,a) -> (a,a) 
-rev (x,y) = (y,x)
+        where
+            rev :: (a,a) -> (a,a) 
+            rev (x,y) = (y,x)
 
 
 
 {-createCells num
-  Creates the cell coordinates of a grid
-    PRE: num > 0
-    RETURNS: Cartesian coordinates of the cells in the (num x num)-grid
+  Creates the cell coordinates of a grid.
+    PRE: num => 0
+    RETURNS: Cartesian coordinates of the cells in the (num x num)-grid.
     EXAMPLES:
 
         createCells 0 == []
@@ -54,6 +60,7 @@ rev (x,y) = (y,x)
 
 createCells :: Float -> [Cell]
 createCells n = [(i,j) | i <- [0..n-1], j <- [0..n-1]]
+
 
 
 
@@ -72,7 +79,6 @@ createWalls [] = []
 createWalls cells@(c:cs)
     | (length $ neighbours [c] cells) > 0 = [(c,x) | x <- neighbours [c] cells] ++ createWalls cs
     | otherwise = createWalls cs
-
 
 
 
@@ -100,7 +106,7 @@ prim cells = primAux [] [] cells
                                                 case length $ neighbours [randomCell] visited of
             
             
-                    1 -> primAux (randomCell : visited) ((randomCell, pickRandom (neighbours [randomCell] visited)) : walls) (del randomCell unvisited)
+                    1 -> primAux (randomCell : visited) ((randomCell, pickRandom (neighbours [randomCell] unvisited)) : walls) (del randomCell unvisited)
                    
                     _ -> primAux (randomCell : visited) walls (del randomCell unvisited)
             
@@ -128,13 +134,22 @@ iterDFS cells = iterDFSaux cells walls S.empty   []
             
             | Prelude.null unvisited = walls
 
-            | Prelude.null visited = let initCell = pickRandom unvisited in iterDFSaux (del initCell unvisited) walls (S.push initCell stack) (initCell : visited)
+            | Prelude.null visited  = let 
+                                        initCell = (0,0) 
+                                      in 
+                                        iterDFSaux (del initCell unvisited) walls (S.push initCell stack) (initCell : visited)
             
-            | not (S.isEmpty stack) = let currentCell = S.top stack in case length $ neighbours [currentCell] unvisited of
+            | not (S.isEmpty stack) = let 
+                                        (currentCell, updatedStack) = S.pop stack
+                                      in 
+                                        case length $ neighbours [currentCell] unvisited of
                     
-                0 -> iterDFSaux unvisited walls stack visited
-                    
-                _ -> let unvisitedNeighbour = pickRandom $ neighbours [currentCell] unvisited in iterDFSaux (del unvisitedNeighbour unvisited) (del (currentCell,unvisitedNeighbour) walls) (S.push unvisitedNeighbour $ S.push currentCell stack) (unvisitedNeighbour : visited)
+                                        0 -> iterDFSaux unvisited walls updatedStack visited
+                                            
+                                        _ -> let 
+                                               chosenNeighbour = pickRandom $ neighbours [currentCell] unvisited 
+                                             in 
+                                               iterDFSaux (del chosenNeighbour unvisited) (del (currentCell, chosenNeighbour) walls) (S.push chosenNeighbour (S.push currentCell updatedStack)) (chosenNeighbour : visited)
 
 
 
@@ -163,8 +178,6 @@ recurDFS cells = let initCell = pickRandom cells
 
 
 
--- divisionAlg :: [Cell] -> Maze
--- divisionAlg cells = divisionAlgAux cells []
 
 {-neighbours cells list
  Gives the unvisited that are neighbouring a specific edge

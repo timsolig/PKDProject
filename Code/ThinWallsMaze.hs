@@ -17,10 +17,13 @@ windowSize = 1000
 
 -- Koordinater för väggar
 size :: Float
+
 size = 20.0
 
+
+
 -- walls = Graphs.prim cells
-walls = Graphs.prim $ Graphs.createCells size
+walls = Graphs.iterDFS $ Graphs.createCells size
 
 -- gridSize :: Float
 gridSize = size
