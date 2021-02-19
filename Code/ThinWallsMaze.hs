@@ -17,9 +17,7 @@ gridSize = 3
 -- Koordinater för väggar
 walls = [
     ((2,0), (2,1)),
-    ((1,0), (1,1)),
-    ((0,0), (0,1)),
-    ((0,0), (1,0))
+    ((2,0), (1,0))
     ]
 
 --- INSTÄLLNINGAR Slut ---
@@ -32,7 +30,7 @@ yMax = negate y0
 wallLength = windowSize / gridSize
 wallRadius = wallLength / 2
 
-window :: Display
+window :: Display   
 window = InWindow "A Mazing Game" (round windowSize, round windowSize) (0,0)
 
 background :: Color
