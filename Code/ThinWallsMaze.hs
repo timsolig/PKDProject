@@ -16,15 +16,13 @@ windowSize = 1000
 -- Antal rutor
 
 -- Koordinater för väggar
-<<<<<<< HEAD
 walls = [
     ((2,0), (2,1)),
     ((2,0), (1,0))
     ]
-=======
+
 size :: Float
 size = 20.0
->>>>>>> 62e38a84dfc2ba88acd5de81db0bea0a4ce84ef4
 
 -- walls = Graphs.prim cells
 walls = Graphs.prim $ Graphs.createCells size
