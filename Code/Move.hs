@@ -13,7 +13,7 @@ windowSize = 1000
 
 -- Antal rutor
 size :: Float
-size = 20.0
+size = 50.0
 
 --- INSTÄLLNINGAR Slut ---
 
@@ -25,10 +25,10 @@ initialWorld = drawing
 gridSize = size
 
 -- walls = Graphs.prim cells, koordinater för väggar
-walls = Graphs.prim $ Graphs.createCells size
+walls = Graphs.iterDFS $ Graphs.createCells size
 
 -- till move func
-moveDist = windowSize / rows
+moveDist = windowSize / gridSize
 startPosFix = moveDist/2
 
 xMax = windowSize / 2
