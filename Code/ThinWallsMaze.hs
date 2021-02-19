@@ -23,11 +23,15 @@ walls = [
     ]
 =======
 size :: Float
+<<<<<<< HEAD
+size = 50.0
+=======
 size = 20.0
 >>>>>>> 62e38a84dfc2ba88acd5de81db0bea0a4ce84ef4
+>>>>>>> aea2adbcd3e312d46be230c06ab5f09138ee84e2
 
 -- walls = Graphs.prim cells
-walls = Graphs.prim $ Graphs.createCells size
+walls = Graphs.iterDFS $ Graphs.createCells size
 
 -- gridSize :: Float
 gridSize = size
