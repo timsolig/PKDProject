@@ -24,7 +24,7 @@ type PlayerPosition = (Float,Float)
 
 
 {-GLOBAL VARIABLES-}
-windowSize = 1000  
+windowSize = 500  
 size = 10 :: Float
 gridSize = size
 initialWorld = drawing  
