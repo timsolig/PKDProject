@@ -1,4 +1,4 @@
-module Move (startGame ) where
+--module Move (startGame ) where
 
 
 import Graphs
@@ -35,6 +35,7 @@ xMax = (windowSize / 2)
 x0 = (negate (xMax))
 y0 = (windowSize / 2)
 yMax = (negate y0)
+windowPadding = 50
 
 background = white :: Color
 
@@ -59,7 +60,7 @@ startGame size = undefined
 createWalls :: Graphs.Maze -> [Picture]
 createWalls [] = []
 createWalls (x:xs) =
-    singleWall x : Move.createWalls xs
+    singleWall x : createWalls xs
   where
     {-singleWall wallTuple
       Creates representation of a single wall
@@ -83,7 +84,7 @@ createWalls (x:xs) =
 converts maze into Picture
 -}
 drawing :: Picture
-drawing = pictures (Move.createWalls (walls :: [(Graphs.Cell,Graphs.Cell)]))
+drawing = pictures (createWalls (walls :: [(Graphs.Cell,Graphs.Cell)]))
 
 --mål shape om en sådan ska användas.
 goal :: Picture
@@ -152,8 +153,8 @@ validMove a b@(x,y)
 {-windowDisplay
   contains info for windowDisplay in play
 -}
---windowDisplay :: Display
---windowDisplay = InWindow "A Mazing Game" (200, 200) (100, 500) --(((round windowSize) + 200), ((round windowSize) + 200))
+windowDisplay :: Display
+windowDisplay = InWindow "A Mazing Game" (round windowSize + windowPadding, round windowSize + windowPadding) (100, 500) --
 
 {-
 set color of background
@@ -167,7 +168,7 @@ updateFunc _ (x, y) = (x, y)
 
 main :: IO ()
 main = play
-  FullScreen --windowDisplay -- size of window
+  windowDisplay -- size of window
   background --color
   30 --fps
   (0,0) --Initial World
