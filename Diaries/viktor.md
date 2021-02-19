@@ -10,3 +10,6 @@
 ## 2021-02-17 08:30-15:00
 Working together 08:30-12:00: trying to understand the Gloss module, experimenting with techniques
 Working individually 13:00-15:00: creating dynamic grids, with "thick" and "thin" walls, experimenting with Gloss
+
+## 2021-02-19 08:30-10:00
+Git sync, comparing what we've accomplished so far
