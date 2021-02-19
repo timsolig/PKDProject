@@ -9,11 +9,11 @@ type Cell = (Float,Float)
 --- INSTÄLLNINGAR Start ---
 
 -- Fönsterstorlek
-windowSize = 1000   
+windowSize = 1000  
 
 -- Antal rutor
 size :: Float
-size = 50.0
+size = 20
 
 --- INSTÄLLNINGAR Slut ---
 
@@ -68,16 +68,20 @@ drawing = pictures (createWalls' (walls :: [(Main.Cell,Main.Cell)]))
 
 --                      MOVE
 -- =================================================
+
+--Hur stor spelaren ska vara  
 player:: Picture
 player = (color red (circleSolid x))
   where x = windowSize / (2*gridSize)
 
-
+-- Flyttar player med translate
+-- Starta längst upp i vänster hörn = x0 yx
+-- Varje steg som tas så ska wallLength gås
 movePlayer ::Float -> Float -> Picture
-movePlayer x y= Pictures [translate (x) (y) (player),initialWorld]
-
+movePlayer x y = Pictures [text cord, translate (x*wallLength+ wallRadius) (y*wallLength-wallRadius){-(x0+x*wallLength + wallRadius) (y0+y*wallLength - wallRadius) -}(player),initialWorld]
+  where cord = show x ++","++ show y
 windowDisplay :: Display
-windowDisplay = InWindow "Testar Gloss" (1080, 1080) (10, 10)
+windowDisplay = InWindow "Testar Gloss" (round windowSize, round windowSize) (10, 10)
 
 -- Laddar om frame med samma maze med player på ny eller samma position
 drawPlayfield :: World -> Picture
@@ -88,16 +92,24 @@ drawPlayfield (x,y) = translate 0 0 $ movePlayer x y
  --                               color black (line [ ( 100, -300), ( 100,  300) ]) <>
  --                               color black (line [ (-300,  100), ( 300,  100) ]) <>
  --                               color black (line [ (-300, -100), ( 300, -100) ])]
-
-drawingFunc :: World -> Picture
-drawingFunc (x, y) = translate x y (ThickCircle 20 20)
+--
+--drawingFunc :: World -> Picture
+--drawingFunc (x, y) = translate x y (ThickCircle 20 20)
 
 inputHandler :: Event -> World -> World
-inputHandler (EventKey (SpecialKey KeyUp) Down _ _) (x, y) = if (y+moveDist) <= (windowSize/2) then (x, y + moveDist) else (x,y)
-inputHandler (EventKey (SpecialKey KeyDown) Down _ _) (x, y) = if (y-moveDist) >= (-windowSize/2) then (x, y - moveDist)  else (x,y)
-inputHandler (EventKey (SpecialKey KeyRight) Down _ _) (x, y) = if (x+moveDist) <= (windowSize/2) then (x+moveDist, y) else (x,y)
-inputHandler (EventKey (SpecialKey KeyLeft) Down _ _) (x, y) = if (x-moveDist) >= (-windowSize/2) then (x-moveDist, y)  else (x,y)
-inputHandler _ w = w
+inputHandler (EventKey (SpecialKey key) Down _ _ ) (x,y) = case validMove (x,y) direction of 
+                                                                                      True -> direction
+                                                                                      _    -> (x,y)
+  where direction = case key of 
+                              KeyUp -> (x, y + 1)
+                              KeyDown -> (x, y - 1)
+                              KeyRight -> (x + 1, y)
+                              KeyLeft -> (x - 1, y)
+inputHandler _ (x,y) = (x,y)
+
+validMove :: Main.Cell -> Main.Cell -> Bool
+validMove a b = not $ (a,b) `elem` walls || (b,a) `elem` walls
+
 
 updateFunc :: Float -> World -> World
 updateFunc _ (x, y) = (x, y)
@@ -108,13 +120,7 @@ main = play
   windowDisplay -- size of window
   background --color
   30 --fps
-  (startPosFix,startPosFix) --Initial World
+  (0,0) --Initial World
   drawPlayfield
   inputHandler
   updateFunc
-
-
-
---
---main :: IO ()
---main = display window background drawing
