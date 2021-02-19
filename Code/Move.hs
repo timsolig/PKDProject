@@ -25,7 +25,7 @@ initialWorld = drawing
 gridSize = size
 
 -- walls = Graphs.prim cells, koordinater för väggar
-walls = Graphs.iterDFS $ Graphs.createCells size
+walls = Graphs.iterativeDFS $ Graphs.createCells size
 
 -- till move func
 moveDist = windowSize / gridSize

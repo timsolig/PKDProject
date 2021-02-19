@@ -22,4 +22,4 @@ Spent 2 hours on zoom setting up GitHub for everyone in the group and also brain
 
 ## 19 feb
 1 hour resolving git issues.
-2 hours debugging and getting iterative algorithm to work! However not for larger than 
+2 hours debugging and getting iterative algorithm to work!

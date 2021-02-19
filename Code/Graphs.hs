@@ -1,5 +1,5 @@
 
-module Graphs (Maze,Cell,Wall,createCells,createWalls,prim,recurDFS,iterDFS) where
+module Graphs (Maze,Cell,Wall,createCells,createWalls,prim,iterativeDFS) where
 
 import qualified Stack as S
 
@@ -117,57 +117,63 @@ prim cells = primAux [] [] cells
     RETURNS: Walls in the generated maze based on 'cells'
 
 -}
-iterDFS :: [Cell] -> Maze
-iterDFS cells = iterDFSaux cells walls S.empty   [] 
+iterativeDFS :: [Cell] -> Maze
+iterativeDFS cells = iterativeDFSAux unvisited walls stack visited
     where
         walls = createWalls cells
-        iterDFSaux :: [Cell] -> [Wall] -> S.Stack Cell -> [Cell] -> Maze
-        
-        iterDFSaux unvisited walls stack visited 
+        unvisited = cells
+        visited = []
+        stack = S.empty
+
+        iterativeDFSAux :: [Cell] -> [Wall] -> S.Stack Cell -> [Cell] -> Maze
+        iterativeDFSAux unvisited walls stack visited 
             
             | Prelude.null unvisited = walls
 
             | Prelude.null visited  = let 
                                         initCell = (0,0) 
                                       in 
-                                        iterDFSaux (del initCell unvisited) walls (S.push initCell stack) (initCell : visited)
+                                        iterativeDFSAux (del initCell unvisited) walls (S.push initCell stack) (initCell : visited)
             
             | not (S.isEmpty stack) = let 
                                         (currentCell, updatedStack) = S.pop stack
                                       in 
                                         case length $ neighbours [currentCell] unvisited of
                     
-                                        0 -> iterDFSaux unvisited walls updatedStack visited
+                                        0 -> iterativeDFSAux unvisited walls updatedStack visited
                                             
                                         _ -> let 
                                                chosenNeighbour = pickRandom $ neighbours [currentCell] unvisited 
                                              in 
-                                               iterDFSaux (del chosenNeighbour unvisited) (del (currentCell, chosenNeighbour) walls) (S.push chosenNeighbour (S.push currentCell updatedStack)) (chosenNeighbour : visited)
+                                               iterativeDFSAux (del chosenNeighbour unvisited) (del (currentCell, chosenNeighbour) walls) (S.push chosenNeighbour (S.push currentCell updatedStack)) (chosenNeighbour : visited)
 
 
 
-{-recurDFS cells
+{-recursiveDFS cells
   Generates a maze based on the recursie Depth-First-Algorithm
 -}
-recurDFS :: [Cell] -> Maze
-recurDFS cells = let initCell = pickRandom cells 
-                 in 
-                     recurDFSaux cells walls S.empty [] initCell
-    where 
-        walls = createWalls cells
-
-        recurDFSaux :: [Cell] -> [Wall] -> S.Stack Cell -> [Cell] -> Cell -> Maze
-        recurDFSaux unvisited walls stack visited currentCell
-           
-            | length visited < length unvisited = let unvisitedNeighbours = neighbours [currentCell] unvisited in case length unvisitedNeighbours of    
-                                                                                                
-                0 -> recurDFSaux unvisited walls updatedStack visited newCell 
-                        where (newCell, updatedStack) = S.pop stack 
-                
-                _ -> recurDFSaux unvisited (del (currentCell, newCell) walls) (S.push currentCell stack) (currentCell : visited) newCell
-                        where newCell = pickRandom unvisitedNeighbours
-
-            | otherwise = walls
+-- recursiveDFS :: [Cell] -> Maze
+-- recursiveDFS cells = let 
+--                        startCell = (0,0) 
+--                        walls = createWalls cells
+--                        unvisited = cells
+--                        visited = []
+--                      in 
+--                        recursiveDFSAux unvisited walls visited startCell
+--                            where
+--                               recursiveDFSAux :: [Cell] -> [Wall] -> [Cell] -> Cell -> Maze
+--                               recursiveDFSAux unvisited walls visited currentCell
+                                
+--                                   | length visited < length unvisited = let 
+--                                                                           unvisitedNeighbours = neighbours [currentCell] unvisited 
+--                                                                         in 
+--                                                                           case length unvisitedNeighbours of 
+--                                     0 -> recursiveDFSAux unvisited walls visited (pickRandom unvisited)
+--                                     _ -> recursiveDFSAux (del currentCell unvisited) (del randomNeighbour walls) (currentCell : visited)(pickRandom unvisited) 
+--                                             where randomNeighbour = pickRandom (neighbours [currentCell] unvisited)
+                                                                                                                      
+                                      
+--                                   | otherwise = walls
 
 
 

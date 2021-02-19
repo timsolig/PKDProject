@@ -1,16 +1,16 @@
 module Clock () where
 
-import qualified Control.Concurrent
+import Control.Concurrent
 
 -- https://hackage.haskell.org/p(ackage/timers-0.2.0.4/docs/Control-Concurrent-Timer.html
 
 countDown :: Int -> IO ()
 countDown n = do
-    loadMsg putStrLn n 
+    loadMsg n 
     threadDelay 1000
     countDown (n-1)
 
-loadMsg :: String -> Int -> IO ()
+loadMsg :: Int -> Int -> IO ()
 loadMsg _ 0 = return ()
 loadMsg str x = do
     threadDelay 1000000
