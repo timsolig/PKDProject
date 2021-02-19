@@ -14,3 +14,8 @@ Spent 2 hours on zoom setting up GitHub for everyone in the group and also brain
 20 minutes first meeting with Ghafour on zoom. Confirmed the mazerunner idea.
 1 hour looking at different maze creation algorithms.
 2 hours trying to implement Prim's algorithm.
+
+## 17 feb
+2.5 hours debugging the Prim's algorithm. Something is working :) Realising that we could do one more algorithm to make it harder for the player. 
+1 hour tryng to implement depth-first-search randomized maze generator. Realised that the Prim-algorithm is not very efficient. 
+3 hours trying DFS algorithms.  

@@ -1,5 +1,8 @@
 import Control.Concurrent
  
+import Graphs as A_mazeing_Stuff  
+-- import Glossstuff
+
 main :: IO ()
 main = do
     putStrLn "Alright, time to work!"
