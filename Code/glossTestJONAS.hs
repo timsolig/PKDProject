@@ -54,7 +54,7 @@ main :: IO ()
 main = play
   windowDisplay -- size of window
   background --color
-  20 --fps
+  30 --fps
   (startPosFix,startPosFix) --Initial World
   drawPlayfield
   inputHandler
@@ -100,8 +100,6 @@ inputHandler (EventKey (SpecialKey KeyDown) Down _ _) (x, y) = if (y-moveDist) >
 inputHandler (EventKey (SpecialKey KeyRight) Down _ _) (x, y) = if (x+moveDist) <= (windowHeight/2) then (x+moveDist, y) else (x,y)
 inputHandler (EventKey (SpecialKey KeyLeft) Down _ _) (x, y) = if (x-moveDist) >= (-windowHeight/2) then (x-moveDist, y)  else (x,y)
 inputHandler _ w = w
-
-
 
 updateFunc :: Float -> World -> World
 updateFunc _ (x, y) = (x, y)
