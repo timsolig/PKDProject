@@ -19,3 +19,7 @@ Spent 2 hours on zoom setting up GitHub for everyone in the group and also brain
 2.5 hours debugging the Prim's algorithm. Something is working :) Realising that we could do one more algorithm to make it harder for the player. 
 1 hour tryng to implement depth-first-search randomized maze generator. Realised that the Prim-algorithm is not very efficient. 
 3 hours trying DFS algorithms.  
+
+## 19 feb
+1 hour resolving git issues.
+2 hours debugging and getting iterative algorithm to work! However not for larger than 
