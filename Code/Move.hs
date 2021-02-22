@@ -1,10 +1,26 @@
+<<<<<<< HEAD
 --module Move (startGame ) where
 
+=======
+--module Move (main) where
+>>>>>>> a38ec644d1d027780a157f3cbf46610d9cb04f2b
 
 import Graphs
+
 import Graphics.Gloss
 import Graphics.Gloss.Data.ViewPort
 import Graphics.Gloss.Interface.Pure.Game
+
+import GameInfo
+
+{-
+----TODO------
+kanter runt spelplan
+hål i vägen där "målet är"
+ny 
+påbörja rapporten
+ge upp
+-}
 
 {-PlayerPosition
   Represents the position of a player
@@ -12,7 +28,6 @@ import Graphics.Gloss.Interface.Pure.Game
 -}
 type PlayerPosition = (Float,Float)
 
--- '
 -- data GameInfo = Game { size :: Float
 --                       , wallLength = windowSize / gridSize :: Float
 --                       , wallRadius = wallLength / 2 :: Float
@@ -23,6 +38,7 @@ type PlayerPosition = (Float,Float)
 --                       } deriving (Show)   
 
 
+<<<<<<< HEAD
 {-GLOBAL VARIABLES-}
 windowSize = 500  
 size = 10 :: Float
@@ -52,7 +68,27 @@ startGame size = undefined
 --startPosFix = moveDist/2
 
 
+=======
+{-GLOBAL "VARIABLES"-}
+windowSize = GameInfo.window :: Float
+size = GameInfo.getSize :: Float
+gridSize = size :: Float
+initialWorld = Pictures [drawing]  
+wallLength = windowSize / gridSize :: Float
+wallRadius = wallLength / 2 :: Float
+xMax = (windowSize / 2) :: Float
+x0 = (negate (xMax)) :: Float
+y0 = (windowSize / 2) :: Float
+yMax = (negate y0) :: Float
+background = red :: Color
+walls = Graphs.iterDFS $ Graphs.createCells size -- :: Graphs.Maze
+>>>>>>> a38ec644d1d027780a157f3cbf46610d9cb04f2b
 
+{-
+frame makes a frame for maze
+-}
+frame :: Picture
+frame = Line [(x0,yMax),(xMax,yMax),(xMax,y0),(x0,y0),(x0,yMax)]
 
 {-createWalls walls
  Creates representation of a walls in a maze
@@ -84,12 +120,16 @@ createWalls (x:xs) =
 converts maze into Picture
 -}
 drawing :: Picture
+<<<<<<< HEAD
 drawing = pictures (createWalls (walls :: [(Graphs.Cell,Graphs.Cell)]))
+=======
+drawing = Pictures (createWalls (walls :: [(Graphs.Cell,Graphs.Cell)]))
+>>>>>>> a38ec644d1d027780a157f3cbf46610d9cb04f2b
 
 --mål shape om en sådan ska användas.
 goal :: Picture
 goal = (color green (circleSolid x))
-  where x = windowSize / (3*gridSize)
+  where x = windowSize / (2.5*gridSize)
 
 {-
 Picture with player shape as a solid circle
@@ -102,13 +142,11 @@ player = (color red (circleSolid x))
   Moves the player icon 
 -}
 movePlayer ::Float -> Float -> Picture
-movePlayer x y = Pictures [translate (correctionX x) (correctionY y) (player),initialWorld, goal]
+movePlayer x y = Pictures [frame,translate (correctionX x) (correctionY y) (player),initialWorld,translate (correctionX ((size)-1)) (correctionY (size-1)) goal]
   where
     {-correctioX and correctionY moves the playerdot so it is centerd in the cell.-}
     correctionX x = x0+x*wallLength + wallRadius
     correctionY y = y0-y*wallLength - wallRadius
-
-
 
 {-drawPlayfield
   Refreshes a maze with player on a new (or the same) position
@@ -116,7 +154,6 @@ movePlayer x y = Pictures [translate (correctionX x) (correctionY y) (player),in
 -}
 drawPlayfield :: PlayerPosition -> Picture
 drawPlayfield (x,y) = translate 0 0 $ movePlayer x y
-
 
 
 {-inputHandler keyStroke world
@@ -138,35 +175,43 @@ inputHandler _ (x,y) = (x,y)
 
 {-validMove cell1 cell2
   
-    RETURNS: True if there is no wall between cell1 and cell2
+    RETURNS: True if there is no wall between cell1 and cell2 (counting outer edges to be walls).
     
 -}
 validMove :: Graphs.Cell -> Graphs.Cell -> Bool
-validMove a b@(x,y) 
-  | x <  0 = False
-  | x >= gridSize = False 
-  | y < 0 = False 
-  | y >= gridSize = False
-  | otherwise = not $ (a,b) `elem` walls || (b,a) `elem` walls 
-  
+validMove a b@(x,y) = not $ ( x <  0 || x >= gridSize || y < 0 || y >= gridSize || (a,b) `elem` walls || (b,a) `elem` walls )
+
 
 {-windowDisplay
   contains info for windowDisplay in play
 -}
 windowDisplay :: Display
+<<<<<<< HEAD
 windowDisplay = InWindow "A Mazing Game" (round windowSize + windowPadding, round windowSize + windowPadding) (100, 500) --
 
 {-
 set color of background
 -}
+=======
+windowDisplay = InWindow "A Mazing Game" (((round windowSize) + 200), ((round windowSize) + 200)) (10,10)
+>>>>>>> a38ec644d1d027780a157f3cbf46610d9cb04f2b
 
 {-updateFunc
-  No  knows
+  returns current playerposition for the next iteration
 -}
 updateFunc :: Float -> PlayerPosition -> PlayerPosition
-updateFunc _ (x, y) = (x, y)
+updateFunc _ (x, y) = (x,y)
+-- updateFunc _ (x, y) 
+--   | inGoal (x,y) = Nothing --ingen aning
+--   | otherwise = Just (x, y)
+
+
+inGoal :: PlayerPosition -> PlayerPosition -> Bool
+inGoal a b = a == b 
+
 
 main :: IO ()
+<<<<<<< HEAD
 main = play
   windowDisplay -- size of window
   background --color
@@ -175,3 +220,17 @@ main = play
   drawPlayfield
   inputHandler
   updateFunc
+=======
+main = 
+  play
+    windowDisplay --windowDisplay -- size of window
+    background --color
+    30 --fps
+    (0,0) --Initial position
+    drawPlayfield --A function to convert the world to a picture
+    inputHandler --A function to handle individual input events
+    updateFunc --Set of functions invoked once per iteration — first argument is the period of time (in seconds) needing to be advanced
+      
+
+      
+>>>>>>> a38ec644d1d027780a157f3cbf46610d9cb04f2b

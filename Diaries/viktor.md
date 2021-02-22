@@ -15,3 +15,5 @@ Working individually 13:00-15:00: creating dynamic grids, with "thick" and "thin
 08:30-10:00 Git sync, comparing what we've accomplished so far
 10:00-11:30 Debugging, experimenting with gloss and git
 12:30-14:30 Working on the maze
+
+## 2021-02-22 13:00-16:00

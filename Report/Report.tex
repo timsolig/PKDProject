@@ -1,11 +1,10 @@
 \title{
-    Graphy stuff and maze runners \\
+    An a-maz(e)ing game \\
     \large 
-    Program Construction and Data Structures \\
-    Project, Spring 2021
+    Program Construction and Data Structures 20202/2021\\
     }
 
-\author{Group 2: Jonas Björk,Viktor Hultsten, Tim Solig}
+\author{Jonas Björk,Viktor Hultsten, Tim Solig}
 
 %
 \documentclass[12pt, a4paper]{article}
@@ -48,27 +47,46 @@
 
 \newpage
 \section{Introduction}
-Skrev en rad för att testa hur git funkar. Vet fortfarande inte.
+This 
+
 \subsection{Summary}
-Ytterliggare en ändring för att lära mig om git. Men det funkar fan inte.   
+The outcome of the project is a mazerunner game where one is supposed to navigate a randomly generated maze to find the way to the goal whilst competing against the clock. When the goal is reached the game restarts with a slightly bigger maze and more time. Once the time has run out it's game over.
+
+
+
+\section{Usage}
+To be able to play the game you need to install the ghc compiler. With that installed, open the terminal and navigate into the game folder. Type XXXXX,press enter, wait for it to load, then type XXXXXX, press enter. 
+
+\subsection{Example}
+
+
 \newpage
-\section{Technical Description}
-\subsection{Maze from graph}
+\section{Program documentation}
+\subsection{Overview}
 \subsection{Data structures}
 
+\subsection{Graph theory}
+
+
+
+\subsection{Important algorithms and functions}
 
 
 \subsection{External Libraries}
+\subsubsection{Graphics.Gloss}
 
+\subsubsection{System.Random}
+
+\subsubsection{System.IO.Unsafe}
 
 
 \newpage
 \section{Discussion}
 \subsection{Shortcomings}
-
-
+The use of the IO.Unsafe module was due to a workaround. It is not really statistically proven to be random, however there are no patterns in how it works.
 
 \newpage
-\section{Conclusion}
+\subsection{Conclusion}
+
 
 \end{document}
