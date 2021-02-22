@@ -1,10 +1,13 @@
-import Control.Concurrent
- 
+--import Control.Concurrent
+--import GameInfo
 import Move
 
-import Graphs
+window = 1000 :: Float
+gridSize = 40 :: Float
 
-import Clocks
+--roundCount :: Int -> Int
+--roundCount n = n + 1
+
 
 main = do 
-    Move.startGame gameSize
+    Move.main window gridSize
