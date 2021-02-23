@@ -1,5 +1,5 @@
 
-module Graphs (Maze,Cell,Wall,createCells,createWalls,prim,iterativeDFS) where
+module Graphs (Maze,Cell,Wall,createCells,iterDFS) where
 
 import qualified Stack as S
 
@@ -24,9 +24,9 @@ pickRandom :: [a] -> a
 pickRandom xs = unsafeDupablePerformIO (fmap (xs !!) $ randomRIO (0, length xs - 1))
 
 
-{-del element list
+{-del tuple list
   Deletes a tuple, or its' reverse, from a list.
-    RETURNS: Every element in list not equal to element 
+    RETURNS: Every element in list not equal to 'tuple', or it's reverse 
     EXAMPLES:
 
         del (1,2) [(1,2),(3,0)] == [(3,0)]
@@ -60,7 +60,6 @@ createCells :: Float -> [Cell]
 createCells n = [(i,j) | i <- [0..n-1], j <- [0..n-1]]
 
 
-
 {-createWalls cells
   Creates walls between all cells in a 
     RETURNS: Walls between all neighbouring cells in cells
@@ -79,43 +78,9 @@ createWalls cells@(c:cs)
 
 
 
-{- prim cells
- Generates a maze basen on Prim's randomized algorithm.
-    RETURNS: Pairs from cells which are walls in the generated maze. 
-
--}
-prim :: [Cell] -> Maze
-prim cells = primAux [] [] cells
-    where
-        {-Auxiliary function holding the set of paths and walls as well as the original cells-}
-        primAux :: [Cell] -> [Wall]-> [Cell] -> Maze
-        primAux visited walls unvisited
-            
-            | Prelude.null visited = let 
-                                         initCell = pickRandom unvisited 
-                                     in 
-                                         primAux (initCell : visited) walls (del initCell unvisited)
-
-            | not (Prelude.null unvisited) = let 
-                                                randomCell = pickRandom (neighbours visited unvisited) 
-                                             in 
-                                                case length $ neighbours [randomCell] visited of
-            
-            
-                    1 -> primAux (randomCell : visited) ((randomCell, pickRandom (neighbours [randomCell] unvisited)) : walls) (del randomCell unvisited)
-                   
-                    _ -> primAux (randomCell : visited) walls (del randomCell unvisited)
-            
-
-            | otherwise = walls
-
-
-
-
 {-iterativeDFS cells
   Generates maze based on an iterative randomized depth-first-search algorithm.
-    RETURNS: Walls in the generated maze based on 'cells'
-
+    RETURNS: Walls of the generated maze holding all cells in 'cells'.
 -}
 iterativeDFS :: [Cell] -> Maze
 iterativeDFS cells = iterativeDFSAux unvisited walls stack visited
@@ -130,54 +95,21 @@ iterativeDFS cells = iterativeDFSAux unvisited walls stack visited
             
             | Prelude.null unvisited = walls
 
-            | Prelude.null visited  = let 
-                                        initCell = (0,0) 
-                                      in 
-                                        iterativeDFSAux (del initCell unvisited) walls (S.push initCell stack) (initCell : visited)
+            | Prelude.null visited  = let initCell = (0,0) 
+                                      in  iterDFSaux (del initCell unvisited) walls (S.push initCell stack) (initCell : visited)
             
-            | not (S.isEmpty stack) = let 
-                                        (currentCell, updatedStack) = S.pop stack
-                                      in 
-                                        case length $ neighbours [currentCell] unvisited of
+            | not (S.isEmpty stack) = let (currentCell, updatedStack) = S.pop stack
+                                      in  case length $ neighbours [currentCell] unvisited of
                     
                                         0 -> iterativeDFSAux unvisited walls updatedStack visited
                                             
-                                        _ -> let 
-                                               chosenNeighbour = pickRandom $ neighbours [currentCell] unvisited 
-                                             in 
-                                               iterativeDFSAux (del chosenNeighbour unvisited) (del (currentCell, chosenNeighbour) walls) (S.push chosenNeighbour (S.push currentCell updatedStack)) (chosenNeighbour : visited)
-
-
-
-{-recursiveDFS cells
-  Generates a maze based on the recursie Depth-First-Algorithm
--}
--- recursiveDFS :: [Cell] -> Maze
--- recursiveDFS cells = let 
---                        startCell = (0,0) 
---                        walls = createWalls cells
---                        unvisited = cells
---                        visited = []
---                      in 
---                        recursiveDFSAux unvisited walls visited startCell
---                            where
---                               recursiveDFSAux :: [Cell] -> [Wall] -> [Cell] -> Cell -> Maze
---                               recursiveDFSAux unvisited walls visited currentCell
-                                
---                                   | length visited < length unvisited = let 
---                                                                           unvisitedNeighbours = neighbours [currentCell] unvisited 
---                                                                         in 
---                                                                           case length unvisitedNeighbours of 
---                                     0 -> recursiveDFSAux unvisited walls visited (pickRandom unvisited)
---                                     _ -> recursiveDFSAux (del currentCell unvisited) (del randomNeighbour walls) (currentCell : visited)(pickRandom unvisited) 
---                                             where randomNeighbour = pickRandom (neighbours [currentCell] unvisited)
-                                                                                                                      
-                                      
---                                   | otherwise = walls
+                                        _ -> let chosenNeighbour = pickRandom $ neighbours [currentCell] unvisited 
+                                             in  iterDFSaux (del chosenNeighbour unvisited) (del (currentCell, chosenNeighbour) walls) (S.push chosenNeighbour (S.push currentCell updatedStack)) (chosenNeighbour : visited)
 
 
 
 
+{-divisionAlgorithm -}
 
 {-neighbours cells list
  Gives the unvisited that are neighbouring a specific edge
@@ -185,11 +117,11 @@ iterativeDFS cells = iterativeDFSAux unvisited walls stack visited
 -}
 neighbours :: [Cell] -> [Cell] -> [Cell]
 neighbours [] _ = []
-neighbours (c:cs) cells = cellNeigbours c cells ++ neighbours cs cells
+neighbours (c:cs) cells = cellNeighbours c cells ++ neighbours cs cells
 -- where
-cellNeigbours :: Cell -> [Cell] -> [Cell]
-cellNeigbours _ [] = []
-cellNeigbours edge@(i,j) edgeList@((i',j'):lst)
-    | i' == i && ( abs (j-j') == 1 )   = (i',j') : cellNeigbours edge lst
-    | j' == j && ( abs (i-i') == 1 )   = (i',j') : cellNeigbours edge lst
-    | otherwise = cellNeigbours edge lst
+cellNeighbours :: Cell -> [Cell] -> [Cell]
+cellNeighbours _ [] = []
+cellNeighbours edge@(i,j) edgeList@((i',j'):lst)
+    | i' == i && ( abs (j-j') == 1 )   = (i',j') : cellNeighbours edge lst
+    | j' == j && ( abs (i-i') == 1 )   = (i',j') : cellNeighbours edge lst
+    | otherwise = cellNeighbours edge lst
