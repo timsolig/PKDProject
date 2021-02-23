@@ -14,12 +14,6 @@ top :: Stack a -> a
 pop :: Stack a -> (a,Stack a)
 
 
-
-
-
-
-
-
 -- implementation
 {- A stack (Last In First Out): the head of the list is
     the top of the stack, the 2nd element of the list is

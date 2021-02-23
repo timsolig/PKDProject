@@ -9,5 +9,10 @@ gridSize = 40 :: Float
 --roundCount n = n + 1
 
 
+closeAndStartNew :: Bool -> IO
+closeAndStartNew x 
+    | x = 
+    | otherwise 
+
 main = do 
-    Move.main window gridSize
+    Move.test False --falskt som i inte i mål
