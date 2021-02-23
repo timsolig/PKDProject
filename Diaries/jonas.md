@@ -16,7 +16,7 @@
 0830, 1 h merge git meeting, spent untill 1430 to make "player" move in maze without crossing walls. challenge to align maze picture with "maze" array, used tracing of "maze" coordinates printed out on field to see where player was moving.   
 
 ## 22th
-used for reference to gloss game https://andrew.gibiansky.com/blog/haskell/haskell-gloss/
+used for reference to gloss game  https://andrew.gibiansky.com/blog/haskell/haskell-gloss/
    
 
 

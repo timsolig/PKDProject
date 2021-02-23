@@ -25,3 +25,6 @@ Spent 2 hours on zoom setting up GitHub for everyone in the group and also brain
 
 ## 22 feb
 Trying to make the main file start the game. 
+Started writing on the report. 
+
+## 23 feb 

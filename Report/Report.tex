@@ -1,7 +1,7 @@
 \title{
-    An a-maz(e)ing game \\
+    An a-maz(e)-ing game \\
     \large 
-    Program Construction and Data Structures 20202/2021\\
+    Program Construction and Data Structures 2020/2021\\
     }
 
 \author{Jonas Björk,Viktor Hultsten, Tim Solig}
@@ -47,27 +47,69 @@
 
 \newpage
 \section{Introduction}
-This 
+This project aimed to extend our knowledge of functional programming in general, and the Haskell language in particular.Our fascination of graph theory and the mathematics behind mazes combined with the will of making a game made us choose to make a playable game with graphical interface.
 
 \subsection{Summary}
-The outcome of the project is a mazerunner game where one is supposed to navigate a randomly generated maze to find the way to the goal whilst competing against the clock. When the goal is reached the game restarts with a slightly bigger maze and more time. Once the time has run out it's game over.
-
+The outcome of the project is a mazerunner game where one is supposed to navigate a randomly generated maze to find the way to the goal whilst keeping the time limit also shown on the game screen. When the goal is reached the game restarts with a slightly bigger maze and the clock restarts. Once the time has run out it's game over.
 
 
 \section{Usage}
-To be able to play the game you need to install the ghc compiler. With that installed, open the terminal and navigate into the game folder. Type XXXXX,press enter, wait for it to load, then type XXXXXX, press enter. 
+\subsection{How to play}
+To be able to play the game you need to install the ghc compiler. With that installed, open the terminal and navigate into the game folder. Type XXXXX,press enter, wait for it to load, then type XXXXXX, press enter. The game starts and you are greeted with the start screen
+
+INSERT bild på startskärmen
 
 \subsection{Example}
 
 
 \newpage
 \section{Program documentation}
+
 \subsection{Overview}
+
 \subsection{Data structures}
 
 \subsection{Graph theory}
 
+\subsubsection{Depth-first-search}
 
+\subsubsection{Maze generation}
+
+\subsubsubsection{Stack}
+For this algorithm we needed an implementation of a stack. We used the one which was given to us during one of the labs in the course. 
+
+\begin{code}
+
+{- Implements a stack (last in first out). -}
+module Stack (Stack(), empty, isEmpty, push, top, pop) where
+
+-- interface
+{- empty ... -}
+empty :: Stack a
+{- isEmpty s ... -}
+isEmpty :: Stack a -> Bool
+{- ... -}
+push :: a -> Stack a -> Stack a
+{- ... -}
+top :: Stack a -> a
+{- ... -}
+pop :: Stack a -> (a,Stack a)
+
+
+-- implementation
+{- A stack (Last In First Out): the head of the list is
+    the top of the stack, the 2nd element of the list is
+    the element below the top, and so on.
+-}
+newtype Stack a = StackImpl [a] -- opaque!
+
+empty = StackImpl []
+isEmpty (StackImpl s) = null s
+push x (StackImpl s) = StackImpl (x:s)
+top (StackImpl s) = head s
+pop (StackImpl (s:ss)) = (s,StackImpl ss)
+
+\end{code}
 
 \subsection{Important algorithms and functions}
 
