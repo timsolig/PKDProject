@@ -94,7 +94,7 @@ iterDFS cells = iterDFSaux cells walls S.empty   []
             
             | Prelude.null unvisited = walls
 
-            | Prelude.null visited  = let initCell = (0,0) 
+            | Prelude.null visited  = let initCell = pickRandom unvisited
                                       in  iterDFSaux (del initCell unvisited) walls (S.push initCell stack) (initCell : visited)
             
             | not (S.isEmpty stack) = let (currentCell, updatedStack) = S.pop stack
@@ -103,7 +103,7 @@ iterDFS cells = iterDFSaux cells walls S.empty   []
                                         0 -> iterDFSaux unvisited walls updatedStack visited
                                             
                                         _ -> let chosenNeighbour = pickRandom $ neighbours [currentCell] unvisited 
-                                             in  iterDFSaux (del chosenNeighbour unvisited) (del (currentCell, chosenNeighbour) walls) (S.push chosenNeighbour (S.push currentCell updatedStack)) (chosenNeighbour : visited)
+                                             in  iterDFSaux (del currentCell (del chosenNeighbour unvisited)) (del (currentCell, chosenNeighbour) walls) (S.push chosenNeighbour (S.push currentCell updatedStack)) (chosenNeighbour : visited)
 
 
 

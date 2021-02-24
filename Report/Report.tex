@@ -47,7 +47,8 @@
 
 \newpage
 \section{Introduction}
-This project aimed to extend our knowledge of functional programming in general, and the Haskell language in particular.Our fascination of graph theory and the mathematics behind mazes combined with the will of making a game made us choose to make a playable game with graphical interface.
+This project aimed to extend our knowledge of functional programming in general, and the Haskell language in particular.Our fascination of graph theory and the mathematics behind mazes combined with the will of making a game made us choose to make a playable game with a graphical interface.
+
 
 \subsection{Summary}
 The outcome of the project is a mazerunner game where one is supposed to navigate a randomly generated maze to find the way to the goal whilst keeping the time limit also shown on the game screen. When the goal is reached the game restarts with a slightly bigger maze and the clock restarts. Once the time has run out it's game over.
@@ -66,56 +67,52 @@ INSERT bild på startskärmen
 \section{Program documentation}
 
 \subsection{Overview}
+No user input is required when initiating the program. The main function calls 
 
 \subsection{Data structures}
+HÄR HÄR HÄR 
 
 \subsection{Graph theory}
+A maze can be though of as a connected graph where the edges are possible places for a wall and a face is part of the paths through the maze. The generation of a maze then consists of an algorithm deleting certain edges from the graph (essentially deleting walls and binding together paths) and different such algorithms vary in complexity and the level of difficulty the later generated maze will have. 
+
 
 \subsubsection{Depth-first-search}
 
-\subsubsection{Maze generation}
 
-\subsubsubsection{Stack}
+\subsubsection{Maze generation}
+The algorithm we chose to implement uses a randomized depth-first-search approach where the algorithm is given a grid of cells, and a random starting cell in the grid. Then, one of the four walls surrounding the cell is deleted randomly. Then the cell i considered visited and pushed to a stack. A cell neighbouring an already visited cell is then chosen randomly and the same process is repeated with a random wall being deleted, and the cell marked as visited and pushed to the stack. When a cell with no unvisited neighbours is picked, we mark it visited and pop a cell from the stack and start the algorith over. Once the stack is empty, every cell in the grid is in the path of the maze. 
+
+
+% Spcicfically, the algorithm works in the following way. 
+
+% \begin{enumerate}
+%     \item Choose the initial cell, mark it as visited and push it to the stack
+    
+%     \item While the stack is not empty
+%         \begin{enumerate}
+%             \item Pop a cell from the stack and make it a current cell
+%             \item If the current cell has any neighbours which have not been visited
+%                 \begin{enumerate}
+%                     \item Push the current cell to the stack
+%                     \item Choose one of the unvisited neighbours
+%                     \item Remove the wall between the current cell and the chosen cell
+%                     \item Mark the chosen cell as visited and push it to the stack
+%                 \end{enumerate}
+            
+%         \end{enumerate}
+%     \end{enumerate}
+
 For this algorithm we needed an implementation of a stack. We used the one which was given to us during one of the labs in the course. 
 
-\begin{code}
 
-{- Implements a stack (last in first out). -}
-module Stack (Stack(), empty, isEmpty, push, top, pop) where
-
--- interface
-{- empty ... -}
-empty :: Stack a
-{- isEmpty s ... -}
-isEmpty :: Stack a -> Bool
-{- ... -}
-push :: a -> Stack a -> Stack a
-{- ... -}
-top :: Stack a -> a
-{- ... -}
-pop :: Stack a -> (a,Stack a)
-
-
--- implementation
-{- A stack (Last In First Out): the head of the list is
-    the top of the stack, the 2nd element of the list is
-    the element below the top, and so on.
--}
-newtype Stack a = StackImpl [a] -- opaque!
-
-empty = StackImpl []
-isEmpty (StackImpl s) = null s
-push x (StackImpl s) = StackImpl (x:s)
-top (StackImpl s) = head s
-pop (StackImpl (s:ss)) = (s,StackImpl ss)
-
-\end{code}
 
 \subsection{Important algorithms and functions}
 
 
+
 \subsection{External Libraries}
 \subsubsection{Graphics.Gloss}
+Gloss is one of the most used graphics modules built for Haskell. We sepcifically used the \textit{play} functionality which made it easy to controll the game window. 
 
 \subsubsection{System.Random}
 
@@ -125,10 +122,13 @@ pop (StackImpl (s:ss)) = (s,StackImpl ss)
 \newpage
 \section{Discussion}
 \subsection{Shortcomings}
-The use of the IO.Unsafe module was due to a workaround. It is not really statistically proven to be random, however there are no patterns in how it works.
+The use of the IO.Unsafe module was needed due to a workaround. We started building the other parts of the algorithm generating  the maze  before creating the \textit{randomness} which meant that the graph algorithm wanted to get the type Int and not IO Int which is returned from the functions in system.random. Therefore we chose to solve the problem by combining the it  with the IO.unsafe module to get the returned type to be of type Int. It is not really statistically proven to be random, however there are no patterns in how it works.
 
-\newpage
+
 \subsection{Conclusion}
+Throughout working with the project maybe the biggest problem that we stumbled upon was to how to figure out how to deal with the anti-state and lack of side effects in Haskell. All three members of the group hade some varying experience from object-oriented programming and that combined with the fact that we during the first part of the project had not really grasped the most important fundamentals of Haskell made for some annoying problems which we could have avoided if we had known more from the start. What we in the beginning thought of being "variables" (e.g. size = 10 ::Int) were of course FUNCTIONS and later on when we tried to make the game restart with new , which we of course became of not only are properites of Haskell in particular, but of functional programming in general. 
 
+Another struggle throughout the proejct were our fights with the Gloss package and how the abscence of great documentation and a living community made our work much harder. We found a few examples of how other people hade used Gloss for similar projects as our's but our way to the final product still existed of an excstencive lot of trial and error.
 
+Furthermore, we changed the representation of gameInfo numerous times during the project. 
 \end{document}

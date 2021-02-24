@@ -6,7 +6,7 @@ import Graphics.Gloss
 import Graphics.Gloss.Data.ViewPort
 import Graphics.Gloss.Interface.Pure.Game
 
-import GameInfo
+--import GameInfo
 
 {-
 ----TODO------
@@ -28,46 +28,53 @@ data GameInfo = GameInfo { size' :: Float
                       , playerPosition :: (Float,Float)
                       , goalPosition :: (Float,Float)
                       , maze :: Picture
-                      , walls :: ----------------------------------------
+                      , walls :: Graphs.Maze 
                       } deriving (Show)   
 
 
 
 getSize' :: GameInfo -> Float
-getSize' (GameInfo x _ _ _ _) = x
+getSize' (GameInfo x _ _ _ _ _) = x
 
 setSize' :: GameInfo -> Float -> GameInfo
-setSize' (GameInfo _ y z q r) newSize = GameInfo newSize y z q r
+setSize' (GameInfo _ y z q r s) newSize = GameInfo newSize y z q r s
 
 getWindowSize :: GameInfo -> Float
-getWindowSize (GameInfo _ x _ _ _) = x
+getWindowSize (GameInfo _ x _ _ _ _) = x
 
 setWindowSize :: GameInfo -> Float -> GameInfo
-setWindowSize (GameInfo x _ z q r) newWindowSize = GameInfo x newWindowSize z q r
+setWindowSize (GameInfo x _ z q r s) newWindowSize = GameInfo x newWindowSize z q r s
 
 getPlayerPosition :: GameInfo -> (Float,Float)
-getPlayerPosition (GameInfo _ _ x _ _) = x
+getPlayerPosition (GameInfo _ _ x _ _ _) = x
 
 setPlayerPosition :: GameInfo -> (Float,Float) -> GameInfo
-setPlayerPosition (GameInfo x z _ q r) newPlayerPosition = GameInfo x z newPlayerPosition q r
+setPlayerPosition (GameInfo x z _ q r s) newPlayerPosition = GameInfo x z newPlayerPosition q r s
 
 
 getGoalPosition :: GameInfo -> (Float,Float)
-getGoalPosition (GameInfo _ _ _ x _) = x
+getGoalPosition (GameInfo _ _ _ x _ _ ) = x
 
 setGoalPosition :: GameInfo -> (Float,Float) -> GameInfo
-setGoalPosition (GameInfo x z q _ r) newGoalPosition = GameInfo x z q newGoalPosition r
+setGoalPosition (GameInfo x z q _ r s) newGoalPosition = GameInfo x z q newGoalPosition r s
 
 getMaze :: GameInfo -> Picture
-getMaze (GameInfo _ _ _ _ x) = x
+getMaze (GameInfo _ _ _ _ x _) = x
 
-setMaze :: GameInfo -> GameInfo
-setMaze (GameInfo x z q r _) = GameInfo x z q r (initialWorld) 
+--setMaze :: GameInfo -> GameInfo
+--setMaze (GameInfo x z q r _ s) = GameInfo x z q r (initialWorld) s
 
 updateMaze :: GameInfo -> GameInfo
-updateMaze (GameInfo x z q r _) = GameInfo x z q r (drawing x) 
+updateMaze (GameInfo x z q r _ s) = let s = walls x in  
+      GameInfo (setSize' (x*2)) z q r (drawing s) s
+
+getWalls :: GameInfo -> Graphs.Maze 
+getWalls (GameInfo _ _ _ _ _ x) = x
+
+
 
 {-GLOBAL "VARIABLES"-}
+
 windowSize = 1000 :: Float
 size = 10:: Float
 gridSize = size :: Float
@@ -81,8 +88,10 @@ xMax = (windowSize / 2) :: Float
 x0 = (negate (xMax)) :: Float
 y0 = (windowSize / 2) :: Float
 yMax = (negate y0) :: Float
+
 background = blue :: Color
 
+walls :: GameInfo -> Graphs.Maze
 walls x = Graphs.iterDFS $ Graphs.createCells x -- :: Graphs.Maze
 
 {-
@@ -182,10 +191,11 @@ inputHandler _ x = x
 {-validMove cell1 cell2
   
     RETURNS: True if there is no wall between cell1 and cell2 (counting outer edges to be walls).
-    
--}-- (Float,Float)
+
+
+-}-- (Float,Float) hej :: [Graphs.Cell]
 validMove :: GameInfo -> Graphs.Cell -> Graphs.Cell -> Bool
-validMove gameInfo a b@(x,y) = not $ ( x <  0 || x >= gridSize || y < 0 || y >= gridSize || (a,b) `elem` (walls (getSize' gameInfo)) || (b,a) `elem` (walls (getSize' gameInfo)) )
+validMove gameInfo a b@(x,y) = not $ ( x <  0 || x >= gridSize || y < 0 || y >= gridSize || (a,b) `elem` (getWalls gameInfo) || (b,a) `elem` (getWalls gameInfo)
 
 
 {-windowDisplay
@@ -219,7 +229,7 @@ inGoal a b = a == b
 
 main ::IO ()
 main =
-    let gameInfo = (GameInfo 10 1000 (0,0) (20,20) (drawing 10))
+    let gameInfo = (GameInfo 10 1000 (0,0) (20,20) (drawing 10) _ )
         in
             play
               windowDisplay --windowDisplay -- size of window

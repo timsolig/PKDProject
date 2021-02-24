@@ -28,3 +28,4 @@ Trying to make the main file start the game.
 Started writing on the report. 
 
 ## 23 feb 
+Wrote on the report for three hours. Discussion, introduction, graph theory part among other things.
