@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 --module Move (test) where
 
+=======
+>>>>>>> a8aea88e2d83e9b9558a8429e9d2c723138c4536
 import Graphs
 
 import Graphics.Gloss
@@ -31,7 +34,6 @@ type PlayerPosition = (Float,Float)
 --                       , xMax = (windowSize / 2) ::Float
 --                       , yMax = (negate y0) :: Float
 --                       } deriving (Show)   
-
 
 {-GLOBAL "VARIABLES"-}
 windowSize = GameInfo.window :: Float
@@ -114,7 +116,6 @@ movePlayer x y = Pictures [frame,translate (correctionX x) (correctionY y) (play
 drawPlayfield :: PlayerPosition -> Picture
 drawPlayfield (x,y) = {-translate 0 0 $-} movePlayer x y
 
-
 {-inputHandler keyStroke world
   
   RETURNS: Updated playfield if keyStroke moves player not through a wall.
@@ -131,15 +132,12 @@ inputHandler (EventKey (SpecialKey key) Down _ _ ) (x,y) = case validMove (x,y) 
                               KeyLeft -> (x - 1, y)
 inputHandler _ (x,y) = (x,y)
 
-
 {-validMove cell1 cell2
   
     RETURNS: True if there is no wall between cell1 and cell2 (counting outer edges to be walls).
-    
 -}
 validMove :: Graphs.Cell -> Graphs.Cell -> Bool
 validMove a b@(x,y) = not $ ( x <  0 || x >= gridSize || y < 0 || y >= gridSize || (a,b) `elem` walls || (b,a) `elem` walls )
-
 
 {-windowDisplay
   contains info for windowDisplay in play
@@ -164,13 +162,12 @@ updateFunc _ (x,y)
    | inGoal (1,1) (x,y) = (0,0)
    | otherwise = (x,y)
 
-
 inGoal :: PlayerPosition -> PlayerPosition -> Bool
 inGoal a b = a == b 
 
-
 main :: IO ()
 main = 
+<<<<<<< HEAD
 
     play
       windowDisplay --windowDisplay -- size of window
@@ -183,3 +180,13 @@ main =
       
 
       
+=======
+  play
+    windowDisplay --windowDisplay -- size of window
+    background --color
+    30 --fps
+    (0,0) --Initial position
+    drawPlayfield --A function to convert the world to a picture
+    inputHandler --A function to handle individual input events
+    updateFunc --Set of functions invoked once per iteration — first argument is the period of time (in seconds) needing to be advanced
+>>>>>>> a8aea88e2d83e9b9558a8429e9d2c723138c4536

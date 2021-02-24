@@ -28,7 +28,7 @@ data GameInfo = GameInfo { size' :: Float
                       , playerPosition :: (Float,Float)
                       , goalPosition :: (Float,Float)
                       , maze :: Picture
-                      , walls :: Graphs.Maze 
+                      , walls' :: Graphs.Maze 
                       } deriving (Show)   
 
 
@@ -129,8 +129,8 @@ createWalls  (x:xs) =
 {-
 converts maze into Picture
 -}
-drawing :: Float -> Picture
-drawing x = Pictures (createWalls (walls x :: [(Graphs.Cell,Graphs.Cell)]))
+drawing :: Graphs.Cell -> Picture
+drawing x = Pictures (createWalls x)
 
 --mål shape om en sådan ska användas.
 goal :: Picture
@@ -195,7 +195,7 @@ inputHandler _ x = x
 
 -}-- (Float,Float) hej :: [Graphs.Cell]
 validMove :: GameInfo -> Graphs.Cell -> Graphs.Cell -> Bool
-validMove gameInfo a b@(x,y) = not $ ( x <  0 || x >= gridSize || y < 0 || y >= gridSize || (a,b) `elem` (getWalls gameInfo) || (b,a) `elem` (getWalls gameInfo)
+validMove gameInfo a b@(x,y) = not $ ( x <  0 || x >= gridSize || y < 0 || y >= gridSize || (a,b) `elem` (getWalls gameInfo) || (b,a) `elem` (getWalls gameInfo))
 
 
 {-windowDisplay

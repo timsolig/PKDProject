@@ -22,8 +22,6 @@ Something weird with IO monads and shit. And some randomness.
 -}
 pickRandom :: [a] -> a
 pickRandom xs = unsafeDupablePerformIO (fmap (xs !!) $ randomRIO (0, length xs - 1))
--- pickRandom xs = unsafeDupablePerformIO (xs !!) <$> randomRIO (0, length xs - 1)
-
 
 
 {-del tuple list
@@ -75,14 +73,48 @@ createCells n = [(i,j) | i <- [0..n-1], j <- [0..n-1]]
 createWalls :: [Cell] -> [Wall]
 createWalls [] = []
 createWalls cells@(c:cs)
-    | (length $ neighbours [c] cells) > 0 = [(c,x) | x <- neighbours [c] cells] ++ createWalls cs
+    | not (null (neighbours [c] cells)) = [(c,x) | x <- neighbours [c] cells] ++ createWalls cs
     | otherwise = createWalls cs
+
+
+
+{- prim cells
+ Generates a maze basen on Prim's randomized algorithm.
+    RETURNS: Pairs from cells which are walls in the generated maze. 
+
+-}
+prim :: [Cell] -> Maze
+prim cells = primAux [] [] cells
+    where
+        {-Auxiliary function holding the set of paths and walls as well as the original cells-}
+        primAux :: [Cell] -> [Wall]-> [Cell] -> Maze
+        primAux visited walls unvisited
+            
+            | Prelude.null visited = let 
+                                         initCell = pickRandom unvisited 
+                                     in 
+                                         primAux (initCell : visited) walls (del initCell unvisited)
+
+            | not (Prelude.null unvisited) = let 
+                                                randomCell = pickRandom (neighbours visited unvisited) 
+                                             in 
+                                                case length $ neighbours [randomCell] visited of
+            
+            
+                    1 -> primAux (randomCell : visited) ((randomCell, pickRandom (neighbours [randomCell] unvisited)) : walls) (del randomCell unvisited)
+                   
+                    _ -> primAux (randomCell : visited) walls (del randomCell unvisited)
+            
+
+            | otherwise = walls
+
 
 
 
 {-iterativeDFS cells
   Generates maze based on an iterative randomized depth-first-search algorithm.
-    RETURNS: Walls of the generated maze holding all cells in 'cells'.
+    RETURNS: Walls in the generated maze based on 'cells'
+
 -}
 iterDFS :: [Cell] -> Maze
 iterDFS cells = iterDFSaux cells walls S.empty   [] 
@@ -109,6 +141,7 @@ iterDFS cells = iterDFSaux cells walls S.empty   []
 
 
 {-divisionAlgorithm cells-}
+
 
 {-neighbours cells list
  Gives the unvisited that are neighbouring a specific edge
