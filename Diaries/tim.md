@@ -21,12 +21,7 @@ Spent 2 hours on zoom setting up GitHub for everyone in the group and also brain
 3 hours trying DFS algorithms.  
 
 ## 19 feb
-<<<<<<< HEAD
-1 hour resolving git issues.
-2 hours debugging and getting iterative algorithm to work! However not for larger than 
-=======
 1 hour resolving git issues. 2 hours debugging and getting iterative algorithm to work! 
 
 ## 22 feb
 Trying to make the main file start the game. 
->>>>>>> a38ec644d1d027780a157f3cbf46610d9cb04f2b

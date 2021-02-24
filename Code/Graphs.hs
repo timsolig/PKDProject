@@ -60,10 +60,6 @@ createCells :: Float -> [Cell]
 createCells n = [(i,j) | i <- [0..n-1], j <- [0..n-1]]
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> c0abb6a0b50bc7aa1b8e0d5e7cf35b9d1f678b91
 {-createWalls cells
   Creates walls between all cells in a 
     RETURNS: Walls between all neighbouring cells in cells
@@ -82,11 +78,6 @@ createWalls cells@(c:cs)
 
 
 
-<<<<<<< HEAD
-{-iterativeDFS cells
-  Generates maze based on an iterative randomized depth-first-search algorithm.
-    RETURNS: Walls of the generated maze holding all cells in 'cells'.
-=======
 {- prim cells
  Generates a maze basen on Prim's randomized algorithm.
     RETURNS: Pairs from cells which are walls in the generated maze. 
@@ -124,7 +115,6 @@ prim cells = primAux [] [] cells
   Generates maze based on an iterative randomized depth-first-search algorithm.
     RETURNS: Walls in the generated maze based on 'cells'
 
->>>>>>> c0abb6a0b50bc7aa1b8e0d5e7cf35b9d1f678b91
 -}
 iterDFS :: [Cell] -> Maze
 iterDFS cells = iterDFSaux cells walls S.empty   [] 

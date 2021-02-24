@@ -1,10 +1,3 @@
-<<<<<<< HEAD
---module Move (startGame ) where
-
-=======
---module Move (main) where
->>>>>>> a38ec644d1d027780a157f3cbf46610d9cb04f2b
-
 import Graphs
 
 import Graphics.Gloss
@@ -37,38 +30,6 @@ type PlayerPosition = (Float,Float)
 --                       , yMax = (negate y0) :: Float
 --                       } deriving (Show)   
 
-
-<<<<<<< HEAD
-{-GLOBAL VARIABLES-}
-windowSize = 500  
-size = 10 :: Float
-gridSize = size
-initialWorld = drawing  
-
-wallLength = windowSize / gridSize
-wallRadius = wallLength / 2
-xMax = (windowSize / 2)
-x0 = (negate (xMax))
-y0 = (windowSize / 2)
-yMax = (negate y0)
-windowPadding = 50
-
-background = white :: Color
-
-
-walls = Graphs.iterDFS $ Graphs.createCells size
-
-
-{-startGame gameInfo -}
-startGame size = undefined
-
-
--- till move func
---moveDist = windowSize / gridSize
---startPosFix = moveDist/2
-
-
-=======
 {-GLOBAL "VARIABLES"-}
 windowSize = GameInfo.window :: Float
 size = GameInfo.getSize :: Float
@@ -82,7 +43,6 @@ y0 = (windowSize / 2) :: Float
 yMax = (negate y0) :: Float
 background = red :: Color
 walls = Graphs.iterDFS $ Graphs.createCells size -- :: Graphs.Maze
->>>>>>> a38ec644d1d027780a157f3cbf46610d9cb04f2b
 
 {-
 frame makes a frame for maze
@@ -120,11 +80,7 @@ createWalls (x:xs) =
 converts maze into Picture
 -}
 drawing :: Picture
-<<<<<<< HEAD
-drawing = pictures (createWalls (walls :: [(Graphs.Cell,Graphs.Cell)]))
-=======
 drawing = Pictures (createWalls (walls :: [(Graphs.Cell,Graphs.Cell)]))
->>>>>>> a38ec644d1d027780a157f3cbf46610d9cb04f2b
 
 --mål shape om en sådan ska användas.
 goal :: Picture
@@ -155,7 +111,6 @@ movePlayer x y = Pictures [frame,translate (correctionX x) (correctionY y) (play
 drawPlayfield :: PlayerPosition -> Picture
 drawPlayfield (x,y) = translate 0 0 $ movePlayer x y
 
-
 {-inputHandler keyStroke world
   
   RETURNS: Updated playfield if keyStroke moves player not through a wall.
@@ -172,29 +127,18 @@ inputHandler (EventKey (SpecialKey key) Down _ _ ) (x,y) = case validMove (x,y) 
                               KeyLeft -> (x - 1, y)
 inputHandler _ (x,y) = (x,y)
 
-
 {-validMove cell1 cell2
   
     RETURNS: True if there is no wall between cell1 and cell2 (counting outer edges to be walls).
-    
 -}
 validMove :: Graphs.Cell -> Graphs.Cell -> Bool
 validMove a b@(x,y) = not $ ( x <  0 || x >= gridSize || y < 0 || y >= gridSize || (a,b) `elem` walls || (b,a) `elem` walls )
-
 
 {-windowDisplay
   contains info for windowDisplay in play
 -}
 windowDisplay :: Display
-<<<<<<< HEAD
-windowDisplay = InWindow "A Mazing Game" (round windowSize + windowPadding, round windowSize + windowPadding) (100, 500) --
-
-{-
-set color of background
--}
-=======
 windowDisplay = InWindow "A Mazing Game" (((round windowSize) + 200), ((round windowSize) + 200)) (10,10)
->>>>>>> a38ec644d1d027780a157f3cbf46610d9cb04f2b
 
 {-updateFunc
   returns current playerposition for the next iteration
@@ -205,22 +149,10 @@ updateFunc _ (x, y) = (x,y)
 --   | inGoal (x,y) = Nothing --ingen aning
 --   | otherwise = Just (x, y)
 
-
 inGoal :: PlayerPosition -> PlayerPosition -> Bool
 inGoal a b = a == b 
 
-
 main :: IO ()
-<<<<<<< HEAD
-main = play
-  windowDisplay -- size of window
-  background --color
-  30 --fps
-  (0,0) --Initial World
-  drawPlayfield
-  inputHandler
-  updateFunc
-=======
 main = 
   play
     windowDisplay --windowDisplay -- size of window
@@ -230,7 +162,3 @@ main =
     drawPlayfield --A function to convert the world to a picture
     inputHandler --A function to handle individual input events
     updateFunc --Set of functions invoked once per iteration — first argument is the period of time (in seconds) needing to be advanced
-      
-
-      
->>>>>>> a38ec644d1d027780a157f3cbf46610d9cb04f2b
