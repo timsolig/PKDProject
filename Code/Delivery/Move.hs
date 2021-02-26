@@ -2,8 +2,11 @@ module Move where
 
 import Render
 
+import GameData
+
 import Graphs
 
+import Graphics.Gloss
 import Graphics.Gloss.Interface.Pure.Game
 
 
@@ -56,20 +59,29 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game
     | not (startMenu game || goalMenu game) =
         let
             (x, y) = playerCoords game
+            
             wallLength = windowSize / (gridSize game)
+            
             direction = case key of
                         KeyUp    -> (x, y - 1)
                         KeyRight -> (x + 1, y)
                         KeyDown  -> (x, y + 1)
                         KeyLeft  -> (x - 1, y)
                         _        -> (x, y)
+            
             newPlayerCoords = 
-                if validMove (x,y) direction (gridSize game) (walls game) then direction
+                if validMove (x,y) direction (gridSize game) (walls game) 
+                    then direction
                 else (x, y)
-            newSteps = if validMove (x,y) direction (gridSize game) (walls game) then ((steps game)+1)
+            
+            newSteps = 
+                if validMove (x,y) direction (gridSize game) (walls game) 
+                    then (steps game) + 1
                 else steps game
+            
             goalMenuStatus =
-                if newPlayerCoords == goalCoords game then True
+                if newPlayerCoords == goalCoords game 
+                    then True
                 else False               
         in
             Game {

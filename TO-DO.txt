@@ -15,3 +15,8 @@ start reading about gloss
 [x] comments 100
 [ ] playerpic/rescale
 [ ] 
+
+
+MÅNDAG:
+[ ] Fixa att texten flyttas dynamiskt när man ändrar windowsize (obs, ganska låg prio. Egentligen ingen prio alls. Skit i det.
+[ ] Gör en README som ska med i inlämningen. Typ om hur vi tänkt med test och exempel.
