@@ -4,7 +4,7 @@
     Program Construction and Data Structures 2020/2021\\
     }
 
-\author{Jonas Björk,Viktor Hultsten, Tim Solig}
+\author{Jonas Gran, Viktor Hultsten, Tim Molnig}
 
 %
 \documentclass[12pt, a4paper]{article}
@@ -51,7 +51,7 @@ This project aimed to extend our knowledge of functional programming in general,
 
 
 \subsection{Summary}
-The outcome of the project is a mazerunner game where one is supposed to navigate a randomly generated maze to find the way to the goal whilst keeping the time limit also shown on the game screen. When the goal is reached the game restarts with a slightly bigger maze and the clock restarts. Once the time has run out it's game over.
+The outcome of the project is a mazerunner game where one is supposed to navigate a randomly generated maze to find the way to the goal. When the goal is reached your performance will be displayed with number of steps and time taken. When the game restarts it will generate a slightly bigger maze and the clock restarts.
 
 
 \section{Usage}
@@ -67,7 +67,8 @@ INSERT bild på startskärmen
 \section{Program documentation}
 
 \subsection{Overview}
-No user input is required when initiating the program. The main function calls 
+When starting the program, the 
+No user input is required when initiating the program.
 
 \subsection{Data structures}
 HÄR HÄR HÄR 
@@ -123,6 +124,12 @@ Gloss is one of the most used graphics modules built for Haskell. We sepcificall
 \section{Discussion}
 \subsection{Shortcomings}
 The use of the IO.Unsafe module was needed due to a workaround. We started building the other parts of the algorithm generating  the maze  before creating the \textit{randomness} which meant that the graph algorithm wanted to get the type Int and not IO Int which is returned from the functions in system.random. Therefore we chose to solve the problem by combining the it  with the IO.unsafe module to get the returned type to be of type Int. It is not really statistically proven to be random, however there are no patterns in how it works.
+
+
+
+
+
+
 
 
 \subsection{Conclusion}
