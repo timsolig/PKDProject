@@ -1,41 +1,15 @@
 module Move where
 
 import Render
-import Data.Time
-import Graphics.Gloss
-import Graphs 
+
+import Graphs
+
 import Graphics.Gloss.Interface.Pure.Game
-import System.IO.Unsafe
 
 
-getTime :: a -> UTCTime
-getTime _ =  unsafeDupablePerformIO getCurrentTime
-
-{-validMove
-  text about func
-    PRE:
-    RETURNS:
-    EXAMPLES:
--}
-validMove :: Cell -> Cell -> Float -> Maze -> Bool
-validMove (-1, 0) (0, 0) _ _ = True
-validMove currentPath targetPath@(x, y) gs walls =
-    x == gs && y == gs - 1 ||
-    not (
-        x < 0 ||
-        x >= gs ||
-        y < 0 ||
-        y >= gs ||
-        elem (currentPath, targetPath) walls ||
-        elem (targetPath, currentPath) walls
-    )
-
-
-{-func
-  text about func
-    PRE:
-    RETURNS:
-    EXAMPLES:
+{-handleKeys keyStroke state
+  Updates the state depending on inpute from the player.
+    RETURNS: The state of the game according to "keyStroks" i.e. the key pressed by the player.
 -}
 handleKeys :: Event -> GameState -> GameState
 handleKeys (EventKey (SpecialKey key) Down _ _) game
@@ -57,8 +31,7 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game
                 steps        = 0,
                 testImageP   = testImageP game,
                 testImageG   = testImageG game,
-                startTime    = getTime playerLevel,
-                timeNow      = getTime playerLevel
+                seconds      = 0
             }
     | goalMenu game && key == KeySpace =
         let 
@@ -78,10 +51,9 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game
                 steps        = 0,
                 testImageP   = testImageP game,
                 testImageG   = testImageG game,
-                startTime    = getTime playerLevel,
-                timeNow      = getTime playerLevel
+                seconds      = 0
             }
-    | otherwise =
+    | not (startMenu game || goalMenu game) =
         let
             (x, y) = playerCoords game
             wallLength = windowSize / (gridSize game)
@@ -98,7 +70,7 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game
                 else steps game
             goalMenuStatus =
                 if newPlayerCoords == goalCoords game then True
-                else False
+                else False               
         in
             Game {
                 startMenu    = False,
@@ -112,7 +84,27 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game
                 steps        = newSteps,
                 testImageP   = testImageP game,
                 testImageG   = testImageG game,
-                startTime    = startTime game,
-                timeNow      = getTime playerLevel
-                }
+                seconds      = seconds game
+            }
 handleKeys _ game = game
+
+
+{- validMove cell1 cell2 gridSize maze
+  Checks whether a player move is valid in a certain move.
+    RETURNS: If there is no wall between 'cell1' and 'cell2' in the maze 'maze' (which has size 'gridSize') then True otherwise False. 
+    EXAMPLES:
+-}
+validMove :: Cell -> Cell -> Float -> Maze -> Bool
+validMove (-1, 0) (0, 0) _ _ = True
+validMove currentPath targetPath@(x, y) gs walls =
+    x == gs && y == gs - 1 ||
+    not (
+        x < 0 ||
+        x >= gs ||
+        y < 0 ||
+        y >= gs ||
+        elem (currentPath, targetPath) walls ||
+        elem (targetPath, currentPath) walls
+        )
+
+

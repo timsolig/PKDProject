@@ -28,6 +28,9 @@ meeting and to see how we are doing. Viktor has solved how to have states in gam
 Fixed player and goal, tried to do a clock
 
 ## 26
-
-
+pillade i naveln
+sov
+blev arg
+slogs
+kaffe :) 
 

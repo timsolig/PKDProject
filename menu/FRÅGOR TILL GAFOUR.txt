@@ -1,4 +1,0 @@
-How should we write examples for the functions returning Gloss-types. e.g "Picture"
-
-How should we write test? Everything is randomized.andra
-
