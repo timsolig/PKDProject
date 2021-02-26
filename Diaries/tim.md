@@ -28,8 +28,9 @@ Trying to make the main file start the game.
 Started writing on the report. 
 
 ## 23 feb 
-Wrote on the report for three hours. Discussion, introduction, graph theory part among other things.
+3 hours writing on the report. Discussion, introduction, graph theory part among other things.
 
 
 ## 26 feb
 2 hours commenting functions
+1 hour moving code to module.

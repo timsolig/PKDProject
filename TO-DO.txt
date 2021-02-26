@@ -13,4 +13,5 @@ start reading about gloss
 [x] klart remove highscore
 [x] ge upp
 [x] comments 100
-
+[ ] playerpic/rescale
+[ ] 

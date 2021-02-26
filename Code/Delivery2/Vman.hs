@@ -56,7 +56,7 @@ wallPicture wall gridSize = Pictures (drawWalls wall gridSize)
 Draws the walls of a maze.
     PRE: size > 0
     RETURNS:
-    EXAMPLES:
+    EXAMPLES: 
 -}
 drawWalls :: Maze -> Float -> [Picture]
 drawWalls [] _ = []
