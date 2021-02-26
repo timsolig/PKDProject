@@ -6,7 +6,6 @@ import Graphics.Gloss.Interface.Pure.Game
 import Data.Time
 import System.IO.Unsafe
 
-
 windowSize, xMax, x0, yMax, y0 :: Float
 windowSize = 1000
 xMax = windowSize / 2
@@ -41,23 +40,11 @@ data GameState = Game {
         steps        :: Int,
         testImageP   :: Picture,
         testImageG   :: Picture,
-        startTime    :: UTCTime,
-        timeNow      :: UTCTime,
         seconds      :: Float
     }
 
-{-getTime
-  Gets the current time.
-    RETURNS:
-    EXAMPLES:
--}
-getTime :: a -> UTCTime
-getTime _ =  unsafeDupablePerformIO getCurrentTime
-
-
 {-wallPicture maze 
   Creates the picture only containing the walls of a maze.
-    PRE:
     RETURNS:
     EXAMPLES:
 -}
@@ -100,8 +87,8 @@ createMaze :: Float -> Maze
 createMaze gridSize = Graphs.getMaze gridSize
 
 
-{-func 
-  func descirption
+{-gridCalculate
+  Jag förstår inte den här geometrin, kan någon pls tala om för mig
     PRE:
     RETURNS:
     EXAMPLES:
@@ -128,10 +115,6 @@ outerEdge gs =
         Line [(x0, y0 - wallLength), (x0, yMax)]
     ]
 
-showTimeDiff :: UTCTime -> UTCTime -> Float
-showTimeDiff a b = (fromIntegral $ round $ 100 * (diffUTCTime a b))/(100)
-
-
 {-render state
   Creates the picture of a game state
     RETURNS: The picture of the maze or menu which 'state' represents.
@@ -148,7 +131,7 @@ render game
     | goalMenu game = 
         pictures [
             translate (-250) 80 $ scale 0.4 0.4 $ Text ("You passed level " ++ show (playerLevel game) ++ "!"),
-            translate (-320) 0 $ scale 0.3 0.3 $ Text ("With " ++show (steps game)++" moves in " ++ (show (showTimeDiff  (timeNow game) (startTime game)) ++ " seconds")),
+            translate (-320) 0 $ scale 0.3 0.3 $ Text ("With " ++ show (steps game) ++ " moves in " ++ (show (round (seconds game))) ++ " seconds"),
             translate (-250) (-60) $ scale 0.2 0.2 $ Text "Press [space] to go to the next level"
         ]
             --translate (-250) (-60) $ scale 0.4 0.4 $ Text ("Time: "++(show (showTimeDiff  (timeNow game) (startTime game))))
@@ -157,12 +140,11 @@ render game
         pictures [
             outerEdge (gridSize game),
             mazePicture game,
-            translate (-150) (y0 + 10) $ scale 0.4 0.4 $ Text ("Time: "++(show (showTimeDiff  (timeNow game) (startTime game)))),
-            uncurry translate (gridCalculate (goalCoords game) (gridSize game)) $ scale 0.2 0.2 $ (testImageG game),--color green $ circleSolid ((windowSize / gridSize game) / 2 * 0.6),
-            uncurry translate (gridCalculate (playerCoords game) (gridSize game)) $  scale 0.5 0.5 $ (testImageP game),
+            translate (-150) (y0 + 10) $ scale 0.4 0.4 $ Text ("Time: " ++ show (round (seconds game))),
+            uncurry translate (gridCalculate (goalCoords game) (gridSize game)) $ scale 0.3 0.3 $ (testImageG game),--color green $ circleSolid ((windowSize / gridSize game) / 2 * 0.6),
+            uncurry translate (gridCalculate (playerCoords game) (gridSize game)) $ scale 0.4 0.4 $ (testImageP game),
             translate x0 (y0 + 10) $ scale 0.4 0.4 $ Text ("Steps: "++show (steps game)),
-            translate 300 (y0 + 10) $ scale 0.4 0.4 $ Text ("Level: "++show (playerLevel game)),
-            translate (-200) 0 $ Text ("sekunder: " ++ (show (seconds game)))
+            translate 300 (y0 + 10) $ scale 0.4 0.4 $ Text ("Level: "++show (playerLevel game))
         ]
 
 
@@ -191,9 +173,7 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game
                 steps        = 0,
                 testImageP   = testImageP game,
                 testImageG   = testImageG game,
-                startTime    = getTime playerLevel,
-                timeNow      = getTime playerLevel,
-                seconds      = seconds game
+                seconds      = 0
             }
     | goalMenu game && key == KeySpace =
         let 
@@ -213,9 +193,7 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game
                 steps        = 0,
                 testImageP   = testImageP game,
                 testImageG   = testImageG game,
-                startTime    = getTime playerLevel,
-                timeNow      = getTime playerLevel,
-                seconds      = seconds game
+                seconds      = 0
             }
     | not (startMenu game || goalMenu game) =
         let
@@ -248,8 +226,6 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game
                 steps        = newSteps,
                 testImageP   = testImageP game,
                 testImageG   = testImageG game,
-                startTime    = startTime game,
-                timeNow      = getTime playerLevel,
                 seconds      = seconds game
             }
 handleKeys _ game = game
@@ -293,35 +269,31 @@ initialState p1 p2= Game {
         steps        = undefined,
         testImageP   = p1,
         testImageG   = p2,
-        startTime    = getTime playerLevel,
-        timeNow      = getTime playerLevel,
-        seconds      = 0
+        seconds      = undefined
     }
 
-movePlayer :: Float -> GameState -> GameState
-movePlayer sec game =
-    Game {
-        startMenu    = startMenu game,
-        goalMenu     = goalMenu game,
-        gridSize     = gridSize game,
-        mazePicture  = mazePicture game,
-        walls        = walls game,
-        playerCoords = playerCoords game,
-        playerLevel  = playerLevel game,
-        goalCoords   = goalCoords game,
-        steps        = steps game,
-        testImageP   = testImageP game,
-        testImageG   = testImageG game,
-        startTime    = startTime game,
-        timeNow      = timeNow game,
-        seconds      = sec
-    }
-
-updateFunc :: Float -> GameState -> GameState
-updateFunc seconds game = movePlayer seconds game
+counter :: Float -> GameState -> GameState
+counter sec game
+    | not (startMenu game || goalMenu game) =
+        Game {
+            startMenu    = startMenu game,
+            goalMenu     = goalMenu game,
+            gridSize     = gridSize game,
+            mazePicture  = mazePicture game,
+            walls        = walls game,
+            playerCoords = playerCoords game,
+            playerLevel  = playerLevel game,
+            goalCoords   = goalCoords game,
+            steps        = steps game,
+            testImageP   = testImageP game,
+            testImageG   = testImageG game,
+            seconds      = seconds game + sec
+        }
+    | otherwise = game
 
 main :: IO ()
 main = do
+    --Loads pictures
     p1 <- loadBMP "1.bmp"
     p2 <- loadBMP "2.bmp"
-    play window background fps (initialState p1 p2) render handleKeys updateFunc
+    play window background fps (initialState p1 p2) render handleKeys counter

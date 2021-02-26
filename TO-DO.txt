@@ -11,6 +11,6 @@ start reading about gloss
 [x] Goal menu align text time and steps?
 [ ] update time 
 [x] klart remove highscore
-[ ] ge upp
-[ ] comments 100
+[x] ge upp
+[x] comments 100
 
