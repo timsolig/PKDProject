@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 --module Move (test) where
 
-=======
->>>>>>> a8aea88e2d83e9b9558a8429e9d2c723138c4536
 import Graphs
 
 import Graphics.Gloss
@@ -167,7 +164,6 @@ inGoal a b = a == b
 
 main :: IO ()
 main = 
-<<<<<<< HEAD
 
     play
       windowDisplay --windowDisplay -- size of window
@@ -180,13 +176,3 @@ main =
       
 
       
-=======
-  play
-    windowDisplay --windowDisplay -- size of window
-    background --color
-    30 --fps
-    (0,0) --Initial position
-    drawPlayfield --A function to convert the world to a picture
-    inputHandler --A function to handle individual input events
-    updateFunc --Set of functions invoked once per iteration — first argument is the period of time (in seconds) needing to be advanced
->>>>>>> a8aea88e2d83e9b9558a8429e9d2c723138c4536

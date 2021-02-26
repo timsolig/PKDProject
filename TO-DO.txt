@@ -4,3 +4,13 @@ Maze algorithm:
   
 Move a "player" in a list or list of lists
 start reading about gloss
+
+
+26 feb: 
+[?] grafiskt tjaffs
+[x] Goal menu align text time and steps?
+[ ] update time 
+[x] klart remove highscore
+[ ] ge upp
+[ ] comments 100
+
