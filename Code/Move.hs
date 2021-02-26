@@ -1,3 +1,5 @@
+--module Move (test) where
+
 import Graphs
 
 import Graphics.Gloss
@@ -41,7 +43,7 @@ xMax = (windowSize / 2) :: Float
 x0 = (negate (xMax)) :: Float
 y0 = (windowSize / 2) :: Float
 yMax = (negate y0) :: Float
-background = red :: Color
+background = blue :: Color
 walls = Graphs.iterDFS $ Graphs.createCells size -- :: Graphs.Maze
 
 {-
@@ -109,7 +111,7 @@ movePlayer x y = Pictures [frame,translate (correctionX x) (correctionY y) (play
     RETURNS:
 -}
 drawPlayfield :: PlayerPosition -> Picture
-drawPlayfield (x,y) = translate 0 0 $ movePlayer x y
+drawPlayfield (x,y) = {-translate 0 0 $-} movePlayer x y
 
 {-inputHandler keyStroke world
   
@@ -143,22 +145,34 @@ windowDisplay = InWindow "A Mazing Game" (((round windowSize) + 200), ((round wi
 {-updateFunc
   returns current playerposition for the next iteration
 -}
+
+{-
 updateFunc :: Float -> PlayerPosition -> PlayerPosition
 updateFunc _ (x, y) = (x,y)
 -- updateFunc _ (x, y) 
 --   | inGoal (x,y) = Nothing --ingen aning
 --   | otherwise = Just (x, y)
+-}
+--Testar att ha ett "mål"
+updateFunc :: Float -> PlayerPosition -> PlayerPosition
+updateFunc _ (x,y) 
+   | inGoal (1,1) (x,y) = (0,0)
+   | otherwise = (x,y)
 
 inGoal :: PlayerPosition -> PlayerPosition -> Bool
 inGoal a b = a == b 
 
 main :: IO ()
 main = 
-  play
-    windowDisplay --windowDisplay -- size of window
-    background --color
-    30 --fps
-    (0,0) --Initial position
-    drawPlayfield --A function to convert the world to a picture
-    inputHandler --A function to handle individual input events
-    updateFunc --Set of functions invoked once per iteration — first argument is the period of time (in seconds) needing to be advanced
+
+    play
+      windowDisplay --windowDisplay -- size of window
+      background --color
+      30 --fps
+      (0,0) --Initial position
+      drawPlayfield --A function to convert the world to a picture
+      inputHandler --A function to handle individual input events
+      updateFunc --Set of functions invoked once per iteration — first argument is the period of time (in seconds) needing to be advanced
+      
+
+      
