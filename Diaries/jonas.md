@@ -34,3 +34,8 @@ blev arg
 slogs
 kaffe :) 
 
+## 27th march 2021
+1430 - 1500 read old reports provided on studium to get a understanding how the report should be written. 
+1500 - 1530 Drew goal and player picture in a simple painteditor 
+
+
