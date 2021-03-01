@@ -1,25 +1,43 @@
-## 11 feb
+## 11 feb 2021
 Spent 2 hours on zoom setting up GitHub for everyone in the group and also brainstorming ideas.
 
 
-## 15 feb
-30-minute zoom meeting deciding the project scope. A mazerunner game!
+## 15 feb 2021
+30-minute zoom meeting deciding the project scope. A maze runner game.
 
 30 minutes reading about maze runner algorithms.
 
 15 minutes making a latex template for the report.
 
 
-## 16 feb
+## 16 feb 2021
 20 minutes first meeting with Ghafour on zoom. Confirmed the mazerunner idea.
 1 hour looking at different maze creation algorithms.
 2 hours trying to implement Prim's algorithm.
 
-## 17 feb
+## 17 feb 2021
 2.5 hours debugging the Prim's algorithm. Something is working :) Realising that we could do one more algorithm to make it harder for the player. 
 1 hour tryng to implement depth-first-search randomized maze generator. Realised that the Prim-algorithm is not very efficient. 
 3 hours trying DFS algorithms.  
 
-## 19 feb
-1 hour resolving git issues.
-2 hours debugging and getting iterative algorithm to work! However not for larger than 
+## 19 feb 2021
+1 hour resolving git issues. 
+2 hours debugging and getting iterative algorithm to work! 
+
+## 22 feb 2021
+1 hour. Trying to make the main file start the game. 
+2 hours starting to write the report. 
+
+## 23 feb 2021
+3 hours writing on the report. Discussion, introduction, graph theory part among other things.
+
+
+## 26 feb 2021
+2 hours commenting functions.
+2 hours moving code to modules.
+1 hour more commenting and making the code look prettier.A
+
+## 1 march 2021
+1 hour debugging the size of the player and goal icon.
+30 minutes fixing cosmetics changes in the code.
+4 hours writing the report.
