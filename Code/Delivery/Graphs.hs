@@ -28,13 +28,13 @@ type Maze = [Wall]
 
 
 {-pickRandom list
-Something weird with IO monads and shit. And some randomness.
+  Something weird with IO monads and shit. And some randomness.
     RETURNS: Picks a random element from list
     EXAMPLES:
-        pickRandom [1,2] == 1 || 2
+      pickRandom [1,2] == 1 || 2
 -}
 pickRandom :: [a] -> a
-pickRandom xs = unsafeDupablePerformIO (fmap (xs !!) $ randomRIO (0, length xs - 1))
+pickRandom xs = unsafeDupablePerformIO ((xs !!) <$> randomRIO (0, length xs - 1))
 
 
 {-del tuple list
@@ -48,11 +48,11 @@ pickRandom xs = unsafeDupablePerformIO (fmap (xs !!) $ randomRIO (0, length xs -
 
 -}
 del :: (Eq a) => (a,a) -> [(a,a)] -> [(a,a)]
-del x lst 
-    | elem x lst = Prelude.filter (/= x) lst
+del x lst
+    | x `elem` lst = Prelude.filter (/= x) lst
     | otherwise  = del (rev x) lst
         where
-            rev :: (a,a) -> (a,a) 
+            rev :: (a,a) -> (a,a)
             rev (x,y) = (y,x)
 
 
@@ -96,23 +96,23 @@ getMaze n = mazeGenerator $ createCells n
     RETURNS: Walls in the generated maze with grid 'cells'.
 -}
 mazeGenerator :: [Cell] -> Maze
-mazeGenerator cells = mazeGeneratorAux cells walls S.empty   [] 
+mazeGenerator cells = mazeGeneratorAux cells walls S.empty   []
     where
         walls = createWalls cells
         mazeGeneratorAux :: [Cell] -> [Wall] -> S.Stack Cell -> [Cell] -> Maze
-        
-        mazeGeneratorAux unvisited walls stack visited 
-            
+
+        mazeGeneratorAux unvisited walls stack visited
+
             | Prelude.null unvisited = walls
 
-            | Prelude.null visited  = let initCell = (0,0) 
+            | Prelude.null visited  = let initCell = (0,0)
                                       in  mazeGeneratorAux (del initCell unvisited) walls (S.push initCell stack) (initCell : visited)
             | not (S.isEmpty stack) = let (currentCell, updatedStack) = S.pop stack
                                       in  case length $ neighbours [currentCell] unvisited of
-                    
+
                                                                                               0 -> mazeGeneratorAux unvisited walls updatedStack visited
-                                                                                                  
-                                                                                              _ -> let chosenNeighbour = pickRandom $ neighbours [currentCell] unvisited 
+
+                                                                                              _ -> let chosenNeighbour = pickRandom $ neighbours [currentCell] unvisited
                                                                                                    in  mazeGeneratorAux (del chosenNeighbour unvisited) (del (currentCell, chosenNeighbour) walls) (S.push chosenNeighbour (S.push currentCell updatedStack)) (chosenNeighbour : visited)
 
 
@@ -127,6 +127,6 @@ neighbours (c:cs) cells = cellNeighbours c cells ++ neighbours cs cells
         cellNeighbours :: Cell -> [Cell] -> [Cell]
         cellNeighbours _ [] = []
         cellNeighbours edge@(i,j) edgeList@((i',j'):lst)
-            | i' == i && ( abs (j-j') == 1 )   = (i',j') : cellNeighbours edge lst
-            | j' == j && ( abs (i-i') == 1 )   = (i',j') : cellNeighbours edge lst
+            | i' == i && abs (j-j') == 1   = (i',j') : cellNeighbours edge lst
+            | j' == j && abs (i-i') == 1   = (i',j') : cellNeighbours edge lst
             | otherwise = cellNeighbours edge lst

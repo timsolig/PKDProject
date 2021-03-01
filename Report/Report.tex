@@ -4,7 +4,7 @@
     Program Construction and Data Structures 2020/2021\\
     }
 
-\author{Jonas Björk, Viktor Hultsten, Tim Molnig}
+\author{Jonas Björn, Viktor Hultsten, Tim Molnig}
 
 %
 \documentclass[12pt, a4paper]{article}
@@ -26,12 +26,12 @@
 \setlength{\parindent}{0em}
 \setlength{\parskip}{1em}
 
-\addtolength{\oddsidemargin}{-.875in}
-\addtolength{\evensidemargin}{-.875in}
-\addtolength{\textwidth}{1.75in}
+% \addtolength{\oddsidemargin}{-.875in}
+% \addtolength{\evensidemargin}{-.875in}
+% \addtolength{\textwidth}{1.75in}
 
-\addtolength{\topmargin}{-.875in}
-\addtolength{\textheight}{1.75in}
+% \addtolength{\topmargin}{-.875in}
+% \addtolength{\textheight}{1.75in}
 
 \allowdisplaybreaks  
 
@@ -56,9 +56,13 @@ The outcome of the project is a mazerunner game where one is supposed to navigat
 
 \section{Usage}
 \subsection{How to play}
-To be able to play the game you need to install the ghc compiler. With that installed, open the terminal and navigate into the game folder. Type XXXXX,press enter, wait for it to load, then type XXXXXX, press enter. The game starts and you are greeted with the start screen.
+To be able to play the game one need to install the ghc compiler as well as the \textit{Haskell Gloss} package. With those installed, open the terminal and navigate into the game folder. Type \textbf{ghc -threaded PlayGame.hs},press enter, wait for the modules to finish loading, then type \textbf{./PlayGame}, press enter. The game starts and the start screen appears.
 
-INSERT bild på startskärmen
+
+Once in the game, one uses the arrow keys to navigate through the maze to find the way to the goal down in the left corner. 
+
+When the goal is reached a new menu appears and one can choose to continue playing, in which case a slightly bigger maze will appear, or to quit.
+
 
 \subsection{Example}
 
@@ -69,10 +73,77 @@ INSERT bild på startskärmen
 \subsection{Overview}
 No user input is required when starting the program. The program 
 
+\subsection{Flow chart of function}
+\begin{code}
+    foo :: Int -> Int
+\end{code}
+
+\subsubsection{Modules}
+Dividing code inte modules combined with good naming of functions makes it easier to understand and survey for someone unfamiliar with the code.
+
+The modules we choose to divide into where;
+
+\subsubsection{PlayGame}
+The "main" module which only contains the information about the initial state of the game as well as the funciton which starts everything else.
+
+\subsubsection{Graphs}
+Functionality regarding the generation of the maze.
+
+
+\subsubsection{Render}
+
+Includes all Gloss functionality and renders new frames of the game.
+
+\subsubsection{Move}
+Handles the keystrokes from the player and updates the state of the game.
+
+\subsubsection{GameData}
+Contains only the declaration of the datatype \textbf{GameInfo}.
 
 \subsection{Data structures}
-GameInfo hur och varför
+\begin{code}
+data GameState = Game { ... }
+\end{code}
+"Variables" that change during gameplay is stored in a separate data type, which simplifies passing it through functions.
 
+startMenu: True if the start menu should be active. Only True when the game starts.
+goalMenu: True if the player has reached the goal and indicates that the goal menu should be active.
+gridSize: The width/height of the grid. gridSize = 10 is a 10x10 grid.
+mazePicture: The rendered maze based on a list of coordinates.
+walls: The maze in a list, where each element is a wall between two cells in the grid.
+playerCoords: The cartesian coordinates of the player.
+playerLevel: The player level.
+goalCoords: The cartesian coordinates of the goal.
+steps: The number of steps taken from the start position.
+testImageP: The rendered picture of the player icon.
+testImageG: The rendered picture of the goal icon.
+seconds: The number of seconds passed since the game started.
+
+Additional information about the playerCoords and goalCoords:
+When the player and goal target is rendered on the screen, the actual Gloss Window coordinates vary depending on the grid size of the maze. This could cause rounding errors which, to the human eye, would not be noticable. Though, to the computer, the numbers differ and the player would not be able to "reach" the goal. Therefore, the player and goal coordinates are cartesian, which leads to a discrete comparison.
+
+Additional information about the mazePicture and walls:
+The maze is stored in a similar way, with a graphical pre-rendered picture and a list of cartesian coordinates. The graphical picture is only rendered when the player hits the play button instead of re-rendering a static picture each frame.
+
+\begin{code}
+type Cell = (Float, Float)
+\end{code}
+The position of a cell in cartesian coordinates, starting from top left.
+
+\begin{code}
+type Wall = (Cell, Cell)
+\end{code}
+The position of a wall between two cells.
+
+\begin{code}
+type Maze = [Wall]
+\end{code}
+The complete maze where each element is a wall between two cells.
+
+\begin{code}
+newtype Stack a = StackImpl [a]
+\end{code}
+This is a stack type.
 
 \subsection{Graph theory}
 A maze can be though of as a connected graph where the edges are possible places for a wall and a face is part of the paths through the maze. The generation of a maze then consists of an algorithm deleting certain edges from the graph (essentially deleting walls and binding together paths) and different such algorithms vary in complexity and the level of difficulty the later generated maze will have. 
@@ -89,22 +160,50 @@ For this algorithm we needed an implementation of a stack. We used the one which
 
 
 \subsection{Important algorithms and functions}
+Viktiga funktioner
+
+handleKeys och validMove
+
+\subsubsection{Render}
+\begin{code}
+    render :: GameState -> Picture
+\end{code}
+Render presents gamedata as a picture to the player. It has three diffrent types of screens it will generate. Those are startMenu, goalMenu and gamePlay. Each screen will present the relevant gamedata in a clear way.
+
+StartMenu prints out a welcome message and a promt to press "spacebar" to start game or "ESC" to quit.
+
+GoalMenu prints out the time and number of steps it took to solve the maze. 
 
 
+
+
+
+
+
+
+Viktor förklarar drawWalls, hur fan funkar geometrin??!
+
+generateM
 
 \subsection{External Libraries}
+
 \subsubsection{Graphics.Gloss}
-Gloss is one of the most used graphics modules built for Haskell. We sepcifically used the \textit{play} functionality which made it easy to controll the game window. 
+Gloss is one of the most used graphics modules built for Haskell.
+
+\subsection{Graphics.Gloss.Interface.Pure.Game}
 
 \subsubsection{System.Random}
+\cite{System.Random}
 
 \subsubsection{System.IO.Unsafe}
 
+\subsubsection{Test.HUnit}
+A library used to create simple which can be autimatically run, both alone and in groups. We used it create the test wjich can be found on rows xxx-xxxx in \textbf{PlayGame.hs}. \cite{HUnit}
 
 \newpage
 \section{Discussion}
 \subsection{Shortcomings}
-The use of the IO.Unsafe module was needed due to a workaround. We started building the other parts of the algorithm generating  the maze  before creating the \textit{randomness} which meant that the graph algorithm wanted to get the type Int and not IO Int which is returned from the functions in system.random. Therefore we chose to solve the problem by combining the it  with the IO.unsafe module to get the returned type to be of type Int. It is not really statistically proven to be random, however there are no patterns in how it works.
+The use of the IO.Unsafe module was needed due to a workaround. We started building the other parts of the algorithm generating the maze before creating the \textit{randomness} which meant that the graph algorithm wanted to get the type Int and not IO Int which is returned from the functions in system.random. Therefore we chose to solve the problem by combining it with the IO.unsafe module to get the returned type to be of type Int. It is not statistically random, however there are no re-occurring patterns and that is the important part.
 
 
 
@@ -114,9 +213,12 @@ The use of the IO.Unsafe module was needed due to a workaround. We started build
 
 
 \subsection{Conclusion}
-Throughout working with the project maybe the biggest problem that we stumbled upon was to how to figure out how to deal with the anti-state and lack of side effects in Haskell. All three members of the group hade some varying experience from object-oriented programming and that combined with the fact that we during the first part of the project had not really grasped the most important fundamentals of Haskell made for some annoying problems which we could have avoided if we had known more from the start. What we in the beginning thought of being "variables" (e.g. size = 10 ::Int) were of course FUNCTIONS and later on when we tried to make the game restart with new , which we of course became of not only are properites of Haskell in particular, but of functional programming in general. 
+Throughout working with the project maybe the biggest problem that we stumbled upon was to how to figure out how to deal with the anti-state and lack of side effects in Haskell. All three members of the group hade some varying experience from object-oriented programming and that combined with the fact that we during the first part of the project had not really grasped the most important fundamentals of Haskell made for some annoying problems. What we in the beginning thought of being "variables" (e.g. size = 10 :: Int) were of course FUNCTIONS and later on when we tried to make the game restart with new , which we of course became aware of not only are properites of Haskell in particular, but of functional programming in general. 
 
-Another struggle throughout the proejct were our fights with the Gloss package and how the abscence of great documentation and a living community made our work much harder. We found a few examples of how other people hade used Gloss for similar projects as our's but our way to the final product still existed of an excstencive lot of trial and error.
+Another struggle throughout the proejct were our fights with the Gloss package and how the abscence of documentation and a great community made our work much harder. We found a few examples of how other people had used Gloss for similar projects as ours but our way to the final product still existed of an extensive amount of trial and error.
 
 Furthermore, we changed the representation of gameInfo numerous times during the project. 
+
+\bibliography{references}
+\bibliographystyle{unsrt}
 \end{document}

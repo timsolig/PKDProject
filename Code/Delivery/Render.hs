@@ -7,7 +7,7 @@ import GameData
 import Graphics.Gloss
 
 {- The size of the Gloss window -}
-windowSize = 1000 :: Float
+windowSize = 500 :: Float
 
 {-Information about Gloss Window | Window title ()-}
 window = InWindow "A Maz(e)ing game" (round windowSize + 200, round windowSize + 200) (10, 10) :: Display
@@ -74,10 +74,10 @@ drawWalls lst size = map (singleWall size) lst
 
 
 {-translateCoordinates cell gridSize
-    Translates from cartesian coordinates to Gloss Window coordinates. 
-      PRE: gridSize > 0
-      RETURNS: The coordinates of "cell" in the gloss window.
-      EXAMPLES: 
+  Translates from cartesian coordinates to 'Gloss Window coordinates'. 
+    PRE: gridSize > 0
+    RETURNS: The coordinates of "cell" in the gloss window.
+    EXAMPLES: 
 
         translateCoordinates (0, 0) 25 == (-480.0, 480.0)
         
@@ -87,7 +87,8 @@ drawWalls lst size = map (singleWall size) lst
 translateCoordinates :: (Float, Float) -> Float -> (Float, Float)
 translateCoordinates (x, y) gridSize = 
     let wallLength = windowSize / gridSize
-    in (x0 + (x + 0.5) * wallLength, y0 - (y + 0.5) * wallLength)
+    --in (x0 + (x + 0.5) * wallLength, y0 - (y + 0.5) * wallLength)
+    in (x0 + x * wallLength, y0 - y * wallLength)
 
 
 {-outerEdge size
@@ -105,7 +106,6 @@ outerEdge gridSize =
         Line [(x0, y0 - wallLength), (x0, yMax)]
     ]
 
-
 {-render state
   Creates the picture of a game state.
     RETURNS: The picture of the maze or menu which 'state' represents.
@@ -117,7 +117,9 @@ render game
         pictures [
             translate (-350) 100 $ scale 0.4 0.4 $ Text "Lets play a mazeing game!",
             
-            translate (-250) 0 $ scale 0.2 0.2 $ Text "Press [space] to never sleep again"
+            translate (-250) 0 $ scale 0.2 0.2 $ Text "Press [space] to never sleep again",
+
+            translate (-170) (-40) $ scale 0.1 0.1 $ Text "Press [ESC] to close the program"
         ]
 
     | goalMenu game = 
@@ -126,7 +128,9 @@ render game
             
             translate (-320) 0 $ scale 0.3 0.3 $ Text ("With " ++ show (steps game) ++ " moves in " ++ show (round (seconds game)) ++ " seconds"),
             
-            translate (-250) (-60) $ scale 0.2 0.2 $ Text "Press [space] to go to the next level"
+            translate (-250) (-60) $ scale 0.2 0.2 $ Text "Press [space] to go to the next level",
+
+            translate (-170) (-100) $ scale 0.1 0.1 $ Text "Press [ESC] to close the program"
         ]
             
     | otherwise = 

@@ -20,5 +20,5 @@ data GameState = Game {
         testImageP   :: Picture,
         testImageG   :: Picture,
         seconds      :: Float
-    }
+    } deriving (Eq,Show)
 

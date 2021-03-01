@@ -19,16 +19,30 @@ start reading about gloss
 
 MÅNDAG:
 [ ] Report
-  [ ] 
-  [ ]
-  [ ]
-  [ ]
+  J*[X] Flow chart för funktioner. Vilken som ropar på vilken. 
+  
+  T*[ ] Exempel med en körning. Några screenshot, båda menyerna.
+  
+  
+  V*[/] Om GameData, och våra types.
+  
+  T*[ ] Moduler, motivering. 
+ 
+  [ ] Important functions
+
+  [ ] Externa bibliotek
 
 [ ] DIARIES
   [ ] Individual
   [ ] Projecta
 
 [ ] TEST
-  [ ] wtf
+  [ / ] wtf
+  [/] Skriv ett test med något state. T.ex. startMenu initialState == True
 
-[ ] Gör en README som ska med i inlämningen. Typ om hur vi tänkt med test och exempel och test.
+[/] Lägg till en text "Press [esc] to quit game" på goal menu.
+
+[ /] Gör en README som ska med i inlämningen. Typ om hur vi tänkt med test och exempel och test.
+[ ] Graphs.hs rad 31 kanske ska skrivas om
+[ ] translateCoordinates - återanvända i drawWalls (Viktor)
+[ ] Sammanfatta handleKeys
