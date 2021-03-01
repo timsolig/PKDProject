@@ -19,6 +19,8 @@ First version of the game is working. However we want to introduce a start and g
 ## 23 2021
 Started writing on the report. 
 
+Changed approach drastically about storing the data about the game. Introduced a new game type. Changed the graphics according to this new approack.
+
 ## 26 feb 2021
 Version two is complete and the game now has menus and statistics. Every function is now commented. The report got a lot of work done.
 

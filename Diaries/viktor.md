@@ -23,14 +23,17 @@
 2h: Group session. Working on the maze, finding errors.
 
 ## 2021-02-22 13:00-16:00
-3h: Group session. First version of the game working. Faced some major issues, as we'd been building the code 
+3h: Group session. First version of the game working. Faced some major issues, as we'd been building the code in an inapplicable way.
 
-## 2021-02-23 13:00-16:00
+## 2021-02-23
+3h: Group session. Starting to form a "game state". Complicated and time consuming.
 
+## 2021-02-24
+4h: Rebuilding the code from scratch, trying to tackle the problem from another angle. Managed to switch between a menu and a game view. Was still facing issues with variables out of scope, not being able to update the game between levels etc.
 
-## 2021-02-24 19:00-23:00
+## 2021-02-25
+4h: Continued working on the rebuild. Managed to switch between a start menu, several game sessions with increasing difficulty and inter-game menus.
 
-
-## 2021-02-25 19:00-23:0
 
 ## 2021-02-26 10:00-16:30
+-

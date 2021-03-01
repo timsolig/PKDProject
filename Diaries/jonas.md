@@ -27,11 +27,12 @@ Setting up gitHub and practis to push pull add and commit to diffrent branches.
 3h Manged to make a "player" move in a maze without crossing walls. Challenge to link coordinates in maze picture with "maze"list, used tracing of "maze" coordinates printed out on field to see where player was to be able to solve the problem.   
 
 ## 22th February 2021
-worked on game and removing buggs
-used for reference to gloss game  https://andrew.gibiansky.com/blog/haskell/haskell-gloss/
+3h worked on game and removing buggs. Discussed that the way we have constructed the game is not made in a good mannor 
+
+https://andrew.gibiansky.com/blog/haskell/haskell-gloss/
    
 ## 23th February 2021
-spent 3 hours intruducing implementing data types in game
+Group session. Spent 3 hours intruducing data type "gameState" in the game. It was extrensive work and very slow progress.  
 
 ## 24th February 2021
 meeting and to see how we are doing. Viktor has solved how to have states in game.
