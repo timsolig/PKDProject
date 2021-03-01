@@ -121,15 +121,9 @@ render game
 
             translate (-360) 100 $ scale 0.4 0.4 $ Text "Lets play a mazeing game!",
             
-<<<<<<< HEAD
-            translate (-250) 0 $ scale 0.2 0.2 $ Text "Press [space] to never sleep again"
-
-            
-=======
             translate (-250) 0 $ scale 0.2 0.2 $ Text "Press [space] to never sleep again",
 
             translate (-170) (-40) $ scale 0.1 0.1 $ Text "Press [ESC] to close the program"
->>>>>>> 20dd6f4d50737e699690a43983b9b45a3d28227d
         ]
 
     | goalMenu game = 
@@ -151,15 +145,9 @@ render game
             
             translate (-150) (y0 + 10) $ scale 0.4 0.4 $ Text ("Time: " ++ show (round (seconds game))),
             
-<<<<<<< HEAD
-            uncurry translate (translateCoordinates (goalCoords game) (gridSize game)) $ color green $ scale 0.6 0.6 $ circleSolid 40, --scale (0.2 * (gridSize game)) (0.2 * gridSize game) $ testImageG game,
-            
-            uncurry translate (translateCoordinates (playerCoords game) (gridSize game)) $ color red $ scale 0.6 0.6 $ circleSolid 40,--scale 0.5 0.5 $ testImageP game,
-=======
             uncurry translate (translateCoordinates (goalCoords game) (gridSize game)) $ scale pictureScale pictureScale $ goalIcon game,
             
             uncurry translate (translateCoordinates (playerCoords game) (gridSize game)) $ scale pictureScale pictureScale $ playerIcon game,
->>>>>>> 20dd6f4d50737e699690a43983b9b45a3d28227d
             
             translate x0 (y0 + 10) $ scale 0.4 0.4 $ Text ("Steps: " ++ show (steps game)),
             

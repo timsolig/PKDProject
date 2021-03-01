@@ -15,32 +15,34 @@ import Graphics.Gloss.Interface.Pure.Game
 -}
 handleKeys :: Event -> GameState -> GameState
 handleKeys (EventKey (SpecialKey key) Down _ _) game =
-    if key == KeySpace && (startMenu game || goalMenu game) then
-        let 
-            newGridSize =
-                if startMenu game then
-                    10
-                else
-                    gridSize game + 5
+    if startMenu game || goalMenu game then
+        if key == KeySpace then
+            let 
+                newGridSize =
+                    if startMenu game then
+                        10
+                    else
+                        gridSize game + 5
 
-            wallLength = windowSize / newGridSize
-            
-            newWalls = createMaze newGridSize
-        in
-            Game {
-                startMenu    = False,
-                goalMenu     = False,
-                gridSize     = newGridSize,
-                mazePicture  = wallPicture newWalls newGridSize,
-                walls        = newWalls,
-                playerCoords = (0, 0),
-                playerLevel  = playerLevel game + 1,
-                goalCoords   = (newGridSize, newGridSize - 1),
-                steps        = 0,
-                playerIcon   = playerIcon game,
-                goalIcon     = goalIcon game,
-                seconds      = 0
-            }
+                wallLength = windowSize / newGridSize
+                
+                newWalls = createMaze newGridSize
+            in
+                Game {
+                    startMenu    = False,
+                    goalMenu     = False,
+                    gridSize     = newGridSize,
+                    mazePicture  = wallPicture newWalls newGridSize,
+                    walls        = newWalls,
+                    playerCoords = (0, 0),
+                    playerLevel  = playerLevel game + 1,
+                    goalCoords   = (newGridSize, newGridSize - 1),
+                    steps        = 0,
+                    playerIcon   = playerIcon game,
+                    goalIcon     = goalIcon game,
+                    seconds      = 0
+                }
+        else game
     else
         let
             (x, y) = playerCoords game
