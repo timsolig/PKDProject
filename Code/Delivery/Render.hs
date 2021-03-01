@@ -7,7 +7,7 @@ import GameData
 import Graphics.Gloss
 
 {- The size of the Gloss window -}
-windowSize = 500 :: Float
+windowSize = 1000 :: Float
 
 {-Information about Gloss Window | Window title ()-}
 window = InWindow "A Maz(e)ing game" (round windowSize + 200, round windowSize + 200) (10, 10) :: Display
@@ -116,10 +116,8 @@ render game
     | startMenu game =
         pictures [
             translate (-350) 100 $ scale 0.4 0.4 $ Text "Lets play a mazeing game!",
-            
-            translate (-250) 0 $ scale 0.2 0.2 $ Text "Press [space] to never sleep again",
 
-            translate (-170) (-40) $ scale 0.1 0.1 $ Text "Press [ESC] to close the program"
+            translate (-250) 0 $ scale 0.2 0.2 $ Text "Press [space] to never sleep again" 
         ]
 
     | goalMenu game = 
@@ -147,7 +145,7 @@ render game
             
             translate x0 (y0 + 10) $ scale 0.4 0.4 $ Text ("Steps: " ++ show (steps game)),
             
-            translate (xMax - 150) (y0 + 10) $ scale 0.4 0.4 $ Text ("Level: " ++ show (playerLevel game))
+            translate (xMax - 200) (y0 + 10) $ scale 0.4 0.4 $ Text ("Level: " ++ show (playerLevel game))
         ]
         where
             pictureScale = windowSize / (gridSize game * 110)
