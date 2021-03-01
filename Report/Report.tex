@@ -4,7 +4,7 @@
     Program Construction and Data Structures 2020/2021\\
     }
 
-\author{Jonas Gran, Viktor Hultsten, Tim Molnig}
+\author{Jonas Björk, Viktor Hultsten, Tim Molnig}
 
 %
 \documentclass[12pt, a4paper]{article}
@@ -56,7 +56,7 @@ The outcome of the project is a mazerunner game where one is supposed to navigat
 
 \section{Usage}
 \subsection{How to play}
-To be able to play the game you need to install the ghc compiler. With that installed, open the terminal and navigate into the game folder. Type XXXXX,press enter, wait for it to load, then type XXXXXX, press enter. The game starts and you are greeted with the start screen
+To be able to play the game you need to install the ghc compiler. With that installed, open the terminal and navigate into the game folder. Type XXXXX,press enter, wait for it to load, then type XXXXXX, press enter. The game starts and you are greeted with the start screen.
 
 INSERT bild på startskärmen
 
@@ -69,8 +69,10 @@ INSERT bild på startskärmen
 \subsection{Overview}
 No user input is required when starting the program. The program 
 
+
 \subsection{Data structures}
 GameInfo hur och varför
+
 
 \subsection{Graph theory}
 A maze can be though of as a connected graph where the edges are possible places for a wall and a face is part of the paths through the maze. The generation of a maze then consists of an algorithm deleting certain edges from the graph (essentially deleting walls and binding together paths) and different such algorithms vary in complexity and the level of difficulty the later generated maze will have. 
@@ -81,26 +83,6 @@ A maze can be though of as a connected graph where the edges are possible places
 
 \subsubsection{Maze generation}
 The algorithm we chose to implement uses a randomized depth-first-search approach where the algorithm is given a grid of cells, and a random starting cell in the grid. Then, one of the four walls surrounding the cell is deleted randomly. Then the cell i considered visited and pushed to a stack. A cell neighbouring an already visited cell is then chosen randomly and the same process is repeated with a random wall being deleted, and the cell marked as visited and pushed to the stack. When a cell with no unvisited neighbours is picked, we mark it visited and pop a cell from the stack and start the algorith over. Once the stack is empty, every cell in the grid is in the path of the maze. 
-
-
-% Spcicfically, the algorithm works in the following way. 
-
-% \begin{enumerate}
-%     \item Choose the initial cell, mark it as visited and push it to the stack
-    
-%     \item While the stack is not empty
-%         \begin{enumerate}
-%             \item Pop a cell from the stack and make it a current cell
-%             \item If the current cell has any neighbours which have not been visited
-%                 \begin{enumerate}
-%                     \item Push the current cell to the stack
-%                     \item Choose one of the unvisited neighbours
-%                     \item Remove the wall between the current cell and the chosen cell
-%                     \item Mark the chosen cell as visited and push it to the stack
-%                 \end{enumerate}
-            
-%         \end{enumerate}
-%     \end{enumerate}
 
 For this algorithm we needed an implementation of a stack. We used the one which was given to us during one of the labs in the course. 
 

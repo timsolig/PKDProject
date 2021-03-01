@@ -18,5 +18,17 @@ start reading about gloss
 
 
 MÅNDAG:
-[ ] Fixa att texten flyttas dynamiskt när man ändrar windowsize (obs, ganska låg prio. Egentligen ingen prio alls. Skit i det.
-[ ] Gör en README som ska med i inlämningen. Typ om hur vi tänkt med test och exempel.
+[ ] Report
+  [ ] 
+  [ ]
+  [ ]
+  [ ]
+
+[ ] DIARIES
+  [ ] Individual
+  [ ] Projecta
+
+[ ] TEST
+  [ ] wtf
+
+[ ] Gör en README som ska med i inlämningen. Typ om hur vi tänkt med test och exempel och test.
