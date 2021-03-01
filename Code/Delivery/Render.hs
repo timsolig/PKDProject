@@ -137,9 +137,9 @@ render game
             
             translate (-150) (y0 + 10) $ scale 0.4 0.4 $ Text ("Time: " ++ show (round (seconds game))),
             
-            uncurry translate (translateCoordinates (goalCoords game) (gridSize game)) $ scale (2-(gridSize game/20)) (2-(gridSize game/20)) $ testImageG game,
+            uncurry translate (translateCoordinates (goalCoords game) (gridSize game)) $ scale (((windowSize/gridSize game)/110)) (((windowSize/gridSize game)/110)) $ testImageG game,
             
-            uncurry translate (translateCoordinates (playerCoords game) (gridSize game)) $ scale (2-(gridSize game/20)) (2-(gridSize game/20)) $ testImageP game,
+            uncurry translate (translateCoordinates (playerCoords game) (gridSize game)) $ scale (((windowSize/gridSize game)/110)) (((windowSize/gridSize game)/110)) $ testImageP game,
             
             translate x0 (y0 + 10) $ scale 0.4 0.4 $ Text ("Steps: " ++show (steps game)),
             

@@ -90,9 +90,10 @@ createWalls cells@(c:cs)
 
 
 getMaze n = mazeGenerator $ createCells n
+
 {-iterativeDFS cells
   Generates maze based on an iterative randomized depth-first-search algorithm.
-    RETURNS: Walls in the generated maze based on 'cells'
+    RETURNS: Walls in the generated maze with grid 'cells'.
 -}
 mazeGenerator :: [Cell] -> Maze
 mazeGenerator cells = mazeGeneratorAux cells walls S.empty   [] 
@@ -106,14 +107,13 @@ mazeGenerator cells = mazeGeneratorAux cells walls S.empty   []
 
             | Prelude.null visited  = let initCell = (0,0) 
                                       in  mazeGeneratorAux (del initCell unvisited) walls (S.push initCell stack) (initCell : visited)
-            
             | not (S.isEmpty stack) = let (currentCell, updatedStack) = S.pop stack
                                       in  case length $ neighbours [currentCell] unvisited of
                     
-                                        0 -> mazeGeneratorAux unvisited walls updatedStack visited
-                                            
-                                        _ -> let chosenNeighbour = pickRandom $ neighbours [currentCell] unvisited 
-                                             in  mazeGeneratorAux (del chosenNeighbour unvisited) (del (currentCell, chosenNeighbour) walls) (S.push chosenNeighbour (S.push currentCell updatedStack)) (chosenNeighbour : visited)
+                                                                                              0 -> mazeGeneratorAux unvisited walls updatedStack visited
+                                                                                                  
+                                                                                              _ -> let chosenNeighbour = pickRandom $ neighbours [currentCell] unvisited 
+                                                                                                   in  mazeGeneratorAux (del chosenNeighbour unvisited) (del (currentCell, chosenNeighbour) walls) (S.push chosenNeighbour (S.push currentCell updatedStack)) (chosenNeighbour : visited)
 
 
 {-neighbours cells list

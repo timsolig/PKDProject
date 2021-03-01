@@ -37,8 +37,8 @@ initialState playerIcon goalIcon = Game {
 -}
 main :: IO ()
 main = do
-    playerIcon <- loadBMP "3.bmp"
-    goalIcon   <- loadBMP "4.bmp"
+    playerIcon <- loadBMP "5.bmp"
+    goalIcon   <- loadBMP "6.bmp"
     
     play 
       window 
