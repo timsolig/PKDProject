@@ -4,7 +4,7 @@
     Program Construction and Data Structures 2020/2021\\
     }
 
-\author{Jonas Gran, Viktor Hultsten, Tim Molnig}
+\author{Jonas Björn, Viktor Hultsten, Tim Molnig}
 
 %
 \documentclass[12pt, a4paper]{article}
@@ -26,19 +26,20 @@
 \setlength{\parindent}{0em}
 \setlength{\parskip}{1em}
 
-\addtolength{\oddsidemargin}{-.875in}
-\addtolength{\evensidemargin}{-.875in}
-\addtolength{\textwidth}{1.75in}
+% \addtolength{\oddsidemargin}{-.875in}
+% \addtolength{\evensidemargin}{-.875in}
+% \addtolength{\textwidth}{1.75in}
 
-\addtolength{\topmargin}{-.875in}
-\addtolength{\textheight}{1.75in}
+% \addtolength{\topmargin}{-.875in}
+% \addtolength{\textheight}{1.75in}
+
+
 
 \allowdisplaybreaks  
 
+
 \begin{document}
-
 \maketitle
-
 \newpage
 
 
@@ -56,9 +57,13 @@ The outcome of the project is a mazerunner game where one is supposed to navigat
 
 \section{Usage}
 \subsection{How to play}
-To be able to play the game you need to install the ghc compiler. With that installed, open the terminal and navigate into the game folder. Type XXXXX,press enter, wait for it to load, then type XXXXXX, press enter. The game starts and you are greeted with the start screen
+To be able to play the game one need to install the ghc compiler as well as the \textit{Haskell Gloss} package. With those installed, open the terminal and navigate into the game folder. Type \textbf{ghc -threaded PlayGame.hs},press enter, wait for the modules to finish loading, then type \textbf{./PlayGame}, press enter. The game starts and the start screen appears.
 
-INSERT bild på startskärmen
+
+Once in the game, one uses the arrow keys to navigate through the maze to find the way to the goal down in the left corner. 
+
+When the goal is reached a new menu appears and one can choose to continue playing, in which case a slightly bigger maze will appear, or to quit.
+
 
 \subsection{Example}
 
@@ -67,62 +72,167 @@ INSERT bild på startskärmen
 \section{Program documentation}
 
 \subsection{Overview}
-No user input is required when starting the program. The program 
+No user input is required when starting the program. The program calls an "initial state" that is passed on through each iteration. 
+
+\subsection{Flow chart of function}
+
+
+\subsection{Modules}
+Dividing code inte modules combined with good naming of functions makes it easier to understand and survey for someone unfamiliar with the code.
+
+The modules we choose to this project into are divide into are as follows.
+
+\subsubsection*{PlayGame}
+The "main" module which only contains the information about the initial state of the game as well as the function which starts the whole game process.
+
+\subsubsection*{Graphs}
+Functionality only regarding the generation of the maze. It uses the System.Random and IO.Unsage packages to make the randomness of the algorithm.
+
+\subsubsection*{Render}
+Includes all Gloss graphical functionality and renders new frames of the game.
+
+\subsubsection*{Move}
+Handles the keystrokes from the player and updates the state of the game using the Interface.Pure.Game part of the Gloss package.
+
+\subsubsection*{GameData}
+Contains only the declaration of the datatype \textbf{GameState}. This was easier than to declarate the datatype in one of the other modules and then export/import it around.   
 
 \subsection{Data structures}
-GameInfo hur och varför
+
+\begin{code}
+data GameState = Game { ... }
+\end{code}
+"Variables" that change during gameplay is stored in a separate data type, which simplifies passing it through functions.
+\begin{itemize}
+    \item \textit{startMenu}: True if the start menu should be active. Only True when the game starts
+    \item \textit{goalMenu:} True if the player has reached the goal and indicates that the goal menu should be active
+    \item \textit{gridSize:} The width/height of the grid. gridSize = 10 is a 10x10 grid
+    \item \textit{mazePicture:} The rendered maze based on a list of coordinates
+    \item \textit{walls:} The maze in a list, where each element is a wall between two cells in the grid
+    \item \textit{playerCoords:} The cartesian coordinates of the player
+    \item \textit{playerLevel:} The player level
+    \item \textit{goalCoords:} The cartesian coordinates of the goal
+    \item \textit{steps:} The number of steps taken from the start position.
+    \item \textit{testImageP:} The rendered picture of the player icon
+    \item \textit{testImageG:} The rendered picture of the goal icon
+    \item \textit{seconds:} The number of seconds passed since the game started
+\end{itemize}
+
+\paragraph{Coordinates}
+When the player and goal target is rendered on the screen, the actual Gloss Window coordinates vary depending on the grid size of the maze. This could cause rounding errors which, to the human eye, would not be noticable. Though, to the computer, the numbers differ and the player would not be able to "reach" the goal. Therefore, the player and goal coordinates are cartesian, which leads to a discrete comparison.
+
+Additional information about the mazePicture and walls:
+The maze is stored in a similar way, with a graphical pre-rendered picture and a list of cartesian coordinates. The graphical picture is only rendered when the player hits the play button instead of re-rendering a static picture each frame.
+
+\begin{code}
+type Cell = (Float, Float)
+\end{code}
+The position of a cell in cartesian coordinates, starting from top left.
+
+\begin{code}
+type Wall = (Cell, Cell)
+\end{code}
+The position of a wall between two cells.
+
+\begin{code}
+type Maze = [Wall]
+\end{code}
+The complete maze where each element is a wall between two cells.
+
+\begin{code}
+newtype Stack a = StackImpl [a]
+\end{code}
+This is a stack type.
 
 \subsection{Graph theory}
 A maze can be though of as a connected graph where the edges are possible places for a wall and a face is part of the paths through the maze. The generation of a maze then consists of an algorithm deleting certain edges from the graph (essentially deleting walls and binding together paths) and different such algorithms vary in complexity and the level of difficulty the later generated maze will have. 
 
 
-\subsubsection{Depth-first-search}
+\subsubsection*{Depth-first-search}
+Depth-first-search is a graph traversal algorithm which looks for paths as long as possible down the graph before backtracking. \ cite{DFS}
 
-
-\subsubsection{Maze generation}
+\subsubsection*{Maze generation}
 The algorithm we chose to implement uses a randomized depth-first-search approach where the algorithm is given a grid of cells, and a random starting cell in the grid. Then, one of the four walls surrounding the cell is deleted randomly. Then the cell i considered visited and pushed to a stack. A cell neighbouring an already visited cell is then chosen randomly and the same process is repeated with a random wall being deleted, and the cell marked as visited and pushed to the stack. When a cell with no unvisited neighbours is picked, we mark it visited and pop a cell from the stack and start the algorith over. Once the stack is empty, every cell in the grid is in the path of the maze. 
-
-
-% Spcicfically, the algorithm works in the following way. 
-
-% \begin{enumerate}
-%     \item Choose the initial cell, mark it as visited and push it to the stack
-    
-%     \item While the stack is not empty
-%         \begin{enumerate}
-%             \item Pop a cell from the stack and make it a current cell
-%             \item If the current cell has any neighbours which have not been visited
-%                 \begin{enumerate}
-%                     \item Push the current cell to the stack
-%                     \item Choose one of the unvisited neighbours
-%                     \item Remove the wall between the current cell and the chosen cell
-%                     \item Mark the chosen cell as visited and push it to the stack
-%                 \end{enumerate}
-            
-%         \end{enumerate}
-%     \end{enumerate}
 
 For this algorithm we needed an implementation of a stack. We used the one which was given to us during one of the labs in the course. 
 
 
 
-\subsection{Important algorithms and functions}
+
+
+
+\subsection{Important functions}
+
+handleKeys och validMove
+\begin{code}
+    handleKeys :: Event -> GameState -> GameState
+\end{code}
+
+HandleKeys is used to give inputs to the game. It tracks arrowkeys during gameplay and spacebar in start and goal menu.
+
+When spacebar is pressed in gameMenu or goalMenu it will promt the game to initiate the generation of a new level. 
+
+When a arrowkey is pressed in gameMode it will try to change the position of player. When this happens it takes the current coordinates of the player and creats a new coordinat in acordance with the direction the player like to move. It sends this information with gridSize and maze list to see if it is a valid move. If it is a valid move the player posistion will be updated to the new coordinates. 
+
+\begin{code}
+    validMove :: Cell -> Cell -> Float -> Maze -> Bool
+\end{code}
+ValidMove is a functon that checks if a move is a valid move or not. It simply takes the current position cell and checks if the new position cell is not seperated by a wall. 
+Furthermore it checks if the player will not cross outer bounds of the maze.
+
+It has one special case built in and it is when the game starts the player is outside the maze and the only valid move will be into the maze.
+
+
+\subsubsection*{Render}
+\begin{code}
+    render :: GameState -> Picture
+\end{code}
+Render presents some of the GameData as a picture to the player. The picture is made with help from functions in Gloss. It has three diffrent screens and they are startMenu, goalMenu and gamePlay. Each screen will present the relevant GameData in a clear way.
+
+StartMenu prints out a welcome message and a promt to press "spacebar" to start game or "ESC" to quit.
+
+GoalMenu prints out information about how long and how many steps it took to solve the maze. It also has the same promt to press "spacebar" to start next level or press "ESC" to quit.
+
+GamePlay prints out the maze, goal and level, these values will not change. GamePlay will also print out the current player position, timer and numbers of steps. 
+
+\begin{code}
+drawWalls :: Maze -> Float -> [Picture]
+\end{code}
+Takes a list of walls and a grid size as arguments and returns a list of pictures ready to be rendered to the screen. Each element is translated into a line with "Gloss Window" coordinates. 
+
+\textit{x\_mid} and \textit{y\_mid} represents the center point between the two cells in the element, which means the line should go half the length of the cell in each direction, depending on if the adjacent cells are horizontal or vertical.
+
+
 
 
 
 \subsection{External Libraries}
-\subsubsection{Graphics.Gloss}
-Gloss is one of the most used graphics modules built for Haskell. We sepcifically used the \textit{play} functionality which made it easy to controll the game window. 
+Here we describe the external libraries that we have used to implement special functionality.
 
-\subsubsection{System.Random}
 
-\subsubsection{System.IO.Unsafe}
+\subsubsection*{Graphics.Gloss}
+Gloss is one of the most used graphics modules built for Haskell. We used it to render the graphical game window showing the maze, the player and stats.
 
+
+\subsubsection*{Graphics.Gloss.Interface.Pure.Game}
+This extension of the Gloss package holds the functionality that handles user input, i.e. pressing the arrow keys to move the player.
+
+
+\subsubsection*{System.Random}
+This package helps to generate pseduo-random numbers in the Haskell environment. In the maze generation algorithm we used this to randomly choose alternatives for the paths in the maze.\cite{System.Random}
+
+
+\subsubsection*{System.IO.Unsafe}
+This we had to use as a result of indecisive choices implementing the random functionality. The type of using any random function in System.Random will always be IO a and we needed to get rid of the IO part.\cite{IO.Unsafe}
+
+
+\subsubsection*{Test.HUnit}
+A library used to create simple test which can be autimatically run, both alone and in groups. We used it create the test which can be found on rows xxx-xxxx in \textbf{PlayGame.hs}. \cite{HUnit}
 
 \newpage
 \section{Discussion}
 \subsection{Shortcomings}
-The use of the IO.Unsafe module was needed due to a workaround. We started building the other parts of the algorithm generating  the maze  before creating the \textit{randomness} which meant that the graph algorithm wanted to get the type Int and not IO Int which is returned from the functions in system.random. Therefore we chose to solve the problem by combining the it  with the IO.unsafe module to get the returned type to be of type Int. It is not really statistically proven to be random, however there are no patterns in how it works.
+The use of the IO.Unsafe module was needed due to a workaround. We started building the other parts of the algorithm generating the maze before creating the \textit{randomness} which meant that the graph algorithm wanted to get the type Int and not IO Int which is returned from the functions in system.random. Therefore we chose to solve the problem by combining it with the IO.unsafe module to get the returned type to be of type Int. It is not statistically random, however there are no re-occurring patterns and that is the important part.
 
 
 
@@ -132,9 +242,14 @@ The use of the IO.Unsafe module was needed due to a workaround. We started build
 
 
 \subsection{Conclusion}
-Throughout working with the project maybe the biggest problem that we stumbled upon was to how to figure out how to deal with the anti-state and lack of side effects in Haskell. All three members of the group hade some varying experience from object-oriented programming and that combined with the fact that we during the first part of the project had not really grasped the most important fundamentals of Haskell made for some annoying problems which we could have avoided if we had known more from the start. What we in the beginning thought of being "variables" (e.g. size = 10 ::Int) were of course FUNCTIONS and later on when we tried to make the game restart with new , which we of course became of not only are properites of Haskell in particular, but of functional programming in general. 
+Throughout working with the project maybe the biggest problem that we stumbled upon was to how to figure out how to deal with the anti-state and lack of side effects in Haskell. All three members of the group hade some varying experience from object-oriented programming and that combined with the fact that we during the first part of the project had not really grasped the most important fundamentals of Haskell made for some annoying problems. What we in the beginning thought of being "variables" (e.g. size = 10 :: Int) were of course FUNCTIONS and later on when we tried to make the game restart with new , which we of course became aware of not only are properites of Haskell in particular, but of functional programming in general. 
 
-Another struggle throughout the proejct were our fights with the Gloss package and how the abscence of great documentation and a living community made our work much harder. We found a few examples of how other people hade used Gloss for similar projects as our's but our way to the final product still existed of an excstencive lot of trial and error.
+Another struggle throughout the proejct were our fights with the Gloss package and how the abscence of documentation and a great community made our work much harder. We found a few examples of how other people had used Gloss for similar projects as ours but our way to the final product still existed of an extensive amount of trial and error.
 
-Furthermore, we changed the representation of gameInfo numerous times during the project. 
+Furthermore, we changed the representation of GameData numerous times during the project. 
+
+
+
+\bibliography{references}
+\bibliographystyle{unsrt}
 \end{document}

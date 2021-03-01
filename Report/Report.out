@@ -1,9 +1,16 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [2][-]{subsection.1.1}{Summary}{section.1}% 2
-\BOOKMARK [1][-]{section.2}{Technical Description}{}% 3
-\BOOKMARK [2][-]{subsection.2.1}{Maze from graph}{section.2}% 4
-\BOOKMARK [2][-]{subsection.2.2}{Data structures}{section.2}% 5
-\BOOKMARK [2][-]{subsection.2.3}{External Libraries}{section.2}% 6
-\BOOKMARK [1][-]{section.3}{Discussion}{}% 7
-\BOOKMARK [2][-]{subsection.3.1}{Shortcomings}{section.3}% 8
-\BOOKMARK [1][-]{section.4}{Conclusion}{}% 9
+\BOOKMARK [1][-]{section.2}{Usage}{}% 3
+\BOOKMARK [2][-]{subsection.2.1}{How to play}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.2}{Example}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{Program documentation}{}% 6
+\BOOKMARK [2][-]{subsection.3.1}{Overview}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.2}{Flow chart of function}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.3}{Modules}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.4}{Data structures}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.5}{Graph theory}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.6}{Important functions}{section.3}% 12
+\BOOKMARK [2][-]{subsection.3.7}{External Libraries}{section.3}% 13
+\BOOKMARK [1][-]{section.4}{Discussion}{}% 14
+\BOOKMARK [2][-]{subsection.4.1}{Shortcomings}{section.4}% 15
+\BOOKMARK [2][-]{subsection.4.2}{Conclusion}{section.4}% 16

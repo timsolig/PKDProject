@@ -17,8 +17,8 @@ data GameState = Game {
         playerLevel  :: Int,
         goalCoords   :: (Float, Float),
         steps        :: Int,
-        testImageP   :: Picture,
-        testImageG   :: Picture,
+        playerIcon   :: Picture,
+        goalIcon     :: Picture,
         seconds      :: Float
-    }
+    } deriving (Eq,Show)
 

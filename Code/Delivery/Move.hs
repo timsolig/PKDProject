@@ -6,7 +6,6 @@ import GameData
 
 import Graphs
 
-import Graphics.Gloss
 import Graphics.Gloss.Interface.Pure.Game
 
 
@@ -15,11 +14,17 @@ import Graphics.Gloss.Interface.Pure.Game
     RETURNS: The state of the game according to "keyStroks" i.e. the key pressed by the player.
 -}
 handleKeys :: Event -> GameState -> GameState
-handleKeys (EventKey (SpecialKey key) Down _ _) game
-    | startMenu game && key == KeySpace = 
+handleKeys (EventKey (SpecialKey key) Down _ _) game =
+    if key == KeySpace && (startMenu game || goalMenu game) then
         let 
-            newGridSize = 10
+            newGridSize =
+                if startMenu game then
+                    10
+                else
+                    gridSize game + 5
+
             wallLength = windowSize / newGridSize
+            
             newWalls = createMaze newGridSize
         in
             Game {
@@ -28,39 +33,19 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game
                 gridSize     = newGridSize,
                 mazePicture  = wallPicture newWalls newGridSize,
                 walls        = newWalls,
-                playerCoords = (-1, 0),
-                playerLevel  = 1,
-                goalCoords   = (newGridSize, newGridSize - 1),
-                steps        = 0,
-                testImageP   = testImageP game,
-                testImageG   = testImageG game,
-                seconds      = 0
-            }
-    | goalMenu game && key == KeySpace =
-        let 
-            newGridSize = gridSize game + 5
-            wallLength = windowSize / newGridSize
-            newWalls = createMaze newGridSize
-        in
-            Game {
-                startMenu    = False,
-                goalMenu     = False,
-                gridSize     = newGridSize,
-                mazePicture  = wallPicture newWalls newGridSize,
-                walls        = newWalls,
-                playerCoords = (-1, 0),
+                playerCoords = (0, 0),
                 playerLevel  = playerLevel game + 1,
                 goalCoords   = (newGridSize, newGridSize - 1),
                 steps        = 0,
-                testImageP   = testImageP game,
-                testImageG   = testImageG game,
+                playerIcon   = playerIcon game,
+                goalIcon     = goalIcon game,
                 seconds      = 0
             }
-    | not (startMenu game || goalMenu game) =
+    else
         let
             (x, y) = playerCoords game
             
-            wallLength = windowSize / (gridSize game)
+            wallLength = windowSize / gridSize game
             
             direction = case key of
                         KeyUp    -> (x, y - 1)
@@ -76,13 +61,10 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game
             
             newSteps = 
                 if validMove (x,y) direction (gridSize game) (walls game) 
-                    then (steps game) + 1
+                    then steps game + 1
                 else steps game
             
-            goalMenuStatus =
-                if newPlayerCoords == goalCoords game 
-                    then True
-                else False               
+            goalMenuStatus = newPlayerCoords == goalCoords game            
         in
             Game {
                 startMenu    = False,
@@ -94,8 +76,8 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game
                 playerLevel  = playerLevel game,
                 goalCoords   = goalCoords game,
                 steps        = newSteps,
-                testImageP   = testImageP game,
-                testImageG   = testImageG game,
+                playerIcon   = playerIcon game,
+                goalIcon     = goalIcon game,
                 seconds      = seconds game
             }
 handleKeys _ game = game
@@ -117,6 +99,4 @@ validMove currentPath targetPath@(x, y) gs walls =
         y >= gs ||
         elem (currentPath, targetPath) walls ||
         elem (targetPath, currentPath) walls
-        )
-
-
+    )

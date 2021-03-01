@@ -7,7 +7,7 @@ import GameData
 import Graphics.Gloss
 
 {- The size of the Gloss window -}
-windowSize = 1000 :: Float
+windowSize = 500 :: Float
 
 {-Information about Gloss Window | Window title ()-}
 window = InWindow "A Maz(e)ing game" (round windowSize + 200, round windowSize + 200) (10, 10) :: Display
@@ -74,10 +74,10 @@ drawWalls lst size = map (singleWall size) lst
 
 
 {-translateCoordinates cell gridSize
-    Translates from cartesian coordinates to Gloss Window coordinates. 
-      PRE: gridSize > 0
-      RETURNS: The coordinates of "cell" in the gloss window.
-      EXAMPLES: 
+  Translates from cartesian coordinates to 'Gloss Window coordinates'. 
+    PRE: gridSize > 0
+    RETURNS: The coordinates of "cell" in the gloss window.
+    EXAMPLES: 
 
         translateCoordinates (0, 0) 25 == (-480.0, 480.0)
         
@@ -88,6 +88,7 @@ translateCoordinates :: (Float, Float) -> Float -> (Float, Float)
 translateCoordinates (x, y) gridSize = 
     let wallLength = windowSize / gridSize
     in (x0 + (x + 0.5) * wallLength, y0 - (y + 0.5) * wallLength)
+    --in (x0 + x * wallLength, y0 - y * wallLength)
 
 
 {-outerEdge size
@@ -105,7 +106,6 @@ outerEdge gridSize =
         Line [(x0, y0 - wallLength), (x0, yMax)]
     ]
 
-
 {-render state
   Creates the picture of a game state.
     RETURNS: The picture of the maze or menu which 'state' represents.
@@ -121,9 +121,15 @@ render game
 
             translate (-360) 100 $ scale 0.4 0.4 $ Text "Lets play a mazeing game!",
             
+<<<<<<< HEAD
             translate (-250) 0 $ scale 0.2 0.2 $ Text "Press [space] to never sleep again"
 
             
+=======
+            translate (-250) 0 $ scale 0.2 0.2 $ Text "Press [space] to never sleep again",
+
+            translate (-170) (-40) $ scale 0.1 0.1 $ Text "Press [ESC] to close the program"
+>>>>>>> 20dd6f4d50737e699690a43983b9b45a3d28227d
         ]
 
     | goalMenu game = 
@@ -132,7 +138,9 @@ render game
             
             translate (-320) 0 $ scale 0.3 0.3 $ Text ("With " ++ show (steps game) ++ " moves in " ++ show (round (seconds game)) ++ " seconds"),
             
-            translate (-250) (-60) $ scale 0.2 0.2 $ Text "Press [space] to go to the next level"
+            translate (-250) (-60) $ scale 0.2 0.2 $ Text "Press [space] to go to the next level",
+
+            translate (-100) (-100) $ scale 0.1 0.1 $ Text "Press [ESC] to close the program"
         ]
             
     | otherwise = 
@@ -143,14 +151,22 @@ render game
             
             translate (-150) (y0 + 10) $ scale 0.4 0.4 $ Text ("Time: " ++ show (round (seconds game))),
             
+<<<<<<< HEAD
             uncurry translate (translateCoordinates (goalCoords game) (gridSize game)) $ color green $ scale 0.6 0.6 $ circleSolid 40, --scale (0.2 * (gridSize game)) (0.2 * gridSize game) $ testImageG game,
             
             uncurry translate (translateCoordinates (playerCoords game) (gridSize game)) $ color red $ scale 0.6 0.6 $ circleSolid 40,--scale 0.5 0.5 $ testImageP game,
+=======
+            uncurry translate (translateCoordinates (goalCoords game) (gridSize game)) $ scale pictureScale pictureScale $ goalIcon game,
             
-            translate x0 (y0 + 10) $ scale 0.4 0.4 $ Text ("Steps: " ++show (steps game)),
+            uncurry translate (translateCoordinates (playerCoords game) (gridSize game)) $ scale pictureScale pictureScale $ playerIcon game,
+>>>>>>> 20dd6f4d50737e699690a43983b9b45a3d28227d
             
-            translate 300 (y0 + 10) $ scale 0.4 0.4 $ Text ("Level: " ++show (playerLevel game))
+            translate x0 (y0 + 10) $ scale 0.4 0.4 $ Text ("Steps: " ++ show (steps game)),
+            
+            translate (xMax - 150) (y0 + 10) $ scale 0.4 0.4 $ Text ("Level: " ++ show (playerLevel game))
         ]
+        where
+            pictureScale = windowSize / (gridSize game * 110)
 
 
 
@@ -167,8 +183,8 @@ counter sec game
             playerLevel  = playerLevel game,
             goalCoords   = goalCoords game,
             steps        = steps game,
-            testImageP   = testImageP game,
-            testImageG   = testImageG game,
+            playerIcon   = playerIcon game,
+            goalIcon     = goalIcon game,
             seconds      = seconds game + sec
         }
     | otherwise = game
