@@ -11,11 +11,11 @@ import Graphics.Gloss.Interface.Pure.Game
 
 {-handleKeys keyStroke state
   Updates the state depending on inpute from the player.
-    RETURNS: The state of the game according to "keyStroks" i.e. the key pressed by the player.
+    RETURNS: The state of the game according to "keyStrokes" i.e. the key pressed by the player.
 -}
 handleKeys :: Event -> GameState -> GameState
-handleKeys (EventKey (SpecialKey key) Down _ _) game =
-    if key == KeySpace && (startMenu game || goalMenu game) then
+handleKeys (EventKey (SpecialKey key) Down _ _) game
+    | (startMenu game || goalMenu game) && key == KeySpace =
         let 
             newGridSize =
                 if startMenu game then
@@ -41,7 +41,7 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game =
                 goalIcon     = goalIcon game,
                 seconds      = 0
             }
-    else
+    | not $ (startMenu game || goalMenu game) =
         let
             (x, y) = playerCoords game
             
@@ -80,6 +80,7 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game =
                 goalIcon     = goalIcon game,
                 seconds      = seconds game
             }
+    | otherwise = game
 handleKeys _ game = game
 
 

@@ -28,7 +28,7 @@ initialState playerIcon goalIcon = Game {
         goalCoords   = undefined,
         steps        = undefined,
         playerIcon   = playerIcon,
-        goalIcon   = goalIcon,
+        goalIcon     = goalIcon,
         seconds      = undefined
     }
   

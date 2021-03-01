@@ -13,15 +13,15 @@ start reading about gloss
 [x] klart remove highscore
 [x] ge upp
 [x] comments 100
-[ ] playerpic/rescale
-[ ] var är jag
+[ x] playerpic/rescale
+[ ] vart är vi på väg 
 
 
 MÅNDAG:
 [ ] Report
   J*[X] Flow chart för funktioner. Vilken som ropar på vilken. 
 
-  T*[ ] Exempel med en körning. Några screenshot, båda menyerna.
+  [ ] Exempel med en körning. Några screenshot, båda menyerna.
   
   V*[x] Om GameData, och våra types.
   
@@ -29,7 +29,7 @@ MÅNDAG:
  
   [ ] Important functions
 
-  [ ] Externa bibliotek
+  [ /] Externa bibliotek
 
 [ ] DIARIES
   [ ] Individual
