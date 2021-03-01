@@ -87,8 +87,8 @@ drawWalls lst size = map (singleWall size) lst
 translateCoordinates :: (Float, Float) -> Float -> (Float, Float)
 translateCoordinates (x, y) gridSize = 
     let wallLength = windowSize / gridSize
-    --in (x0 + (x + 0.5) * wallLength, y0 - (y + 0.5) * wallLength)
-    in (x0 + x * wallLength, y0 - y * wallLength)
+    in (x0 + (x + 0.5) * wallLength, y0 - (y + 0.5) * wallLength)
+    --in (x0 + x * wallLength, y0 - y * wallLength)
 
 
 {-outerEdge size
@@ -130,7 +130,7 @@ render game
             
             translate (-250) (-60) $ scale 0.2 0.2 $ Text "Press [space] to go to the next level",
 
-            translate (-170) (-100) $ scale 0.1 0.1 $ Text "Press [ESC] to close the program"
+            translate (-100) (-100) $ scale 0.1 0.1 $ Text "Press [ESC] to close the program"
         ]
             
     | otherwise = 
@@ -141,14 +141,16 @@ render game
             
             translate (-150) (y0 + 10) $ scale 0.4 0.4 $ Text ("Time: " ++ show (round (seconds game))),
             
-            uncurry translate (translateCoordinates (goalCoords game) (gridSize game)) $ scale (((windowSize/gridSize game)/110)) (((windowSize/gridSize game)/110)) $ testImageG game,
+            uncurry translate (translateCoordinates (goalCoords game) (gridSize game)) $ scale pictureScale pictureScale $ goalIcon game,
             
-            uncurry translate (translateCoordinates (playerCoords game) (gridSize game)) $ scale (((windowSize/gridSize game)/110)) (((windowSize/gridSize game)/110)) $ testImageP game,
+            uncurry translate (translateCoordinates (playerCoords game) (gridSize game)) $ scale pictureScale pictureScale $ playerIcon game,
             
-            translate x0 (y0 + 10) $ scale 0.4 0.4 $ Text ("Steps: " ++show (steps game)),
+            translate x0 (y0 + 10) $ scale 0.4 0.4 $ Text ("Steps: " ++ show (steps game)),
             
-            translate 300 (y0 + 10) $ scale 0.4 0.4 $ Text ("Level: " ++show (playerLevel game))
+            translate (xMax - 150) (y0 + 10) $ scale 0.4 0.4 $ Text ("Level: " ++ show (playerLevel game))
         ]
+        where
+            pictureScale = windowSize / (gridSize game * 110)
 
 
 
@@ -165,8 +167,8 @@ counter sec game
             playerLevel  = playerLevel game,
             goalCoords   = goalCoords game,
             steps        = steps game,
-            testImageP   = testImageP game,
-            testImageG   = testImageG game,
+            playerIcon   = playerIcon game,
+            goalIcon     = goalIcon game,
             seconds      = seconds game + sec
         }
     | otherwise = game

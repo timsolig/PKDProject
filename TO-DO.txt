@@ -9,24 +9,23 @@ start reading about gloss
 26 feb: 
 [?] grafiskt tjaffs
 [x] Goal menu align text time and steps?
-[ ] update time 
+[x] update time 
 [x] klart remove highscore
 [x] ge upp
 [x] comments 100
 [ ] playerpic/rescale
-[ ] 
+[ ] var är jag
 
 
 MÅNDAG:
 [ ] Report
   J*[X] Flow chart för funktioner. Vilken som ropar på vilken. 
-  
+
   T*[ ] Exempel med en körning. Några screenshot, båda menyerna.
   
+  V*[x] Om GameData, och våra types.
   
-  V*[/] Om GameData, och våra types.
-  
-  T*[ ] Moduler, motivering. 
+  T*[/] Moduler, motivering. 
  
   [ ] Important functions
 
@@ -37,12 +36,14 @@ MÅNDAG:
   [ ] Projecta
 
 [ ] TEST
-  [ / ] wtf
+  [/] wtf
   [/] Skriv ett test med något state. T.ex. startMenu initialState == True
 
 [/] Lägg till en text "Press [esc] to quit game" på goal menu.
 
-[ /] Gör en README som ska med i inlämningen. Typ om hur vi tänkt med test och exempel och test.
-[ ] Graphs.hs rad 31 kanske ska skrivas om
-[ ] translateCoordinates - återanvända i drawWalls (Viktor)
-[ ] Sammanfatta handleKeys
+[ ] Småkrafs
+  [/] Gör en README som ska med i inlämningen. Typ om hur vi tänkt med test och exempel och test.
+  [ ] Graphs.hs rad 31 kanske ska skrivas om
+  [ ] translateCoordinates - återanvända i drawWalls (Viktor)
+  [ ] Sammanfatta handleKeys
+  [ ] Se till att texten anpassar sig efter olika fönsterstorlekar

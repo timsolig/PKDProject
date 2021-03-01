@@ -24,11 +24,11 @@ initialState playerIcon goalIcon = Game {
         mazePicture  = undefined,
         walls        = undefined,
         playerCoords = undefined,
-        playerLevel  = undefined,
+        playerLevel  = 0,
         goalCoords   = undefined,
         steps        = undefined,
-        testImageP   = playerIcon,
-        testImageG   = goalIcon,
+        playerIcon   = playerIcon,
+        goalIcon   = goalIcon,
         seconds      = undefined
     }
   

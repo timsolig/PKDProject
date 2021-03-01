@@ -39,3 +39,5 @@ Spent 2 hours on zoom setting up GitHub for everyone in the group and also brain
 
 ## 1 march 2021
 1 hour debugging the size of the player and goal icon.
+30 minutes fixing cosmetics changes in the code.
+4 hours writing the report.

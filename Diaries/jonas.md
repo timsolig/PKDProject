@@ -35,10 +35,12 @@ slogs
 kaffe :) 
 
 ## 27th February 2021
-1430 - 1500 read old reports provided on studium to get a understanding how the report should be written. 
-1500 - 1530 Drew goal and player picture in a simple painteditor 
+0,5h read old reports provided on studium to get a understanding how the report should be written. 
+0,5h Drew goal and player picture in a simple painteditor 
 
 ## 1th March
-0800-0900 rescaled the goal and player picture so they follow the size of the maze.
+1h rescaled the goal and player picture so they follow the size of the maze.
+7h Working on the report
+
 
 

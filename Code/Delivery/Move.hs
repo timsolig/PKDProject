@@ -22,7 +22,9 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game =
                     10
                 else
                     gridSize game + 5
+
             wallLength = windowSize / newGridSize
+            
             newWalls = createMaze newGridSize
         in
             Game {
@@ -31,18 +33,20 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game =
                 gridSize     = newGridSize,
                 mazePicture  = wallPicture newWalls newGridSize,
                 walls        = newWalls,
-                playerCoords = (-0.5, 0.5),
-                playerLevel  = 1,
-                goalCoords   = (newGridSize + 0.5, newGridSize - 0.5),
+                playerCoords = (0, 0),
+                playerLevel  = playerLevel game + 1,
+                goalCoords   = (newGridSize, newGridSize - 1),
                 steps        = 0,
-                testImageP   = testImageP game,
-                testImageG   = testImageG game,
+                playerIcon   = playerIcon game,
+                goalIcon     = goalIcon game,
                 seconds      = 0
             }
     else
         let
             (x, y) = playerCoords game
+            
             wallLength = windowSize / gridSize game
+            
             direction = case key of
                         KeyUp    -> (x, y - 1)
                         KeyRight -> (x + 1, y)
@@ -72,8 +76,8 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game =
                 playerLevel  = playerLevel game,
                 goalCoords   = goalCoords game,
                 steps        = newSteps,
-                testImageP   = testImageP game,
-                testImageG   = testImageG game,
+                playerIcon   = playerIcon game,
+                goalIcon     = goalIcon game,
                 seconds      = seconds game
             }
 handleKeys _ game = game
@@ -95,6 +99,4 @@ validMove currentPath targetPath@(x, y) gs walls =
         y >= gs ||
         elem (currentPath, targetPath) walls ||
         elem (targetPath, currentPath) walls
-        )
-
-
+    )

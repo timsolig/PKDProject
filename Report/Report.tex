@@ -33,12 +33,13 @@
 % \addtolength{\topmargin}{-.875in}
 % \addtolength{\textheight}{1.75in}
 
+
+
 \allowdisplaybreaks  
 
+
 \begin{document}
-
 \maketitle
-
 \newpage
 
 
@@ -71,55 +72,53 @@ When the goal is reached a new menu appears and one can choose to continue playi
 \section{Program documentation}
 
 \subsection{Overview}
-No user input is required when starting the program. The program 
+No user input is required when starting the program. The program calls an "initial state" that is passed on through each iteration. 
 
 \subsection{Flow chart of function}
-\begin{code}
-    foo :: Int -> Int
-\end{code}
 
-\subsubsection{Modules}
+
+\subsection{Modules}
 Dividing code inte modules combined with good naming of functions makes it easier to understand and survey for someone unfamiliar with the code.
 
-The modules we choose to divide into where;
+The modules we choose to this project into are divide into are as follows.
 
-\subsubsection{PlayGame}
-The "main" module which only contains the information about the initial state of the game as well as the funciton which starts everything else.
+\subsubsection*{PlayGame}
+The "main" module which only contains the information about the initial state of the game as well as the function which starts the whole game process.
 
-\subsubsection{Graphs}
-Functionality regarding the generation of the maze.
+\subsubsection*{Graphs}
+Functionality only regarding the generation of the maze. It uses the System.Random and IO.Unsage packages to make the randomness of the algorithm.
 
+\subsubsection*{Render}
+Includes all Gloss graphical functionality and renders new frames of the game.
 
-\subsubsection{Render}
+\subsubsection*{Move}
+Handles the keystrokes from the player and updates the state of the game using the Interface.Pure.Game part of the Gloss package.
 
-Includes all Gloss functionality and renders new frames of the game.
-
-\subsubsection{Move}
-Handles the keystrokes from the player and updates the state of the game.
-
-\subsubsection{GameData}
-Contains only the declaration of the datatype \textbf{GameInfo}.
+\subsubsection*{GameData}
+Contains only the declaration of the datatype \textbf{GameState}. This was easier than to declarate the datatype in one of the other modules and then export/import it around.   
 
 \subsection{Data structures}
+
 \begin{code}
 data GameState = Game { ... }
 \end{code}
 "Variables" that change during gameplay is stored in a separate data type, which simplifies passing it through functions.
+\begin{itemize}
+    \item \textit{startMenu}: True if the start menu should be active. Only True when the game starts
+    \item \textit{goalMenu:} True if the player has reached the goal and indicates that the goal menu should be active
+    \item \textit{gridSize:} The width/height of the grid. gridSize = 10 is a 10x10 grid
+    \item \textit{mazePicture:} The rendered maze based on a list of coordinates
+    \item \textit{walls:} The maze in a list, where each element is a wall between two cells in the grid
+    \item \textit{playerCoords:} The cartesian coordinates of the player
+    \item \textit{playerLevel:} The player level
+    \item \textit{goalCoords:} The cartesian coordinates of the goal
+    \item \textit{steps:} The number of steps taken from the start position.
+    \item \textit{testImageP:} The rendered picture of the player icon
+    \item \textit{testImageG:} The rendered picture of the goal icon
+    \item \textit{seconds:} The number of seconds passed since the game started
+\end{itemize}
 
-startMenu: True if the start menu should be active. Only True when the game starts.
-goalMenu: True if the player has reached the goal and indicates that the goal menu should be active.
-gridSize: The width/height of the grid. gridSize = 10 is a 10x10 grid.
-mazePicture: The rendered maze based on a list of coordinates.
-walls: The maze in a list, where each element is a wall between two cells in the grid.
-playerCoords: The cartesian coordinates of the player.
-playerLevel: The player level.
-goalCoords: The cartesian coordinates of the goal.
-steps: The number of steps taken from the start position.
-testImageP: The rendered picture of the player icon.
-testImageG: The rendered picture of the goal icon.
-seconds: The number of seconds passed since the game started.
-
-Additional information about the playerCoords and goalCoords:
+\paragraph{Coordinates}
 When the player and goal target is rendered on the screen, the actual Gloss Window coordinates vary depending on the grid size of the maze. This could cause rounding errors which, to the human eye, would not be noticable. Though, to the computer, the numbers differ and the player would not be able to "reach" the goal. Therefore, the player and goal coordinates are cartesian, which leads to a discrete comparison.
 
 Additional information about the mazePicture and walls:
@@ -149,56 +148,86 @@ This is a stack type.
 A maze can be though of as a connected graph where the edges are possible places for a wall and a face is part of the paths through the maze. The generation of a maze then consists of an algorithm deleting certain edges from the graph (essentially deleting walls and binding together paths) and different such algorithms vary in complexity and the level of difficulty the later generated maze will have. 
 
 
-\subsubsection{Depth-first-search}
+\subsubsection*{Depth-first-search}
+Depth-first-search is a graph traversal algorithm which looks for paths as long as possible down the graph before backtracking. \ cite{DFS}
 
-
-\subsubsection{Maze generation}
+\subsubsection*{Maze generation}
 The algorithm we chose to implement uses a randomized depth-first-search approach where the algorithm is given a grid of cells, and a random starting cell in the grid. Then, one of the four walls surrounding the cell is deleted randomly. Then the cell i considered visited and pushed to a stack. A cell neighbouring an already visited cell is then chosen randomly and the same process is repeated with a random wall being deleted, and the cell marked as visited and pushed to the stack. When a cell with no unvisited neighbours is picked, we mark it visited and pop a cell from the stack and start the algorith over. Once the stack is empty, every cell in the grid is in the path of the maze. 
 
 For this algorithm we needed an implementation of a stack. We used the one which was given to us during one of the labs in the course. 
 
 
 
-\subsection{Important algorithms and functions}
-Viktiga funktioner
+
+
+
+\subsection{Important functions}
 
 handleKeys och validMove
+\begin{code}
+    handleKeys :: Event -> GameState -> GameState
+\end{code}
 
-\subsubsection{Render}
+HandleKeys is used to give inputs to the game. It tracks arrowkeys during gameplay and spacebar in start and goal menu.
+
+When spacebar is pressed in gameMenu or goalMenu it will promt the game to initiate the generation of a new level. 
+
+When a arrowkey is pressed in gameMode it will try to change the position of player. When this happens it takes the current coordinates of the player and creats a new coordinat in acordance with the direction the player like to move. It sends this information with gridSize and maze list to see if it is a valid move. If it is a valid move the player posistion will be updated to the new coordinates. 
+
+\begin{code}
+    validMove :: Cell -> Cell -> Float -> Maze -> Bool
+\end{code}
+ValidMove is a functon that checks if a move is a valid move or not. It simply takes the current position cell and checks if the new position cell is not seperated by a wall. 
+Furthermore it checks if the player will not cross outer bounds of the maze.
+
+It has one special case built in and it is when the game starts the player is outside the maze and the only valid move will be into the maze.
+
+
+\subsubsection*{Render}
 \begin{code}
     render :: GameState -> Picture
 \end{code}
-Render presents gamedata as a picture to the player. It has three diffrent types of screens it will generate. Those are startMenu, goalMenu and gamePlay. Each screen will present the relevant gamedata in a clear way.
+Render presents some of the GameData as a picture to the player. The picture is made with help from functions in Gloss. It has three diffrent screens and they are startMenu, goalMenu and gamePlay. Each screen will present the relevant GameData in a clear way.
 
 StartMenu prints out a welcome message and a promt to press "spacebar" to start game or "ESC" to quit.
 
-GoalMenu prints out the time and number of steps it took to solve the maze. 
+GoalMenu prints out information about how long and how many steps it took to solve the maze. It also has the same promt to press "spacebar" to start next level or press "ESC" to quit.
+
+GamePlay prints out the maze, goal and level, these values will not change. GamePlay will also print out the current player position, timer and numbers of steps. 
+
+\begin{code}
+drawWalls :: Maze -> Float -> [Picture]
+\end{code}
+Takes a list of walls and a grid size as arguments and returns a list of pictures ready to be rendered to the screen. Each element is translated into a line with "Gloss Window" coordinates. 
+
+\textit{x\_mid} and \textit{y\_mid} represents the center point between the two cells in the element, which means the line should go half the length of the cell in each direction, depending on if the adjacent cells are horizontal or vertical.
 
 
 
 
-
-
-
-
-Viktor förklarar drawWalls, hur fan funkar geometrin??!
-
-generateM
 
 \subsection{External Libraries}
+Here we describe the external libraries that we have used to implement special functionality.
 
-\subsubsection{Graphics.Gloss}
-Gloss is one of the most used graphics modules built for Haskell.
 
-\subsection{Graphics.Gloss.Interface.Pure.Game}
+\subsubsection*{Graphics.Gloss}
+Gloss is one of the most used graphics modules built for Haskell. We used it to render the graphical game window showing the maze, the player and stats.
 
-\subsubsection{System.Random}
-\cite{System.Random}
 
-\subsubsection{System.IO.Unsafe}
+\subsubsection*{Graphics.Gloss.Interface.Pure.Game}
+This extension of the Gloss package holds the functionality that handles user input, i.e. pressing the arrow keys to move the player.
 
-\subsubsection{Test.HUnit}
-A library used to create simple which can be autimatically run, both alone and in groups. We used it create the test wjich can be found on rows xxx-xxxx in \textbf{PlayGame.hs}. \cite{HUnit}
+
+\subsubsection*{System.Random}
+This package helps to generate pseduo-random numbers in the Haskell environment. In the maze generation algorithm we used this to randomly choose alternatives for the paths in the maze.\cite{System.Random}
+
+
+\subsubsection*{System.IO.Unsafe}
+This we had to use as a result of indecisive choices implementing the random functionality. The type of using any random function in System.Random will always be IO a and we needed to get rid of the IO part.\cite{IO.Unsafe}
+
+
+\subsubsection*{Test.HUnit}
+A library used to create simple test which can be autimatically run, both alone and in groups. We used it create the test which can be found on rows xxx-xxxx in \textbf{PlayGame.hs}. \cite{HUnit}
 
 \newpage
 \section{Discussion}
@@ -217,7 +246,9 @@ Throughout working with the project maybe the biggest problem that we stumbled u
 
 Another struggle throughout the proejct were our fights with the Gloss package and how the abscence of documentation and a great community made our work much harder. We found a few examples of how other people had used Gloss for similar projects as ours but our way to the final product still existed of an extensive amount of trial and error.
 
-Furthermore, we changed the representation of gameInfo numerous times during the project. 
+Furthermore, we changed the representation of GameData numerous times during the project. 
+
+
 
 \bibliography{references}
 \bibliographystyle{unsrt}
