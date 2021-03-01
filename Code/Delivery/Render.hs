@@ -115,9 +115,15 @@ render :: GameState -> Picture
 render game
     | startMenu game =
         pictures [
-            translate (-350) 100 $ scale 0.4 0.4 $ Text "Lets play a mazeing game!",
+            swagLines,
+
+            color white $ Polygon [(-400, 200), (400, 200), (400, -70), (-400, -70)],
+
+            translate (-360) 100 $ scale 0.4 0.4 $ Text "Lets play a mazeing game!",
             
             translate (-250) 0 $ scale 0.2 0.2 $ Text "Press [space] to never sleep again"
+
+            
         ]
 
     | goalMenu game = 
@@ -137,9 +143,9 @@ render game
             
             translate (-150) (y0 + 10) $ scale 0.4 0.4 $ Text ("Time: " ++ show (round (seconds game))),
             
-            uncurry translate (translateCoordinates (goalCoords game) (gridSize game)) $ scale (0.2 * (gridSize game)) (0.2 * gridSize game) $ testImageG game,
+            uncurry translate (translateCoordinates (goalCoords game) (gridSize game)) $ color green $ scale 0.6 0.6 $ circleSolid 40, --scale (0.2 * (gridSize game)) (0.2 * gridSize game) $ testImageG game,
             
-            uncurry translate (translateCoordinates (playerCoords game) (gridSize game)) $ scale 0.5 0.5 $ testImageP game,
+            uncurry translate (translateCoordinates (playerCoords game) (gridSize game)) $ color red $ scale 0.6 0.6 $ circleSolid 40,--scale 0.5 0.5 $ testImageP game,
             
             translate x0 (y0 + 10) $ scale 0.4 0.4 $ Text ("Steps: " ++show (steps game)),
             
