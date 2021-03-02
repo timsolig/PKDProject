@@ -21,7 +21,7 @@ MÅNDAG:
 [ ] Report
   J*[X] Flow chart för funktioner. Vilken som ropar på vilken. 
 
-  [ ] Exempel med en körning. Några screenshot, båda menyerna.
+  [x] Exempel med en körning. Några screenshot, båda menyerna.
   
   V*[x] Om GameData, och våra types.
   
@@ -47,3 +47,6 @@ MÅNDAG:
   [ ] translateCoordinates - återanvända i drawWalls (Viktor)
   [ ] Sammanfatta handleKeys
   [ ] Se till att texten anpassar sig efter olika fönsterstorlekar
+
+[ ] GitHUbLink
+[ ] PowerPoint

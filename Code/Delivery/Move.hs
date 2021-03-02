@@ -88,6 +88,7 @@ handleKeys _ game = game
   Checks whether a player move is valid in a certain move.
     RETURNS: If there is no wall between 'cell1' and 'cell2' in the maze 'maze' (which has size 'gridSize') then True otherwise False. 
     EXAMPLES:
+    -------------------------------------------------HERE
 -}
 validMove :: Cell -> Cell -> Float -> Maze -> Bool
 validMove (-1, 0) (0, 0) _ _ = True

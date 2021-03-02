@@ -4,16 +4,18 @@ import Graphics.Gloss
 import Graphs
 {-GameState 
   Represents the game session with all necessary data that varies with each level. 
-  INVARIANT: gridSize > 0, 
 -}
 data GameState = Game {
         startMenu    :: Bool,
         goalMenu     :: Bool,
+        --INVARIANT: gridSize > 0,
         gridSize     :: Float,
         mazePicture  :: Picture,
         walls        :: Maze,
+        --INVARIANT:
         playerCoords :: (Float, Float),
         playerLevel  :: Int,
+        --INVARIANT:
         goalCoords   :: (Float, Float),
         steps        :: Int,
         playerIcon   :: Picture,
