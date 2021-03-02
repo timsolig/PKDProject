@@ -38,19 +38,23 @@ Group session. Spent 3 hours introducing data type "gameState" in the game. It w
  
 ## 2021-02-25
 3h Group session. Continued work with new gameState. Fixed some bugs with player and goal, started to work on a game clock function.
+
 ## 2021-02-26
- 
- 
+5h: Group session. Fine tuning of placement of text and visuals. Commenting functions and writing in the report. 
+
+
 ## 2021-02-27
 0,5h read old reports provided on studium to get an understanding how the report should be written.
 0,5h Drew goal and player picture in a simple paint editor
  
-## 1th March
+## 2021-03-01
 1h rescaled goal and player picture so they follow the resizing of the maze between levels.
-7h Working on the report and diary
+7h Group session. Working on the report and diary. Made a flowchart for the game.
  
-## 2th March
-1h: Writing on the report
+## 2021-03-02
+1.5h: Writing on the report
+1h: Meeting/writing with Viktor
+0.5h: Meeting with TA
 
 
 

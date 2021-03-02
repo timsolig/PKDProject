@@ -26,7 +26,7 @@
 3h: Group session. First version of the game working. Faced some major issues, as we'd been building the code in an inapplicable way.
 
 ## 2021-02-23
-3h: Group session. Starting to form a "game state". Complicated and time consuming.
+3h: Group session. Starting to form a "game state". Complicated and time consuming. Writing on the report.
 
 ## 2021-02-24
 4h: Rebuilding the code from scratch, trying to tackle the problem from another angle. Managed to switch between a menu and a game view. Was still facing issues with variables out of scope, not being able to update the game between levels etc.
@@ -34,6 +34,11 @@
 ## 2021-02-25
 4h: Continued working on the rebuild. Managed to switch between a start menu, several game sessions with increasing difficulty and inter-game menus.
 
+## 2021-02-26
+5.5h: Group session. Commenting functions, trying to optimize functions and re-use where possible. Writing on the report.
 
-## 2021-02-26 10:00-16:30
--
+## 2021-03-01
+8h: Group session. Writing on the report. Describing our two different types of coordinates, describing data structures. Tried to optimize a couple of functions, writing a more detailed description about a few important functions.
+
+## 2021-03-02
+1h: Session with Jonas. Writing on the report.
