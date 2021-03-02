@@ -48,7 +48,7 @@
 
 \newpage
 \section{Introduction}
-This project aimed to extend our knowledge of functional programming in general, and the Haskell language in particular.Our fascination of graph theory and the mathematics behind mazes combined with the will of making a game made us choose to make a playable game with a graphical interface.
+This project aimed to extend our knowledge of functional programming in general, and the Haskell language in particular. Our fascination of graph theory and the mathematics behind mazes combined with the will of making a game made us choose to make a playable game with a graphical interface.
 
 
 \subsection{Summary}
@@ -60,7 +60,7 @@ The outcome of the project is a mazerunner game where one is supposed to navigat
 To be able to play the game one need to install the ghc compiler as well as the \textit{Haskell Gloss} package. With those installed, open the terminal and navigate into the game folder. Type \textbf{ghc -threaded PlayGame.hs},press enter, wait for the modules to finish loading, then type \textbf{./PlayGame}, press enter. The game starts and the start screen appears.
 
 
-Once in the game, one uses the arrow keys to navigate through the maze to find the way to the goal down in the left corner. 
+Once in the game, one uses the arrow keys to navigate through the maze to find the way to the goal down in the right corner. 
 
 When the goal is reached a new menu appears and one can choose to continue playing, in which case a slightly bigger maze will appear, or to quit.
 
@@ -84,15 +84,15 @@ No user input is required when starting the program. The program calls an "initi
 
 
 \subsection{Modules}
-Dividing code inte modules combined with good naming of functions makes it easier to understand and survey for someone unfamiliar with the code.
+Dividing code into modules combined with good naming of functions makes it easier to understand and survey for someone unfamiliar with the code.
 
-The modules we choose to this project into are divide into are as follows.
+We divided our project into the following modules.
 
 \subsubsection*{PlayGame}
 The "main" module which only contains the information about the initial state of the game as well as the function which starts the whole game process.
 
 \subsubsection*{Graphs}
-Functionality only regarding the generation of the maze. It uses the System.Random and IO.Unsage packages to make the randomness of the algorithm.
+Functionality only regarding the generation of the maze. It uses the System.Random and System.IO.Unsafe packages to make the randomness of the algorithm.
 
 \subsubsection*{Render}
 Includes all Gloss graphical functionality and renders new frames of the game.
@@ -169,37 +169,39 @@ For this algorithm we needed an implementation of a stack. We used the one which
 
 \subsection{Important functions}
 
-handleKeys och validMove
+
 \begin{code}
     handleKeys :: Event -> GameState -> GameState
 \end{code}
 
-HandleKeys is used to give inputs to the game. It tracks arrowkeys during gameplay and spacebar in start and goal menu.
+HandleKeys is used to give inputs to the game. It tracks arrow keys during gameplay and spacebar in the start and goal menu.
+ 
+When the spacebar is pressed in gameMenu or goalMenu it will prompt the game to initiate the generation of a new level.
+ 
+When an arrow key is pressed in gameMode it will try to change the position of the player. It takes the current coordinates of the player and creates a new coordinate in accordance with the direction the player likes to move. It sends this information along with gridSize and maze list to validMove. If it’s a valid move the player position will be updated to the new coordinates.
 
-When spacebar is pressed in gameMenu or goalMenu it will promt the game to initiate the generation of a new level. 
-
-When a arrowkey is pressed in gameMode it will try to change the position of player. When this happens it takes the current coordinates of the player and creats a new coordinat in acordance with the direction the player like to move. It sends this information with gridSize and maze list to see if it is a valid move. If it is a valid move the player posistion will be updated to the new coordinates. 
 
 \begin{code}
     validMove :: Cell -> Cell -> Float -> Maze -> Bool
 \end{code}
-ValidMove is a functon that checks if a move is a valid move or not. It simply takes the current position cell and checks if the new position cell is not seperated by a wall. 
-Furthermore it checks if the player will not cross outer bounds of the maze.
-
-It has one special case built in and it is when the game starts the player is outside the maze and the only valid move will be into the maze.
+ValidMove is a function that checks if an intended move is a valid move or not. It takes the current position cell and checks if the new position cell is separated by a wall.
+Furthermore it also checks if the player will cross the outer bounds of the maze.
+ 
+ValidMove has one special case, it is when the game starts the player will be outside the maze therefore it will only allow you to step into the maze.
 
 
 \subsubsection*{Render}
 \begin{code}
     render :: GameState -> Picture
 \end{code}
-Render presents some of the GameData as a picture to the player. The picture is made with help from functions in Gloss. It has three diffrent screens and they are startMenu, goalMenu and gamePlay. Each screen will present the relevant GameData in a clear way.
+Render presents relevant GameData as a picture to the player. The picture is made with help of functions from Gloss. It has three different screens and they are startMenu, goalMenu and gamePlay. Each screen will present the relevant GameData in a clear way.
+ 
+StartMenu prints out a welcome message and a prompt to press "spacebar" to start the game or "ESC" to quit.
+ 
+GoalMenu prints out information about how long and how many steps it took to solve the maze. It also has the same prompt to press "spacebar" to start the next level or press "ESC" to quit.
+ 
+GamePlay prints out maze, goal, player, level, timer and step count. This screen will be updated 30 times a second.
 
-StartMenu prints out a welcome message and a promt to press "spacebar" to start game or "ESC" to quit.
-
-GoalMenu prints out information about how long and how many steps it took to solve the maze. It also has the same promt to press "spacebar" to start next level or press "ESC" to quit.
-
-GamePlay prints out the maze, goal and level, these values will not change. GamePlay will also print out the current player position, timer and numbers of steps. 
 
 \begin{code}
 drawWalls :: Maze -> Float -> [Picture]
