@@ -3,9 +3,8 @@ module GameData where
 import Graphics.Gloss
 import Graphs
 {-GameState 
-  Represents the 
-
-  INVARIANT: gridSize > 0
+  Represents the game session with all necessary data that varies with each level. 
+  INVARIANT: gridSize > 0, 
 -}
 data GameState = Game {
         startMenu    :: Bool,
@@ -20,5 +19,5 @@ data GameState = Game {
         playerIcon   :: Picture,
         goalIcon     :: Picture,
         seconds      :: Float
-    } deriving (Eq,Show)
+    } deriving (Eq, Show)
 
