@@ -13,7 +13,7 @@ start reading about gloss
 [x] klart remove highscore
 [x] ge upp
 [x] comments 100
-[ x] playerpic/rescale
+[x] playerpic/rescale
 [ ] vart är vi på väg 
 
 
@@ -27,19 +27,20 @@ MÅNDAG:
   
   T*[/] Moduler, motivering. 
  
-  [ ] Important functions
+  [/ ] Important functions
 
   [ /] Externa bibliotek
 
-[ ] DIARIES
-  [ ] Individual
-  [ ] Projecta
+[ /] DIARIES
+  [/ ] Individual
+  [ /] Projecta
 
 [ ] TEST
   [/] wtf
   [/] Skriv ett test med något state. T.ex. startMenu initialState == True
+  [ ] Plocka isär någon funktion för att kunna skriva test??
 
-[/] Lägg till en text "Press [esc] to quit game" på goal menu.
+[X] Lägg till en text "Press [esc] to quit game" på goal menu.
 
 [ ] Småkrafs
   [/] Gör en README som ska med i inlämningen. Typ om hur vi tänkt med test och exempel och test.
@@ -48,5 +49,16 @@ MÅNDAG:
   [ ] Sammanfatta handleKeys
   [ ] Se till att texten anpassar sig efter olika fönsterstorlekar
 
-[ ] GitHUbLink
+[ ] GitHUbLink/ kanske zip på studium
+
 [ ] PowerPoint
+
+
+ONSDAG 
+
+[ ] Report
+  [x] Länk till GitHUb på startsidan
+  [ ] Mer på diskussionen ang gameData
+  [ ] DFS
+  [ ] Important functions
+    [ ] mazeGenerator

@@ -1,7 +1,7 @@
 # Tims timesheet
 
 ## 9 feb 
-30 minutes reading about gloss.
+1hour reading about gloss.
 
 ## 11 feb 2021
 Spent 2 hours on zoom setting up GitHub for everyone in the group and also brainstorming ideas. Talking about and writing down rules for the group.
@@ -10,9 +10,9 @@ Spent 2 hours on zoom setting up GitHub for everyone in the group and also brain
 ## 15 feb 2021
 30-minute zoom meeting deciding the project scope. A maze runner game.
 
-30 minutes reading about maze creation algorithms.
+1 hour reading about maze creation algorithms.
 
-15 minutes making a latex template for the report.
+1 hour making a latex template for the report.
 
 
 ## 16 feb 2021
@@ -22,7 +22,7 @@ Spent 2 hours on zoom setting up GitHub for everyone in the group and also brain
 
 
 ## 17 feb 2021
-2.5 hours debugging the Prim's algorithm. Something is working. Realising that we could do one more algorithm to make it harder for the player. 
+3 hours debugging the Prim's algorithm. Something is working. Realising that we could do one more algorithm to make it harder for the player. 
 1 hour tryng to implement depth-first-search randomized maze generator. Realised that the Prim-algorithm is not very efficient. 
 3 hours trying DFS algorithms.  
 
@@ -49,5 +49,16 @@ Spent 2 hours on zoom setting up GitHub for everyone in the group and also brain
 
 ## 1 march 2021
 1 hour debugging the size of the player and goal icon.
-30 minutes fixing cosmetics changes in the code.
+1 hour fixing cosmetics changes in the code.
 4 hours writing the report.
+
+## 2 march 2021
+30 min meeting with Gafour. He was pleased with our progress.
+1 hour formatting the report pdf. 
+
+
+## 3 march 2021
+4h writing the report. Mostly on discussion and important functions.
+
+## 4 march 2021
+4h last touches on the report.

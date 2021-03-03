@@ -88,7 +88,6 @@ translateCoordinates :: (Float, Float) -> Float -> (Float, Float)
 translateCoordinates (x, y) gridSize = 
     let wallLength = windowSize / gridSize
     in (x0 + (x + 0.5) * wallLength, y0 - (y + 0.5) * wallLength)
-    --in (x0 + x * wallLength, y0 - y * wallLength)
 
 
 {-outerEdge size
@@ -150,33 +149,26 @@ render game
         where
             pictureScale = windowSize / (gridSize game * 110)
 
-
-----------------------------------VÄLJ-----------------------------------------------------------------
 {- counter increase currentState
   Updates the time which has passed since the game started.
     RETURNS: 'currentState' with seconds parameter changed by 'increase'.
 
 -}
-
-counter :: Float -> GameState -> GameState
-counter m (Game False False c d e f g h i j k l) = Game False False c d e f g h i j k (l+m)
-counter _ (Game a b c d e f g h i j k l) = Game a b c d e f g h i j k l
-
--- counter :: Float -> GameState -> GameState 
--- counter sec game
---     | not (startMenu game || goalMenu game) =
---         Game {
---             startMenu    = startMenu game,
---             goalMenu     = goalMenu game,
---             gridSize     = gridSize game,
---             mazePicture  = mazePicture game,
---             walls        = walls game,
---             playerCoords = playerCoords game,
---             playerLevel  = playerLevel game,
---             goalCoords   = goalCoords game,
---             steps        = steps game,
---             playerIcon   = playerIcon game,
---             goalIcon     = goalIcon game,
---             seconds      = seconds game + sec
---         }
---     | otherwise = game
+counter :: Float -> GameState -> GameState 
+counter sec game
+    | not (startMenu game || goalMenu game) =
+        Game {
+            startMenu    = startMenu game,
+            goalMenu     = goalMenu game,
+            gridSize     = gridSize game,
+            mazePicture  = mazePicture game,
+            walls        = walls game,
+            playerCoords = playerCoords game,
+            playerLevel  = playerLevel game,
+            goalCoords   = goalCoords game,
+            steps        = steps game,
+            playerIcon   = playerIcon game,
+            goalIcon     = goalIcon game,
+            seconds      = seconds game + sec
+        }
+    | otherwise = game

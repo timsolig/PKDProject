@@ -39,6 +39,7 @@ initialState playerIcon goalIcon = Game {
 -}
 main :: IO ()
 main = do
+    --Translates *.bmp file to gloss picture
     playerIcon <- loadBMP "5.bmp"
     goalIcon   <- loadBMP "6.bmp"
     play 

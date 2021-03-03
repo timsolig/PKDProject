@@ -2,9 +2,10 @@
     An a-maz(e)-ing game \\
     \large 
     Program Construction and Data Structures 2020/2021\\
+    https://github.com/timsolig/PKDProject
     }
 
-\author{Jonas Björn, Viktor Hultsten, Tim Molnig}
+\author{Jonas Björk, Viktor Hultsten, Tim Solig}
 
 %
 \documentclass[12pt, a4paper]{article}
@@ -25,6 +26,7 @@
 \usepackage{mathtools}
 \setlength{\parindent}{0em}
 \setlength{\parskip}{1em}
+\renewcommand{\baselinestretch}{1.2}
 
 % \addtolength{\oddsidemargin}{-.875in}
 % \addtolength{\evensidemargin}{-.875in}
@@ -148,20 +150,16 @@ The complete maze where each element is a wall between two cells.
 \begin{code}
 newtype Stack a = StackImpl [a]
 \end{code}
-This is a stack type.
+This is an implementation of a stack in haskell and has 
 
 \subsection{Graph theory}
 A maze can be though of as a connected graph where the edges are possible places for a wall and a face is part of the paths through the maze. The generation of a maze then consists of an algorithm deleting certain edges from the graph (essentially deleting walls and binding together paths) and different such algorithms vary in complexity and the level of difficulty the later generated maze will have. 
 
 
-\subsubsection*{Depth-first-search}
-Depth-first-search is a graph traversal algorithm which looks for paths as long as possible down the graph before backtracking. \ cite{DFS}
-
 \subsubsection*{Maze generation}
-The algorithm we chose to implement uses a randomized depth-first-search approach where the algorithm is given a grid of cells, and a random starting cell in the grid. Then, one of the four walls surrounding the cell is deleted randomly. Then the cell i considered visited and pushed to a stack. A cell neighbouring an already visited cell is then chosen randomly and the same process is repeated with a random wall being deleted, and the cell marked as visited and pushed to the stack. When a cell with no unvisited neighbours is picked, we mark it visited and pop a cell from the stack and start the algorith over. Once the stack is empty, every cell in the grid is in the path of the maze. 
+The algorithm we chose to implement uses a randomized depth-first-search approach where the algorithm is given a grid of cells with all possible walls present, and a random starting cell in the grid. Then, one of the four walls surrounding the cell is deleted randomly. Then the cell is considered visited and pushed to a stack. A cell neighbouring an already visited cell is then chosen randomly and the same process is repeated with a random wall being deleted, and the cell marked as visited and pushed to the stack. When a cell with no unvisited neighbours is picked, we mark it visited and pop a cell from the stack and start the algorith over. Once the stack is empty, every cell in the grid is in the path of the maze. \cite{maze}
 
-For this algorithm we needed an implementation of a stack. We used the one which was given to us during one of the labs in the course. 
-
+For this algorithm we needed an implementation of a stack. We used the one which was given to us during one of the labs in the course.\cite{stackLab} 
 
 
 
@@ -169,16 +167,28 @@ For this algorithm we needed an implementation of a stack. We used the one which
 
 \subsection{Important functions}
 
+\begin{code}
+    mazeGenerator :: [Cell] -> Maze
+\end{code}
+This is the main functionality of the maze generation for the game. \textit{mazeGenerator} takes a list of all cells in a grid and randomly generates paths in a maze laying in the grid. It used an algorithm based on dept-first-search, explicitly explained in \textit{Maze generation}
+
+
+
+\begin{code}
+    neighbours :: [Cell] -> [Cell] -> [Cell]
+\end{code}
+This is a crucial functions which is being used a lot in the mazeGenerator function. \textit{neighbours} takes two lists of cells and checks which cells in the second list are neighbours to cells in the first list. This is used in the maze creation algorithm in the step when a path is being made and it needs to be checked if neighbouring cells alreade have been visited in which case \textit{neighbours} is called with [current cell] and (unvisited cells).
+
 
 \begin{code}
     handleKeys :: Event -> GameState -> GameState
 \end{code}
 
-HandleKeys is used to give inputs to the game. It tracks arrow keys during gameplay and spacebar in the start and goal menu.
+HandleKeys is used to give inputs to the game. It tracks arrow keys during gameplay and spacebar in the start and goal menu.\cite{Event} 
  
 When the spacebar is pressed in gameMenu or goalMenu it will prompt the game to initiate the generation of a new level.
  
-When an arrow key is pressed in gameMode it will try to change the position of the player. It takes the current coordinates of the player and creates a new coordinate in accordance with the direction the player likes to move. It sends this information along with gridSize and maze list to validMove. If it’s a valid move the player position will be updated to the new coordinates.
+When an arrow key is pressed in gameMode it will try to change the position of the player. It takes the current coordinates of the player and creates a new coordinate in accordance with the direction the player likes to move. It sends this information along with gridSize and maze list to validMove. If it’s a valid move the player position will be updated to the new coordinates. 
 
 
 \begin{code}
@@ -190,7 +200,6 @@ Furthermore it also checks if the player will cross the outer bounds of the maze
 ValidMove has one special case, it is when the game starts the player will be outside the maze therefore it will only allow you to step into the maze.
 
 
-\subsubsection*{Render}
 \begin{code}
     render :: GameState -> Picture
 \end{code}
@@ -219,7 +228,7 @@ Here we describe the external libraries that we have used to implement special f
 
 
 \subsubsection*{Graphics.Gloss}
-Gloss is one of the most used graphics modules built for Haskell. We used it to render the graphical game window showing the maze, the player and stats.
+Gloss is one of the most used graphics modules built for Haskell. We used it to render the graphical game window showing the maze, the player and stats.\cite{Gloss}
 
 
 \subsubsection*{Graphics.Gloss.Interface.Pure.Game}
@@ -235,28 +244,33 @@ This we had to use as a result of indecisive choices implementing the random fun
 
 
 \subsubsection*{Test.HUnit}
-A library used to create simple test which can be autimatically run, both alone and in groups. We used it create the test which can be found on rows xxx-xxxx in \textbf{PlayGame.hs}. \cite{HUnit}
+A library used to create simple test which can be autimatically run, both alone and in groups. We used it create the test which can be found on rows 56-90 in \textbf{PlayGame.hs}. \cite{HUnit}
 
 \newpage
 \section{Discussion}
 \subsection{Shortcomings}
 The use of the IO.Unsafe module was needed due to a workaround. We started building the other parts of the algorithm generating the maze before creating the \textit{randomness} which meant that the graph algorithm wanted to get the type Int and not IO Int which is returned from the functions in system.random. Therefore we chose to solve the problem by combining it with the IO.unsafe module to get the returned type to be of type Int. It is not statistically random, however there are no re-occurring patterns and that is the important part.
 
-
-
-
-
-
+We find the graphics element is not up to our expectations. Most of the shortcomings are due to the problem we had with Gloss and restrictions with it. Even the simpler elements of the graphics took a long time to understand and get right. In the end we had to compromise and say it was good enough due time constraints and other parts of the project needed our attention. 
 
 
 \subsection{Conclusion}
 Throughout working with the project maybe the biggest problem that we stumbled upon was to how to figure out how to deal with the anti-state and lack of side effects in Haskell. All three members of the group hade some varying experience from object-oriented programming and that combined with the fact that we during the first part of the project had not really grasped the most important fundamentals of Haskell made for some annoying problems. What we in the beginning thought of being "variables" (e.g. size = 10 :: Int) were of course FUNCTIONS and later on when we tried to make the game restart with new , which we of course became aware of not only are properites of Haskell in particular, but of functional programming in general. 
 
-Another struggle throughout the proejct were our fights with the Gloss package and how the abscence of documentation and a great community made our work much harder. We found a few examples of how other people had used Gloss for similar projects as ours but our way to the final product still existed of an extensive amount of trial and error.
+Another struggle throughout the project were our fights with the Gloss package and how the abscence of documentation and a great community made our work much harder. We found a few examples of how other people had used Gloss for similar projects as ours but our way to the final product still existed of an extensive amount of trial and error. 
 
-Furthermore, we changed the representation of GameData numerous times during the project. 
+Our difficulties with understanding how to figure out what the Gloss package was really capable of caused our progress to completely stagnate periodically. With the help of online tutorials and a couple of epiphanies we managed to solve these obstacles. Having a somewhat shaky progress sometimes made it hard to predict what we would be able to achieve in the dedicated period of time. Frankly, setting up a project plan today, with the knowledge and experience about the Gloss package we have gained, we would probably be able to do a more precise estimation.
 
+Furthermore, we changed the representation of GameData numerous times during the project. Eventually, we re-constructed the code by opening a blank page and tackled the problem from another perspective: beginning with an initial set of variables (i.e. GameData) into the main function, changing GameData every time something changed. It seems like an inefficient method, since "something changes" 30 times a second (with 30 frames per second).
 
+\subsection{Improvements}
+There are several improvements that could be made. For example, press and hold-functionality, removing the need to press the same button several times if there happens to be a straight line.
+
+Another addition could be a scoreboard with reading/writing data to a separate file, that we initially discussed but later decided to skip. Having a scoreboard in this way would require side-effects and additional libraries (given that the scoreboard would be saved upon quitting the program, that is).
+
+Multiplayer functionality could be another addition, that could be constructed in several ways. Over the internet or locally on the same unit, with two players in the same maze or each player in a separate maze, or simply turn based. These additions would probably mean introducing other libraries, side-effects and/or issues related to balancing the game experience for each player.
+
+\newpage
 
 \bibliography{references}
 \bibliographystyle{unsrt}
