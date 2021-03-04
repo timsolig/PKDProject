@@ -11,11 +11,11 @@ import Graphics.Gloss.Interface.Pure.Game
 
 {-handleKeys keyStroke state
   Updates the state depending on inpute from the player.
-    RETURNS: The state of the game according to "keyStroks" i.e. the key pressed by the player.
+    RETURNS: The state of the game according to "keyStrokes" i.e. the key pressed by the player.
 -}
 handleKeys :: Event -> GameState -> GameState
-handleKeys (EventKey (SpecialKey key) Down _ _) game =
-    if key == KeySpace && (startMenu game || goalMenu game) then
+handleKeys (EventKey (SpecialKey key) Down _ _) game
+    | (startMenu game || goalMenu game) && key == KeySpace =
         let 
             newGridSize =
                 if startMenu game then
@@ -33,7 +33,7 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game =
                 gridSize     = newGridSize,
                 mazePicture  = wallPicture newWalls newGridSize,
                 walls        = newWalls,
-                playerCoords = (0, 0),
+                playerCoords = (-1, 0),
                 playerLevel  = playerLevel game + 1,
                 goalCoords   = (newGridSize, newGridSize - 1),
                 steps        = 0,
@@ -41,7 +41,7 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game =
                 goalIcon     = goalIcon game,
                 seconds      = 0
             }
-    else
+    | not $ (startMenu game || goalMenu game) =
         let
             (x, y) = playerCoords game
             
@@ -80,6 +80,7 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game =
                 goalIcon     = goalIcon game,
                 seconds      = seconds game
             }
+    | otherwise = game
 handleKeys _ game = game
 
 
@@ -87,6 +88,7 @@ handleKeys _ game = game
   Checks whether a player move is valid in a certain move.
     RETURNS: If there is no wall between 'cell1' and 'cell2' in the maze 'maze' (which has size 'gridSize') then True otherwise False. 
     EXAMPLES:
+    -------------------------------------------------HERE
 -}
 validMove :: Cell -> Cell -> Float -> Maze -> Bool
 validMove (-1, 0) (0, 0) _ _ = True

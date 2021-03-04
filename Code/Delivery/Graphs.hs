@@ -28,10 +28,12 @@ type Maze = [Wall]
 
 
 {-pickRandom list
-  Something weird with IO monads and shit. And some randomness.
-    RETURNS: Picks a random element from list
+  Returns a randomly selected element from a given list.
+    RETURNS: Picks a random element from 'list'.
     EXAMPLES:
+
       pickRandom [1,2] == 1 || 2
+
 -}
 pickRandom :: [a] -> a
 pickRandom xs = unsafeDupablePerformIO ((xs !!) <$> randomRIO (0, length xs - 1))
@@ -83,6 +85,7 @@ createCells n = [(i,j) | i <- [0..n-1], j <- [0..n-1]]
 
 -}
 createWalls :: [Cell] -> Maze
+--VARIANT: length cells
 createWalls [] = []
 createWalls cells@(c:cs)
     | not (null (neighbours [c] cells)) = [(c,x) | x <- neighbours [c] cells] ++ createWalls cs
@@ -100,7 +103,7 @@ mazeGenerator cells = mazeGeneratorAux cells walls S.empty   []
     where
         walls = createWalls cells
         mazeGeneratorAux :: [Cell] -> [Wall] -> S.Stack Cell -> [Cell] -> Maze
-
+        --VARIANT: length cells 
         mazeGeneratorAux unvisited walls stack visited
 
             | Prelude.null unvisited = walls
@@ -118,9 +121,10 @@ mazeGenerator cells = mazeGeneratorAux cells walls S.empty   []
 
 {-neighbours cells list
  Gives the unvisited cells that are neighbouring a specific wall
-    RETURNS: unvisited in list that are adjacent to wall
+    RETURNS: unvisited in list that are adjacent to cells
 -}
 neighbours :: [Cell] -> [Cell] -> [Cell]
+--VARIANT: lnegth list
 neighbours [] _ = []
 neighbours (c:cs) cells = cellNeighbours c cells ++ neighbours cs cells
     where
