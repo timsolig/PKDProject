@@ -7,7 +7,7 @@ import GameData
 import Graphics.Gloss
 
 {- The size of the Gloss window -}
-windowSize = 1000 :: Float
+windowSize = 800 :: Float
 
 {-Information about Gloss Window | Window title ()-}
 window = InWindow "A Maz(e)ing game" (round windowSize + 200, round windowSize + 200) (10, 10) :: Display
@@ -136,15 +136,15 @@ render game
             
             mazePicture game,
             
-            translate (-150) (y0 + 10) $ scale 0.4 0.4 $ Text ("Time: " ++ show (round (seconds game))),
+            translate (-100) (y0 + 15) $ scale 0.4 0.4 $ Text ("Time: " ++ show (round (seconds game))),
             
             uncurry translate (translateCoordinates (goalCoords game) (gridSize game)) $ scale pictureScale pictureScale $ goalIcon game,
             
             uncurry translate (translateCoordinates (playerCoords game) (gridSize game)) $ scale pictureScale pictureScale $ playerIcon game,
             
-            translate x0 (y0 + 10) $ scale 0.4 0.4 $ Text ("Steps: " ++ show (steps game)),
+            translate x0 (y0 + 15) $ scale 0.4 0.4 $ Text ("Steps: " ++ show (steps game)),
             
-            translate (xMax - 200) (y0 + 10) $ scale 0.4 0.4 $ Text ("Level: " ++ show (playerLevel game))
+            translate (xMax - 190) (y0 + 15) $ scale 0.4 0.4 $ Text ("Level: " ++ show (playerLevel game))
         ]
         where
             pictureScale = windowSize / (gridSize game * 110)
