@@ -7,7 +7,7 @@ import GameData
 import Graphics.Gloss
 
 {- The size of the Gloss window -}
-windowSize = 500 :: Float
+windowSize = 1000 :: Float
 
 {-Information about Gloss Window | Window title ()-}
 window = InWindow "A Maz(e)ing game" (round windowSize + 200, round windowSize + 200) (10, 10) :: Display
@@ -88,7 +88,6 @@ translateCoordinates :: (Float, Float) -> Float -> (Float, Float)
 translateCoordinates (x, y) gridSize = 
     let wallLength = windowSize / gridSize
     in (x0 + (x + 0.5) * wallLength, y0 - (y + 0.5) * wallLength)
-    --in (x0 + x * wallLength, y0 - y * wallLength)
 
 
 {-outerEdge size
@@ -115,6 +114,7 @@ render :: GameState -> Picture
 render game
     | startMenu game =
         pictures [
+<<<<<<< HEAD
             swagLines,
 
             color white $ Polygon [(-400, 200), (400, 200), (400, -70), (-400, -70)],
@@ -122,8 +122,11 @@ render game
             translate (-360) 100 $ scale 0.4 0.4 $ Text "Lets play a mazeing game!",
             
             translate (-250) 0 $ scale 0.2 0.2 $ Text "Press [space] to never sleep again",
+=======
+            translate (-350) 100 $ scale 0.4 0.4 $ Text "Lets play a mazeing game!",
+>>>>>>> 6c44b9c3e4e7156d8461c02da9b8a6d7f86eebe9
 
-            translate (-170) (-40) $ scale 0.1 0.1 $ Text "Press [ESC] to close the program"
+            translate (-250) 0 $ scale 0.2 0.2 $ Text "Press [space] to never sleep again" 
         ]
 
     | goalMenu game = 
@@ -151,14 +154,17 @@ render game
             
             translate x0 (y0 + 10) $ scale 0.4 0.4 $ Text ("Steps: " ++ show (steps game)),
             
-            translate (xMax - 150) (y0 + 10) $ scale 0.4 0.4 $ Text ("Level: " ++ show (playerLevel game))
+            translate (xMax - 200) (y0 + 10) $ scale 0.4 0.4 $ Text ("Level: " ++ show (playerLevel game))
         ]
         where
             pictureScale = windowSize / (gridSize game * 110)
 
+{- counter increase currentState
+  Updates the time which has passed since the game started.
+    RETURNS: 'currentState' with seconds parameter changed by 'increase'.
 
-
-counter :: Float -> GameState -> GameState
+-}
+counter :: Float -> GameState -> GameState 
 counter sec game
     | not (startMenu game || goalMenu game) =
         Game {

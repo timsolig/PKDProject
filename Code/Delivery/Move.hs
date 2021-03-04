@@ -11,9 +11,10 @@ import Graphics.Gloss.Interface.Pure.Game
 
 {-handleKeys keyStroke state
   Updates the state depending on inpute from the player.
-    RETURNS: The state of the game according to "keyStroks" i.e. the key pressed by the player.
+    RETURNS: The state of the game according to "keyStrokes" i.e. the key pressed by the player.
 -}
 handleKeys :: Event -> GameState -> GameState
+<<<<<<< HEAD
 handleKeys (EventKey (SpecialKey key) Down _ _) game =
     if startMenu game || goalMenu game then
         if key == KeySpace then
@@ -44,6 +45,36 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game =
                 }
         else game
     else
+=======
+handleKeys (EventKey (SpecialKey key) Down _ _) game
+    | (startMenu game || goalMenu game) && key == KeySpace =
+        let 
+            newGridSize =
+                if startMenu game then
+                    10
+                else
+                    gridSize game + 5
+
+            wallLength = windowSize / newGridSize
+            
+            newWalls = createMaze newGridSize
+        in
+            Game {
+                startMenu    = False,
+                goalMenu     = False,
+                gridSize     = newGridSize,
+                mazePicture  = wallPicture newWalls newGridSize,
+                walls        = newWalls,
+                playerCoords = (-1, 0),
+                playerLevel  = playerLevel game + 1,
+                goalCoords   = (newGridSize, newGridSize - 1),
+                steps        = 0,
+                playerIcon   = playerIcon game,
+                goalIcon     = goalIcon game,
+                seconds      = 0
+            }
+    | not $ (startMenu game || goalMenu game) =
+>>>>>>> 6c44b9c3e4e7156d8461c02da9b8a6d7f86eebe9
         let
             (x, y) = playerCoords game
             
@@ -82,6 +113,7 @@ handleKeys (EventKey (SpecialKey key) Down _ _) game =
                 goalIcon     = goalIcon game,
                 seconds      = seconds game
             }
+    | otherwise = game
 handleKeys _ game = game
 
 
@@ -89,6 +121,7 @@ handleKeys _ game = game
   Checks whether a player move is valid in a certain move.
     RETURNS: If there is no wall between 'cell1' and 'cell2' in the maze 'maze' (which has size 'gridSize') then True otherwise False. 
     EXAMPLES:
+    -------------------------------------------------HERE
 -}
 validMove :: Cell -> Cell -> Float -> Maze -> Bool
 validMove (-1, 0) (0, 0) _ _ = True
