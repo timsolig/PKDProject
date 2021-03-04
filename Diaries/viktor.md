@@ -42,3 +42,9 @@
 
 ## 2021-03-02
 1h: Session with Jonas. Writing on the report.
+
+## 2021-03-03
+6h: Group session. Writing on the report. Conclusion, shortcomings etc.
+
+## 2021-03-04
+5h: Group session. Writing on the report. Final adjustments. Minor changes to the code.

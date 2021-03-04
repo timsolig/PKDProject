@@ -194,7 +194,7 @@ When an arrow key is pressed in gameMode it will try to change the position of t
 \begin{code}
     validMove :: Cell -> Cell -> Float -> Maze -> Bool
 \end{code}
-ValidMove is a function that checks if an intended move is a valid move or not. It takes the current position cell and checks if the new position cell is separated by a wall.
+ValidMove is a function that checks if an intended move is a valid move or not. It takes the current position cell and the new position cell and checks if they are separated by a wall.
 Furthermore it also checks if the player will cross the outer bounds of the maze.
  
 ValidMove has one special case, it is when the game starts the player will be outside the maze therefore it will only allow you to step into the maze.

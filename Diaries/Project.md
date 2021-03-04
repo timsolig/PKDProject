@@ -16,7 +16,7 @@ Major Git issues. Took a lot of time. Then breakthrough with generating the maze
 ## 22 feb 2021
 First version of the game is working. However we want to introduce a start and goal menu. And the statistics, time, steps, and levels are not working.
 
-## 23 2021
+## 23 feb 2021
 Started writing on the report. 
 
 Changed approach drastically about storing the data about the game. Introduced a new game type. Changed the graphics according to this new approack.
@@ -24,5 +24,8 @@ Changed approach drastically about storing the data about the game. Introduced a
 ## 26 feb 2021
 Version two is complete and the game now has menus and statistics. Every function is now commented. The report got a lot of work done.
 
-## 1 march
+## 1 march 2021
 A few cosmetic changes to the game e.g the player icon. The report is mostly finished. 
+
+## 3 && 4 march 2021
+Writing on the report fixing both formatting and content. Conclusion, shortcomings, improvements, adding pictures, models and references.

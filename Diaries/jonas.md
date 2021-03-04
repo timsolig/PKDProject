@@ -6,7 +6,7 @@
 ## 2021-02-10
 2h: Watched a tutorial about git on youtube.
 https://www.youtube.com/watch?v=RGOj5yH7evk&ab_channel=freeCodeCamp.org
-Read about Gloss and did some tuturials on https://andrew.gibiansky.com/blog/haskell/haskell-gloss/
+Read about Gloss and did some tutorials on https://andrew.gibiansky.com/blog/haskell/haskell-gloss/
  
 ## 2021-02-11  
 2h: Meeting with Tim and Viktor. Discussed different ideas for the project and worked through rules for our project in accordance with material provided on studium.
@@ -56,8 +56,12 @@ Group session. Spent 3 hours introducing data type "gameState" in the game. It w
 1h: Meeting/writing with Viktor
 0.5h: Meeting with TA
 
+## 2021-03-03
+6h: Group session. Working on the report
 
 
+## 2021-03-04
+5h: Group session. Finalize the report.
 
 
 
