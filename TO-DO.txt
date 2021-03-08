@@ -62,3 +62,6 @@ ONSDAG
   [ ] DFS
   [ ] Important functions
     [ ] mazeGenerator
+    
+Till slutinlämning
+[ ] Gå igenom kommentarer (ofullständiga i render.hs bl a)
